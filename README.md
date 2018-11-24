@@ -2,14 +2,14 @@
 
 Project starter for developing RESTful APIs using Nodejs, Express, MongoDB and Docker.
 
-## What is included:
+## What's included
 
 - [Express](https://expressjs.com/)
 - [ESLint](https://eslint.org/) with [STRV's config](https://github.com/strvcom/eslint-config-javascript)
 - [Nodemon](https://github.com/remy/nodemon) to restart the server whenever you make changes
 
-## To run this make sure you have
-
+## Requirements
+Make sure you have the following installed:
 - GIT
 - Nodejs 8+
 - NPM
@@ -17,13 +17,21 @@ Project starter for developing RESTful APIs using Nodejs, Express, MongoDB and D
 
 > Docker is not mandatory, but if you don't have it you need to install and configure MongoDB.
 
-## Clone the repo and install the deps
+## Initial Setup
 
 ```sh
-# clone into project-name and remove the .git dir
-$ git clone --depth=1 https://github.com/alexsalomon/node-express-project-starter [PROJECT-NAME] && cd [PROJECT-NAME] && rm -rf .git
+# Clone the repository
+  git clone https://github.com/alexsalomon/node-express-project-starter [PROJECT-NAME] && cd [PROJECT-NAME]
+  
+# Set up the Remotes
+  git remote set-url origin MY_REPOSITORY_URL
+  git remote add upstream https://github.com/alexsalomon/node-express-project-starter
+  git remote -v
+  
+# Push changes to your remote repository:
+  git push origin master
 
-# or NPM
+# Install dependencies using NPM
 $ npm install
 ```
 
@@ -36,7 +44,7 @@ Command             | Action                   |
 
 ## Docker support
 
-You don't have install and configure MongoDB and run each service (API and MongoDB) in a separate window. Docker handles all that for you. You just need to run:
+You don't have to install and configure MongoDB and run each service (API and MongoDB) in a separate window. Docker handles all that for you. You just need to run:
 
 ```sh
 $ docker-compose build --force-rm   # Build the services and remove intermediate containers
