@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/alexsalomon/node-express-project-starter#readme",
   "devDependencies": {
+    "@strv/eslint-config-javascript": "^9.1.0",
     "eslint": "^5.9.0"
   }
 }
