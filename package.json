@@ -4,8 +4,8 @@
   "description": "Project starter for developing RESTful APIs using Nodejs, Express and MongoDB.",
   "main": "server.js",
   "scripts": {
-    "start": "NODE_ENV=production node ./source/server.js",
-    "dev": "NODE_ENV=development nodemon ./source/server.js",
+    "start": "node ./source/server.js",
+    "dev": "nodemon ./source/server.js",
     "lint": "eslint source --fix"
   },
   "repository": {
