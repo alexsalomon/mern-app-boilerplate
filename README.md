@@ -27,6 +27,15 @@ $ git clone --depth=1 https://github.com/alexsalomon/node-express-project-starte
 $ npm install
 ```
 
+## Commands
+--------------------|--------------------------|
+Command             | Action                   |
+--------------------|--------------------------|
+`npm run dev`       | Run in development mode  |
+`npm start`         | Run in production mode   |
+`npm run lint`      | Lint the code            |
+--------------------|--------------------------|
+
 ## Docker support
 
 You don't have install and configure MongoDB and run each service (API and MongoDB) in a separate window. Docker handles all that for you. You just need to run:

@@ -4,7 +4,9 @@
   "description": "Project starter for developing RESTful APIs using Nodejs, Express and MongoDB.",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "NODE_ENV=production node ./source/server.js",
+    "dev": "NODE_ENV=development nodemon ./source/server.js",
+    "lint": "eslint source --fix"
   },
   "repository": {
     "type": "git",
