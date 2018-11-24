@@ -1,0 +1,22 @@
+{
+  "name": "node-express-project-starter",
+  "version": "1.0.0",
+  "description": "Project starter for developing RESTful APIs using Nodejs, Express and MongoDB.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexsalomon/node-express-project-starter.git"
+  },
+  "author": "Alex Salomon",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alexsalomon/node-express-project-starter/issues"
+  },
+  "homepage": "https://github.com/alexsalomon/node-express-project-starter#readme",
+  "devDependencies": {
+    "eslint": "^5.9.0"
+  }
+}
