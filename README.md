@@ -28,13 +28,11 @@ $ npm install
 ```
 
 ## Commands
---------------------|--------------------------|
 Command             | Action                   |
 --------------------|--------------------------|
 `npm run dev`       | Run in development mode  |
 `npm start`         | Run in production mode   |
 `npm run lint`      | Lint the code            |
---------------------|--------------------------|
 
 ## Docker support
 
