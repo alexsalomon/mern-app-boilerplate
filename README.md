@@ -21,7 +21,7 @@ Make sure you have the following installed:
 
 ```sh
 # Clone the repository
-  git clone https://github.com/alexsalomon/node-express-project-starter [PROJECT-NAME] && cd [PROJECT-NAME]
+  git clone https://github.com/alexsalomon/node-express-project-starter [PROJECT_NAME] && cd [PROJECT_NAME]
   
 # Set up the Remotes
   git remote set-url origin MY_REPOSITORY_URL
@@ -52,3 +52,26 @@ $ docker-compose up                 # Builds, (re)creates, starts, and attaches 
 ```
 
 > NOTE: If you change a service's `Dockerfile` or the contents of its build directory, you can run `docker-compose build` to rebuild it.
+
+## Deploy
+* Download and install the Heroku Toolbelt
+* In terminal, run the folllwoing (One time setup):
+```sh
+  # Login with your Heroku credentials:
+  heroku login
+
+  # Navigate to the app directory and create a heroku app:
+  cd PROJECT_NAME
+  heroku create PROJECT_NAME
+
+  # Set up the mLab add-on and configure the MONGODB_URI environment variable:
+  heroku addons:create mongolab
+
+  # Push the code to heroku:
+  git push heroku master
+```
+
+For all subsequent deployments just do a push and heroku will automatically do the rest for you:
+```
+  git push heroku master
+```
