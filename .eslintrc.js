@@ -10,7 +10,7 @@ module.exports = {
 
   overrides: [{
     files: [
-      'test/**',
+      "**/*.spec.js",
     ],
 
     rules: {
