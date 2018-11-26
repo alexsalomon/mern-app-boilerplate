@@ -11,7 +11,7 @@ Project starter for developing RESTful APIs using Nodejs, Express, MongoDB and D
 ## Requirements
 Make sure you have the following installed:
 - GIT
-- Nodejs 8+
+- Nodejs 11+
 - NPM
 - Docker and docker-compose
 
@@ -40,6 +40,8 @@ Command             | Action                   |
 --------------------|--------------------------|
 `npm run dev`       | Run in development mode  |
 `npm start`         | Run in production mode   |
+`npm test`          | Run the tests once       |
+`npm test-watch`    | Run and watch the tests  |
 `npm run lint`      | Lint the code            |
 
 ## Docker support
