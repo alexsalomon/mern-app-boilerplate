@@ -1,4 +1,4 @@
-# node-express-project-starter
+# node-express-project-starter [![Build Status](https://travis-ci.com/alexsalomon/node-express-project-starter.svg?token=LHLxJdxYMwqFf4gT1Rm9&branch=master)](https://travis-ci.com/alexsalomon/node-express-project-starter)
 
 Project starter for developing RESTful APIs using Nodejs, Express, MongoDB and Docker.
 
