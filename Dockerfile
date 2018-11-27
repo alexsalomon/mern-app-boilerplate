@@ -1,11 +1,13 @@
-FROM node:11.2-alpine
+FROM node:10.13-alpine
 
+# Create app directory
+RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
-COPY package*.json ./
-RUN npm install --only=production
+COPY package*.json /usr/src/app/
+RUN npm install
 
-COPY . .
+COPY . /usr/src/app/
 
 EXPOSE 8080
 CMD [ "npm", "start" ]
