@@ -11,7 +11,7 @@
     "dev": "nodemon ./server.js",
     "test": "npm run lint && npm run test-unit",
     "test-watch": "npm run test-unit -- --watch",
-    "test-unit": "NODE_ENV=test mocha test/setup.spec.js api/**/*.spec.js config/**/*.spec.js --exit",
+    "test-unit": "NODE_ENV=test mocha test/setup.spec.js api/**/*.spec.js  --exit",
     "lint": "eslint . --fix"
   },
   "repository": {

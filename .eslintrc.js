@@ -7,13 +7,4 @@ module.exports = {
     '@strv/javascript/environments/mocha/recommended',
     '@strv/javascript/coding-styles/recommended',
   ],
-  
-  overrides: [{
-    files: [
-      "**/*.spec.js",
-    ],
-    rules: {
-      'func-names': 'off',
-    },
-  }],
 }
