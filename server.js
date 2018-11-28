@@ -28,7 +28,7 @@ if (!module.parent) {
       console.log(chalk.red('Error trying to run the server.'))
       throw err
     } else {
-      console.log(chalk.green.bold(`Server is listening on ${config.app.port}...`))
+      console.log(chalk.green.bold(`Server is listening on ${config.app.port}...\n`))
     }
   })
 }
