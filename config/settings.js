@@ -7,7 +7,7 @@ const env = process.env.NODE_ENV || 'production'
 
 const common = {
   app: {
-    port: parseInt(process.env.PORT) || 3000,
+    port: parseInt(process.env.PORT) || 8080,
   },
 }
 
