@@ -4,7 +4,7 @@ const express = require('express')
 
 const router = new express.Router()
 
-router.get('/api', (req, res) => {
+router.get('/', (req, res) => {
   res.status(200).send('API works.')
 })
 
