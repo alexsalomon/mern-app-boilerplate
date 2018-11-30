@@ -19,7 +19,7 @@ database.init()
 middlewares(app)
 
 // Add the API routes stack to the server
-app.use('/api', routes)
+app.use('/', routes)
 
 // Start the server ; We need this first check to make sure we don't run a second instance
 if (!module.parent) {
