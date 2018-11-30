@@ -3,12 +3,13 @@
 const HttpStatus = require('http-status')
 const ApiError = require('http-errors')
 const express = require('express')
+const AuthRoutes = require('../api/auth/AuthRoutes')
+const UserRoutes = require('../api/user/UserRoutes')
 
 const router = new express.Router()
 
-router.get('/', (req, res) => {
-  res.status(200).send('API works.')
-})
+router.use('/', AuthRoutes)
+router.use('/users', UserRoutes)
 
 router.all('*', (req, res, next) => {
   next(new ApiError.NotFound('Resource not found.'))
