@@ -23,7 +23,6 @@ const settings = {
     isProd: envSettings.current === envSettings.prod,
     isDev: envSettings.current === envSettings.dev,
     isTest: envSettings.current === envSettings.test,
-    // get isCrash() { return this.env.current === this.env.prod },
   },
   app: {
     port: parseInt(process.env.PORT) || 8080,
@@ -41,7 +40,7 @@ const settings = {
     passwordMinLength: parseInt(process.env.PASSWORD_MIN_LENGTH) || 8,
   },
   logger: {
-    logsPath: path.join(__dirname, '../logs/'),
+    logsPath: path.join(__dirname, '../../logs/'),
     sentry: {
       dns: process.env.SENTRY_DNS,
       level: process.env.SENTRY_LEVEL || 'error',

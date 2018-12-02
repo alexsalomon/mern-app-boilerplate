@@ -11,7 +11,7 @@ Project starter for developing RESTful APIs using Nodejs, Express, MongoDB and D
 ## Requirements
 Make sure you have the following installed:
 - GIT
-- Nodejs 11+
+- Nodejs 10+
 - NPM
 - Docker and docker-compose
 
@@ -21,15 +21,15 @@ Make sure you have the following installed:
 
 ```sh
 # Clone the repository
-  git clone https://github.com/alexsalomon/node-express-project-starter [PROJECT_NAME] && cd [PROJECT_NAME]
-  
+$ git clone https://github.com/alexsalomon/node-express-project-starter [PROJECT_NAME] && cd [PROJECT_NAME]
+ 
 # Set up the Remotes
-  git remote set-url origin MY_REPOSITORY_URL
-  git remote add upstream https://github.com/alexsalomon/node-express-project-starter
-  git remote -v
-  
+$ git remote set-url origin MY_REPOSITORY_URL
+$ git remote add upstream https://github.com/alexsalomon/node-express-project-starter
+$ git remote -v
+ 
 # Push changes to your remote repository:
-  git push origin master
+$ git push origin master
 
 # Install dependencies using NPM
 $ npm install
