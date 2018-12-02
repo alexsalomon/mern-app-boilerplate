@@ -5,10 +5,8 @@ const helmet = require('helmet')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const morgan = require('morgan')
+const logger = require('../util/logger')
 const config = require('./settings')
-
-const isDev = config.env === 'development'
-const isTest = config.env === 'test'
 
 module.exports = app => {
   app.use(compression())
@@ -17,7 +15,9 @@ module.exports = app => {
   app.use(bodyParser.urlencoded({ extended: true }))
   app.use(cors())
 
-  if (isDev && !isTest) {
+  if (config.env.isDev && !config.env.isTest) {
     app.use(morgan('dev'))
+  } else if (config.env.isProd) {
+    app.use(morgan('combined', { stream: { write: message => logger.info(message.trim()) } }))
   }
 }

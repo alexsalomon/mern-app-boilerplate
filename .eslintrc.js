@@ -16,4 +16,12 @@ module.exports = {
     // No warnings for express error handler function
     "no-unused-vars": ["error", { "argsIgnorePattern": "next" }]
   },
+  overrides: [{
+    files: [
+      "**/*.spec.js",
+    ],
+    rules: {
+      'no-sync': 'off',
+    },
+  }],
 }
