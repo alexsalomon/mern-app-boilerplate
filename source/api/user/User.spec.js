@@ -55,8 +55,10 @@ describe('user : User', () => {
 
     it('should not be storing password in plain text', () => {
       defaultUser.password = 'password'
-      const user = new User(defaultUser).save()
-      expect(user.password).to.not.equal(defaultUser.password)
+      new User(defaultUser).save((err, user) => {
+        expect(err).to.not.exist()
+        expect(user.password).to.not.equal(defaultUser.password)
+      })
     })
   })
 
