@@ -1,7 +1,5 @@
 /* eslint-disable no-console */
 
-'use strict'
-
 const express = require('express')
 const chalk = require('chalk')
 const config = require('../config/settings')

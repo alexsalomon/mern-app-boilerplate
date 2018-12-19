@@ -1,5 +1,3 @@
-'use strict'
-
 const winston = require('winston')
 const Sentry = require('winston-sentry-raven-transport')
 const config = require('../config/settings')

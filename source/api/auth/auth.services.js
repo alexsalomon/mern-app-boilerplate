@@ -1,5 +1,3 @@
-'use strict'
-
 const ApiError = require('http-errors')
 const jwt = require('jsonwebtoken')
 const config = require('../../config/settings')

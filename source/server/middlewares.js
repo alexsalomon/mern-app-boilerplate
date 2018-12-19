@@ -1,5 +1,3 @@
-'use strict'
-
 const compression = require('compression')
 const helmet = require('helmet')
 const bodyParser = require('body-parser')

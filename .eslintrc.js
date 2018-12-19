@@ -18,6 +18,14 @@ module.exports = {
   },
   overrides: [{
     files: [
+      "**/*.js",
+    ],
+    parserOptions: {
+      "sourceType": "module",
+    },
+  },
+  {
+    files: [
       "**/*.spec.js",
     ],
     rules: {

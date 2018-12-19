@@ -1,5 +1,3 @@
-'use strict'
-
 /**
  * Handles controller execution and sends a json response to the client
  * @param {Promise} promise - Controller handler.

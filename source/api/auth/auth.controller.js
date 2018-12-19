@@ -1,5 +1,3 @@
-'use strict'
-
 const ApiError = require('http-errors')
 const User = require('../user/user.model')
 const services = require('./auth.services')
