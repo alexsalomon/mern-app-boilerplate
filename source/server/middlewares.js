@@ -5,8 +5,8 @@ const helmet = require('helmet')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const morgan = require('morgan')
-const logger = require('../util/logger')
-const config = require('./settings')
+const logger = require('../services/logger')
+const config = require('../config/settings')
 
 module.exports = app => {
   app.use(compression())

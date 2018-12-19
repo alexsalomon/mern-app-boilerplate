@@ -3,9 +3,9 @@
 const HttpStatus = require('http-status')
 const ApiError = require('http-errors')
 const express = require('express')
-const AuthRoutes = require('../api/auth/AuthRoutes')
-const UserRoutes = require('../api/user/UserRoutes')
-const logger = require('../util/logger')
+const AuthRoutes = require('../api/auth/auth.routes')
+const UserRoutes = require('../api/user/user.routes')
+const logger = require('../services/logger')
 
 const router = new express.Router()
 

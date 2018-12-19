@@ -1,7 +1,7 @@
 'use strict'
 
 const mongoose = require('mongoose')
-const config = require('./settings')
+const config = require('../config/settings')
 
 function init() {
   mongoose.set('debug', config.db.debug)

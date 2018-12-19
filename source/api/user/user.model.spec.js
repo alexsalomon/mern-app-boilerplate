@@ -3,7 +3,7 @@
 const chai = require('chai')
 const dirtyChai = require('dirty-chai')
 const factories = require('../../../test/factories')
-const User = require('./User')
+const User = require('./user.model')
 
 const expect = chai.expect
 chai.use(dirtyChai)

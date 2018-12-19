@@ -1,5 +1,5 @@
 {
-  "name": "node-express-project-starter",
+  "name": "node-exp-api-boilerplate",
   "version": "1.0.0",
   "description": "Project starter for developing RESTful APIs using Nodejs, Express and MongoDB.",
   "main": "server.js",
@@ -7,23 +7,23 @@
     "node": ">=10.0.0"
   },
   "scripts": {
-    "start": "node ./source/server.js",
-    "dev": "NODE_ENV=development nodemon ./source/server.js",
+    "start": "node ./source/server/index.js",
+    "dev": "NODE_ENV=dev nodemon ./source/server/index.js",
     "test": "npm run lint && npm run test-unit",
     "test-watch": "npm run test-unit -- --watch",
     "test-unit": "NODE_ENV=test mocha test/setup.spec.js source/**/*.spec.js  --exit",
-    "lint": "eslint . --fix"
+    "lint": "eslint source/** test/** --fix"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alexsalomon/node-express-project-starter.git"
+    "url": "git+https://github.com/alexsalomon/node-exp-api-boilerplate.git"
   },
   "author": "Alex Salomon",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/alexsalomon/node-express-project-starter/issues"
+    "url": "https://github.com/alexsalomon/node-exp-api-boilerplate/issues"
   },
-  "homepage": "https://github.com/alexsalomon/node-express-project-starter#readme",
+  "homepage": "https://github.com/alexsalomon/node-exp-api-boilerplate#readme",
   "devDependencies": {
     "@strv/eslint-config-javascript": "^9.1.0",
     "chai": "^4.2.0",

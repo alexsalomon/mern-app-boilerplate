@@ -4,10 +4,10 @@
 
 const express = require('express')
 const chalk = require('chalk')
-const config = require('./config/settings')
-const database = require('./config/database')
-const middlewares = require('./config/middlewares')
-const routes = require('./config/routes')
+const config = require('../config/settings')
+const database = require('./database')
+const middlewares = require('./middlewares')
+const routes = require('./routes')
 
 // Start express app
 const app = express()

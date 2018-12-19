@@ -1,8 +1,8 @@
 'use strict'
 
 const ApiError = require('http-errors')
-const User = require('../user/User')
-const services = require('./AuthServices')
+const User = require('../user/user.model')
+const services = require('./auth.services')
 
 /**
  * Register a user.

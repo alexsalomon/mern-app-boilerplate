@@ -1,7 +1,7 @@
 'use strict'
 
 const ApiError = require('http-errors')
-const User = require('./User')
+const User = require('./user.model')
 
 async function getAllUsers() {
   const users = await User.find({}, { password: 0 })

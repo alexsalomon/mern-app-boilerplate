@@ -3,8 +3,8 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const routesUtil = require('../../util/routesUtil')
-const AuthServices = require('../auth/AuthServices')
-const UserController = require('./UserController')
+const AuthServices = require('../auth/auth.services')
+const UserController = require('./user.controller')
 
 const router = new express.Router()
 router.use(bodyParser.urlencoded({ extended: true }))
