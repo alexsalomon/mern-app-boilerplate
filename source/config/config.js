@@ -31,26 +31,6 @@ const config = convict({
         env: 'DB_DEBUG',
       },
     },
-    firebase: {
-      url: {
-        format: 'url',
-        default: 'https://address-book-api.firebaseio.com',
-        arg: 'firebaseUrl',
-        env: 'FIREBASE_URL',
-      },
-      privateKey: {
-        format: String,
-        default: '',
-        env: 'FIREBASE_PRIVATE_KEY',
-        sensitive: true,
-      },
-      clientEmail: {
-        format: String,
-        default: '',
-        env: 'FIREBASE_CLIENT_EMAIL',
-        sensitive: true,
-      },
-    },
   },
   auth: {
     secret: {
