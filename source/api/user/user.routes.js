@@ -1,6 +1,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
-const routesUtil = require('../../util/routesUtil')
+const routesUtil = require('../../util/routes.util')
 const AuthServices = require('../auth/auth.services')
 const UserController = require('./user.controller')
 
