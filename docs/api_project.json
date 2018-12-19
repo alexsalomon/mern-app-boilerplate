@@ -1,0 +1,1 @@
+{  "name": "address-book-api",  "version": "1.0.0",  "description": "An address book API",  "apidoc": "0.3.0",  "sampleUrl": false,  "defaultVersion": "0.0.0",  "generator": {    "name": "apidoc",    "time": "2018-12-19T22:44:49.845Z",    "url": "http://apidocjs.com",    "version": "0.17.7"  }}

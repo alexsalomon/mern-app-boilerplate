@@ -1,0 +1,9 @@
+{
+  "name": "node-exp-api-boilerplate",
+  "version": "1.0.0",
+  "description": "Project starter for developing RESTful APIs using Nodejs, Express and MongoDB.",
+  "apidoc": {
+    "title": "Node Express API Boilerplate",
+    "url" : "https://as-node-exp-api-boilerplate.herokuapp.com/"
+  }
+}

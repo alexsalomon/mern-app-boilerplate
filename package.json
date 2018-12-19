@@ -12,7 +12,8 @@
     "test": "npm run lint && npm run test-unit",
     "test-watch": "npm run test-unit -- --watch",
     "test-unit": "NODE_ENV=test mocha test/setup.spec.js source/**/*.spec.js  --exit",
-    "lint": "eslint source/** test/** --fix"
+    "lint": "eslint source/** test/** --fix",
+    "docs": "apidoc -f '.*\\.js$' -i source/ -o docs/"
   },
   "repository": {
     "type": "git",

@@ -7,6 +7,11 @@ const logger = require('../services/logger')
 
 const router = new express.Router()
 
+// Render API documentation
+router.get('/', (req, res) => {
+  res.sendFile('index.html')
+})
+
 // API Custom routes
 router.use('/', AuthRoutes)
 router.use('/contacts', UserRoutes)

@@ -1,3 +1,5 @@
+const path = require('path')
+const express = require('express')
 const compression = require('compression')
 const helmet = require('helmet')
 const cors = require('cors')
@@ -8,6 +10,9 @@ const logger = require('../services/logger')
 const config = require('../config')
 
 module.exports = app => {
+  // Set static files to the 'docs' folder in order to render API documentation
+  app.use(express.static(path.join(__dirname, '../../docs')))
+
   // Performance tweak: GZIP compression
   app.use(compression())
 
