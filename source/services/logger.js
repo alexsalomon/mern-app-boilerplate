@@ -1,11 +1,11 @@
 const winston = require('winston')
 const Sentry = require('winston-sentry-raven-transport')
-const config = require('../config/settings')
+const config = require('../config')
 
 let loggerOptions = {}
-switch (config.env.current) {
-  case config.env.dev:
-  case config.env.test:
+switch (config.env) {
+  case 'dev':
+  case 'test':
     loggerOptions = {
       transports: [
         new winston.transports.Console({
@@ -18,7 +18,7 @@ switch (config.env.current) {
       ],
     }
     break
-  case config.env.prod:
+  case 'prod':
   default:
     loggerOptions = {
       transports: [

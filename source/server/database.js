@@ -1,15 +1,15 @@
 const mongoose = require('mongoose')
-const config = require('../config/settings')
+const config = require('../config')
 
 function init() {
-  mongoose.set('debug', config.db.debug)
+  mongoose.set('debug', config.db.mongo.debug)
 
   // Fix deprecated warnings
   mongoose.set('useFindAndModify', false)
   mongoose.set('useCreateIndex', true)
   mongoose.set('useNewUrlParser', true)
 
-  mongoose.connect(`mongodb://${config.db.host}:${config.db.port}/${config.db.name}`)
+  mongoose.connect(config.db.mongo.uri)
   mongoose.connection.on('error', err => {
     if (err) {
       throw err

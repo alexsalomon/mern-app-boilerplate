@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const validator = require('validator')
 const bcrypt = require('bcryptjs')
-const config = require('../../config/settings')
+const config = require('../../config')
 
 const UserSchema = new mongoose.Schema({
   email: {
@@ -15,12 +15,12 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
     minlength: [
-      config.auth.passwordMinLength,
-      `Minimum password length is ${config.auth.passwordMinLength}`,
+      config.auth.password.minLength,
+      `Minimum password length is ${config.auth.password.minLength}`,
     ],
     validate: {
       validator(password) {
-        return password.length >= config.auth.passwordMinLength
+        return password.length >= config.auth.password.minLength
       },
     },
   },

@@ -1,6 +1,6 @@
 const ApiError = require('http-errors')
 const jwt = require('jsonwebtoken')
-const config = require('../../config/settings')
+const config = require('../../config')
 
 async function verifyToken(req, res, next) {
   try {

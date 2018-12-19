@@ -4,7 +4,7 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const morgan = require('morgan')
 const logger = require('../services/logger')
-const config = require('../config/settings')
+const config = require('../config')
 
 module.exports = app => {
   app.use(compression())
@@ -13,9 +13,9 @@ module.exports = app => {
   app.use(bodyParser.urlencoded({ extended: true }))
   app.use(cors())
 
-  if (config.env.isDev && !config.env.isTest) {
+  if (config.env === 'dev') {
     app.use(morgan('dev'))
-  } else if (config.env.isProd) {
+  } else if (config.env === 'prod' || config.env === 'stag') {
     app.use(morgan('combined', { stream: { write: message => logger.info(message.trim()) } }))
   }
 }

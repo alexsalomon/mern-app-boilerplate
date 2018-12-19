@@ -9,7 +9,7 @@ RUN npm install
 
 COPY . /usr/src/app/
 
-ENV DB_HOST="db"
+ENV MONGODB_URI="mongodb://db:27017/restful-api-dev"
 
 EXPOSE 8080
 CMD [ "npm", "run", "dev" ]

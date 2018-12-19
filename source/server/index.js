@@ -2,7 +2,7 @@
 
 const express = require('express')
 const chalk = require('chalk')
-const config = require('../config/settings')
+const config = require('../config')
 const database = require('./database')
 const middlewares = require('./middlewares')
 const routes = require('./routes')
