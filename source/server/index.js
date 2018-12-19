@@ -1,34 +1,30 @@
-/* eslint-disable no-console */
-
 const express = require('express')
-const chalk = require('chalk')
+const logger = require('../services/logger')
 const config = require('../config')
 const database = require('./database')
 const middlewares = require('./middlewares')
 const routes = require('./routes')
 
-// Start express app
-const app = express()
+async function run(app) {
+  // Initialize databases
+  await database()
 
-// Initiate the database
-database.init()
+  // Use middlewares
+  middlewares(app)
 
-// Wrap all the middlewares with the server
-middlewares(app)
+  // Add the API routes stack to the server
+  app.use('/', routes)
 
-// Add the API routes stack to the server
-app.use('/', routes)
-
-// Start the server ; We need this first check to make sure we don't run a second instance
-if (!module.parent) {
-  app.listen(config.app.port, err => {
-    if (err) {
-      console.log(chalk.red('Error trying to run the server.'))
-      throw err
-    } else {
-      console.log(chalk.green.bold(`Server is listening on ${config.app.port}...\n`))
-    }
-  })
+  // Start the server ; We need this first check to make sure we don't run a second instance
+  if (!module.parent) {
+    app.listen(config.app.port, () => {
+      logger.info(`Server is listening on ${config.app.port}...`)
+    })
+  }
 }
+
+// Start server
+const app = express()
+run(app).catch(err => logger.error(err))
 
 module.exports = app

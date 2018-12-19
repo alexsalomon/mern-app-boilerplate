@@ -1,14 +1,15 @@
 const HttpStatus = require('http-status')
-const ApiError = require('http-errors')
 const express = require('express')
+const ApiError = require('http-errors')
 const AuthRoutes = require('../api/auth/auth.routes')
 const UserRoutes = require('../api/user/user.routes')
 const logger = require('../services/logger')
 
 const router = new express.Router()
 
+// API Custom routes
 router.use('/', AuthRoutes)
-router.use('/users', UserRoutes)
+router.use('/contacts', UserRoutes)
 
 router.all('*', (req, res, next) => {
   next(new ApiError.NotFound('Resource not found.'))

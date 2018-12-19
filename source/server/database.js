@@ -1,20 +1,17 @@
 const mongoose = require('mongoose')
+const logger = require('../services/logger')
 const config = require('../config')
 
-function init() {
+module.exports = async () => {
   mongoose.set('debug', config.db.mongo.debug)
 
-  // Fix deprecated warnings
-  mongoose.set('useFindAndModify', false)
-  mongoose.set('useCreateIndex', true)
-  mongoose.set('useNewUrlParser', true)
-
-  mongoose.connect(config.db.mongo.uri)
-  mongoose.connection.on('error', err => {
-    if (err) {
-      throw err
-    }
+  // Options to fix deprecated warnings
+  await mongoose.connect(config.db.mongo.uri, {
+    useFindAndModify: false,
+    useCreateIndex: true,
+    useNewUrlParser: true,
   })
-}
 
-module.exports = { init }
+  logger.debug(`MongoDB connected to uri: ${config.db.mongo.uri}`)
+  logger.info('MongoDB has been successfully connected.')
+}
