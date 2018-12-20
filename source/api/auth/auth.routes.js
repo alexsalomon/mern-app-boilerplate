@@ -1,11 +1,8 @@
 const express = require('express')
-const bodyParser = require('body-parser')
 const routesUtil = require('../../util/routes.util')
 const AuthController = require('./auth.controller')
 
 const router = new express.Router()
-router.use(bodyParser.urlencoded({ extended: false }))
-router.use(bodyParser.json())
 
 /**
  * @api {post} /register Register a User
@@ -38,10 +35,13 @@ router.use(bodyParser.json())
  *       "error": "Error message"
  *     }
  */
-router.post('/register', routesUtil.controllerHandler(
-  AuthController.register,
-  req => [req.body.email, req.body.password],
-))
+router.post(
+  '/register',
+  routesUtil.controllerHandler(
+    AuthController.register,
+    req => [req.body.email, req.body.password],
+  ),
+)
 
 /**
  * @api {post} /login Log a User In
@@ -74,11 +74,12 @@ router.post('/register', routesUtil.controllerHandler(
  *       "error": "Error message"
  *     }
  */
-router.post('/login', routesUtil.controllerHandler(
-  AuthController.login,
-  req => [req.body.email, req.body.password],
-))
-
-router.get('/logout', routesUtil.controllerHandler(AuthController.logout))
+router.post(
+  '/login',
+  routesUtil.controllerHandler(
+    AuthController.login,
+    req => [req.body.email, req.body.password],
+  ),
+)
 
 module.exports = router

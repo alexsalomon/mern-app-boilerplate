@@ -1,28 +1,18 @@
+const HttpStatus = require('http-status')
 const mongoose = require('mongoose')
-const validator = require('validator')
 const bcrypt = require('bcryptjs')
+const APIError = require('../../services/errors/api.error')
 const config = require('../../config')
 
 const UserSchema = new mongoose.Schema({
   email: {
     type: String,
     unique: true,
-    required: true,
-    trim: true,
-    validate: { validator: validator.isEmail, message: 'Invalid email.' },
+    required: [true, 'Email is required.'],
   },
   password: {
     type: String,
-    required: true,
-    minlength: [
-      config.auth.password.minLength,
-      `Minimum password length is ${config.auth.password.minLength}`,
-    ],
-    validate: {
-      validator(password) {
-        return password.length >= config.auth.password.minLength
-      },
-    },
+    required: [true, 'Password is required.'],
   },
 }, { timestamps: true })
 
@@ -34,9 +24,20 @@ UserSchema.pre('save', async function hashPassword(done) {
   return done()
 })
 
+UserSchema.post('save', (err, doc, next) => {
+  if (err.name === 'MongoError' && err.code === 11000) { // Unique constraint error.
+    return next(new APIError({ status: HttpStatus.BAD_REQUEST, message: 'User already exists.' }))
+  } else if (err.name === 'ValidationError') {
+    return next(new APIError({ status: HttpStatus.BAD_REQUEST, message: err.message }))
+  }
+  return next(err)
+})
+
+
 UserSchema.methods = {
-  isPasswordValid(rawPassword) {
-    return bcrypt.compare(rawPassword, this.password)
+  async isPasswordValid(rawPassword) {
+    const isValid = await bcrypt.compare(rawPassword, this.password)
+    return isValid
   },
 }
 
