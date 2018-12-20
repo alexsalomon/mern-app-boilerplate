@@ -3,6 +3,7 @@ const express = require('express')
 const APIError = require('../services/errors/api.error')
 const AuthRoutes = require('../api/auth/auth.routes')
 const UserRoutes = require('../api/user/user.routes')
+const StatusRoutes = require('../api/status/status.routes')
 
 const router = new express.Router()
 
@@ -13,7 +14,8 @@ router.get('/', (req, res) => {
 
 // API Custom routes
 router.use('/', AuthRoutes)
-router.use('/users', UserRoutes)
+router.use('/', UserRoutes)
+router.use('/', StatusRoutes)
 
 // Handles all subsequent routes with a 404 NotFoundError
 router.all('*', (req, res, next) => next(new APIError({

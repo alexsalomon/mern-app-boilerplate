@@ -51,7 +51,7 @@ const authenticate = AuthServices.authenticate
  *
  */
 router.get(
-  '/',
+  '/users',
   validate(UserValidation.getAllUsers),
   authenticate,
   routesUtil.controllerHandler(UserController.getAllUsers),
@@ -93,7 +93,7 @@ router.get(
  *     }
  */
 router.get(
-  '/:id',
+  '/users/:id',
   validate(UserValidation.getUser),
   authenticate,
   routesUtil.controllerHandler(
@@ -138,7 +138,7 @@ router.get(
  *     }
  */
 router.delete(
-  '/:id',
+  '/users/:id',
   validate(UserValidation.deleteUser),
   authenticate,
   routesUtil.controllerHandler(
@@ -183,7 +183,7 @@ router.delete(
  *     }
  */
 router.put(
-  '/:id',
+  '/users/:id',
   validate(UserValidation.updateUser),
   authenticate,
   routesUtil.controllerHandler(
