@@ -1,6 +1,8 @@
 const express = require('express')
+const validate = require('express-validation')
 const routesUtil = require('../../util/routes.util')
 const AuthController = require('./auth.controller')
+const AuthValidation = require('./auth.validation')
 
 const router = new express.Router()
 
@@ -37,6 +39,7 @@ const router = new express.Router()
  */
 router.post(
   '/register',
+  validate(AuthValidation.register),
   routesUtil.controllerHandler(
     AuthController.register,
     req => [req.body.email, req.body.password],
@@ -76,6 +79,7 @@ router.post(
  */
 router.post(
   '/login',
+  validate(AuthValidation.login),
   routesUtil.controllerHandler(
     AuthController.login,
     req => [req.body.email, req.body.password],

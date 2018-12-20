@@ -1,4 +1,6 @@
+const { ValidationError } = require('express-validation')
 const logger = require('./logger')
+const CustomValidationError = require('./errors/validation.error')
 
 function handleOperationalError(err, req, res, next) {
   if (err.isOperational) {
@@ -15,8 +17,17 @@ function handleProgrammerError(err) {
   }
 }
 
+function convertKnownErrors(err) {
+  // Converting express-validator middleware error into our own ValidationError
+  if (err instanceof ValidationError) {
+    err = new CustomValidationError(err)
+  }
+  return err
+}
+
 class ErrorHandler {
   handleError(err, req, res, next) {
+    err = convertKnownErrors(err)
     handleOperationalError(err, req, res, next)
     handleProgrammerError(err)
   }

@@ -1,14 +1,15 @@
 const express = require('express')
+const validate = require('express-validation')
 const routesUtil = require('../../util/routes.util')
 const AuthServices = require('../../services/auth')
 const UserController = require('./user.controller')
+const UserValidation = require('./user.validation')
 
 const router = new express.Router()
 
 // Authorization middleware
 const authenticate = AuthServices.authenticate
 
-// getAllUsers
 /**
  * @api {post} /user Retrieves all users
  * @apiName GetAllUsers
@@ -51,13 +52,13 @@ const authenticate = AuthServices.authenticate
  */
 router.get(
   '/',
+  validate(UserValidation.getAllUsers),
   authenticate,
   routesUtil.controllerHandler(UserController.getAllUsers),
 )
 
-// getUser
 /**
- * @api {post} /register Register a User
+ * @api {post} /user/:id Retrieves a user
  * @apiName GetUser
  * @apiGroup User
  *
@@ -93,6 +94,7 @@ router.get(
  */
 router.get(
   '/:id',
+  validate(UserValidation.getUser),
   authenticate,
   routesUtil.controllerHandler(
     UserController.getUser,
@@ -100,10 +102,9 @@ router.get(
   ),
 )
 
-// deleteUser
 /**
- * @api {post} /register Register a User
- * @apiName GetUser
+ * @api {post} /user/:id Deletes a user
+ * @apiName DeleteUser
  * @apiGroup User
  *
  * @apiHeader {String} jwt-token The unique access-key token.
@@ -138,6 +139,7 @@ router.get(
  */
 router.delete(
   '/:id',
+  validate(UserValidation.deleteUser),
   authenticate,
   routesUtil.controllerHandler(
     UserController.deleteUser,
@@ -145,10 +147,9 @@ router.delete(
   ),
 )
 
-// updateUser
 /**
- * @api {post} /register Register a User
- * @apiName GetUser
+ * @api {post} /user/:id Updates a user
+ * @apiName UpdateUser
  * @apiGroup User
  *
  * @apiHeader {String} jwt-token The unique access-key token.
@@ -183,6 +184,7 @@ router.delete(
  */
 router.put(
   '/:id',
+  validate(UserValidation.updateUser),
   authenticate,
   routesUtil.controllerHandler(
     UserController.updateUser,
