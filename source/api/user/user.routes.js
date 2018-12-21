@@ -8,94 +8,159 @@ const UserValidation = require('./user.validation')
 const router = new express.Router()
 
 // Authorization middleware
-const authenticate = AuthServices.authenticate
+const isAuthorized = AuthServices.isAuthorized
 
 /**
- * @api {post} /user Retrieves all users
- * @apiName GetAllUsers
- * @apiGroup User
+ * @api {get} /users List Users
+ * @apiDescription Get a list of all registered users.
+ * @apiVersion 1.0.0
+ * @apiName GetListUsers
+ * @apiGroup User Admin
+ * @apiPermission admin
  *
- * @apiHeader {String} jwt-token The unique access-key token.
- * @apiHeaderExample {json} Header-Example:
+ * @apiHeader {String}  Authorization  User's accessToken needed for identification/authorization
+ * @apiHeaderExample {json} Header-Example
  *     {
  *       "Authorization": "Bearer eyJpsdDsdZCI6IjVjMDAzM2NjNWRhNiIsImlhdCI6MTU0"
  *     }
  *
- * @apiSuccess {Array} A list of all registered users.
+ * @apiParam  {Number{1-}}         [page=1]       Page number (pagging)
+ * @apiParam  {Number{1-100}}      [perPage=1]    Number of users per page (pagging)
+ * @apiParam  {String}             [firstName]    User's first name (filter)
+ * @apiParam  {String}             [lastName]     User's last name (filter)
+ * @apiParam  {String}             [email]        User's email (filter)
+ * @apiParam  {String=user,admin}  [role]         User's role (filter)
  *
- * @apiSuccessExample Success-Response:
+ * @apiSuccess {Object[]} users A list of all registered users
+ *
+ * @apiSuccessExample Success-Response
  *     HTTP/1.1 200 OK
  *     [
  *        {
- *            "_id": "5c018fab93ea1b6ba494ad99",
- *            "email": "testinguser2@testinguser.com",
- *           "createdAt": "2018-11-30T19:29:47.971Z",
- *            "updatedAt": "2018-11-30T19:29:47.971Z",
- *            "__v": 0
+ *          "firstName": "First",
+ *          "lastName": "Last",
+ *          "email": "example@email.com",
+ *          "role": "admin",
+ *          "createdAt": "2018-11-30T19:29:47.971Z",
+ *          "updatedAt": "2018-11-30T19:29:47.971Z"
  *        },
  *        {
- *           "_id": "5c05741bec81482fdcd2c1fe",
- *           "email": "testinguser@testinguser.com",
- *            "createdAt": "2018-12-03T18:21:15.615Z",
- *           "updatedAt": "2018-12-03T18:21:15.615Z",
- *            "__v": 0
+ *          "firstName": "John",
+ *          "lastName": "Smith",
+ *          "email": "johnsmith@email.com",
+ *          "role": "user",
+ *          "createdAt": "2018-11-30T19:29:47.971Z",
+ *          "updatedAt": "2018-11-30T19:29:47.971Z"
  *        },
  *        {
- *           "_id": "5c17a88389904839b71c6b3c",
- *           "email": "testing@testing.testing",
- *            "createdAt": "2018-12-17T13:45:39.176Z",
- *           "updatedAt": "2018-12-17T13:45:39.176Z",
- *           "__v": 0
- *        },
+ *          "firstName": "Peter",
+ *          "lastName": "Pam",
+ *          "email": "peterpam@email.com",
+ *          "role": "user",
+ *          "createdAt": "2018-11-30T19:29:47.971Z",
+ *          "updatedAt": "2018-11-30T19:29:47.971Z"
+ *        }
  *    ]
  *
+ * @apiError (Unauthorized 401)  Unauthorized  Only authenticated users can access the data
+ * @apiError (Forbidden 403)     Forbidden     Only admins can access the data
+ *
+ * @apiErrorExample Forbidden-Response
+ *     HTTP/1.1 403 Forbidden
+ *     {
+ *        "error": {
+ *          "status": "403",
+ *          "message": "User does not have permission to access resource."
+ *        }
+ *     }
+ *
+ * @apiErrorExample Unauthorized-Response
+ *     HTTP/1.1 401 Unauthorized
+ *     {
+ *        "error": {
+ *          "status": "401",
+ *          "message": "Only authenticated users have access to the resource."
+ *        }
+ *     }
  */
 router.get(
   '/users',
-  validate(UserValidation.getAllUsers),
-  authenticate,
-  routesUtil.controllerHandler(UserController.getAllUsers),
+  validate(UserValidation.listUsers),
+  // isAuthorized(ADMIN),
+  isAuthorized,
+  routesUtil.controllerHandler(UserController.listUsers),
 )
 
 /**
- * @api {post} /user/:id Retrieves a user
+ * @api {get} /users/:id Get User
+ * @apiDescription Get user information.
+ * @apiVersion 1.0.0
  * @apiName GetUser
- * @apiGroup User
+ * @apiGroup User Admin
+ * @apiPermission admin
  *
- * @apiHeader {String} jwt-token The unique access-key token.
- * @apiHeaderExample {json} Header-Example:
+ * @apiHeader {String}  Authorization  User's accessToken needed for identification/authorization
+ * @apiHeaderExample {json} Header-Example
  *     {
  *       "Authorization": "Bearer eyJpsdDsdZCI6IjVjMDAzM2NjNWRhNiIsImlhdCI6MTU0"
  *     }
  *
- * @apiParam {String} id The user's ID
+ * @apiParam {String}       id             The user's ID
  *
- * @apiSuccess {Object} The requested user
+ * @apiSuccess {String}     firstName      User's first name
+ * @apiSuccess {String}     lastName       User's last name
+ * @apiSuccess {String}     email          User's email
+ * @apiSuccess {String}     role           User's role
+ * @apiSuccess {Date}       createdAt      User's creation timestamp
+ * @apiSuccess {Date}       updatedAt      User's last update timestamp
  *
- * @apiSuccessExample Success-Response:
+ * @apiSuccessExample Success-Response
  *     HTTP/1.1 200 OK
  *     {
- *        "_id": "5c17a88389904839b71c6b3c",
- *        "email": "testing@testing.testing",
- *        "createdAt": "2018-12-17T13:45:39.176Z",
- *        "updatedAt": "2018-12-17T13:45:39.176Z",
- *        "__v": 0
- *     },
+ *        "firstName": "First",
+ *        "lastName": "Last",
+ *        "email": "example@email.com",
+ *        "role": "admin",
+ *        "createdAt": "2018-11-30T19:29:47.971Z",
+ *        "updatedAt": "2018-11-30T19:29:47.971Z"
+ *     }
  *
- * @apiError BadRequest Invalid user ID
- * @apiError NotFound Could not find the user requested
+ * @apiError (Unauthorized 401)  Unauthorized  Only authenticated users can access the data
+ * @apiError (Forbidden 403)     Forbidden     Only admins can access the data
+ * @apiError (Not Found 404)     NotFound      User does not exist
  *
- * @apiErrorExample Error-Response:
- *     HTTP/1.1 400 Bad Request
+ * @apiErrorExample Forbidden-Response
+ *     HTTP/1.1 403 Forbidden
  *     {
- *       "type": "BadRequest",
- *       "error": "Error message"
+ *        "error": {
+ *          "status": "403",
+ *          "message": "User does not have permission to access resource."
+ *        }
+ *     }
+ *
+ * @apiErrorExample Unauthorized-Response
+ *     HTTP/1.1 401 Unauthorized
+ *     {
+ *        "error": {
+ *          "status": "401",
+ *          "message": "Only authenticated users have access to the resource."
+ *        }
+ *     }
+ *
+ * @apiErrorExample NotFound-Response
+ *     HTTP/1.1 404 NotFound
+ *     {
+ *        "error": {
+ *          "status": "404",
+ *          "message": "The user specified does not match any records."
+ *        }
  *     }
  */
 router.get(
   '/users/:id',
   validate(UserValidation.getUser),
-  authenticate,
+  // isAuthorized(ADMIN),
+  isAuthorized,
   routesUtil.controllerHandler(
     UserController.getUser,
     req => [req.params.id],
@@ -103,44 +168,154 @@ router.get(
 )
 
 /**
- * @api {post} /user/:id Deletes a user
- * @apiName DeleteUser
- * @apiGroup User
+ * @api {post} /users Create User
+ * @apiDescription Create a new user.
+ * @apiVersion 1.0.0
+ * @apiName PostCreateUser
+ * @apiGroup User Admin
+ * @apiPermission admin
  *
- * @apiHeader {String} jwt-token The unique access-key token.
- * @apiHeaderExample {json} Header-Example:
+ * @apiHeader {String}  Authorization  User's accessToken needed for identification/authorization
+ * @apiHeaderExample {json} Header-Example
  *     {
  *       "Authorization": "Bearer eyJpsdDsdZCI6IjVjMDAzM2NjNWRhNiIsImlhdCI6MTU0"
  *     }
  *
- * @apiParam {String} id The user's ID
+ * @apiParam {String}             firstName       User's first name
+ * @apiParam {String}             lastName        User's last name
+ * @apiParam {String}             email           User's email
+ * @apiParam {String{8..128}}     password        User's password
+ * @apiParam {String=user,admin}  [role]          User's role
  *
- * @apiSuccess {Object} The requested user
+ * @apiParamExample {json} Request-Example
+ *     {
+ *       "firstName": "First",
+ *       "lastName": "Last",
+ *       "email": "example@email.com",
+ *       "password": "userpassword123",
+ *       "role": "user"
+ *     }
  *
- * @apiSuccessExample Success-Response:
+ * @apiSuccess (Created 201) {String}     firstName      User's first name
+ * @apiSuccess (Created 201) {String}     lastName       User's last name
+ * @apiSuccess (Created 201) {String}     email          User's email
+ * @apiSuccess (Created 201) {String}     role           User's role
+ * @apiSuccess (Created 201) {Date}       createdAt      User's creation timestamp
+ * @apiSuccess (Created 201) {Date}       updatedAt      User's last update timestamp
+ *
+ * @apiSuccessExample Success-Response
+ *     HTTP/1.1 201 OK
+ *     {
+ *        "firstName": "First",
+ *        "lastName": "Last",
+ *        "email": "example@email.com",
+ *        "role": "user",
+ *        "createdAt": "2018-11-30T19:29:47.971Z",
+ *        "updatedAt": "2018-11-30T19:29:47.971Z"
+ *     }
+ *
+ * @apiError (Unauthorized 401)  Unauthorized  Only authenticated users can access the data
+ * @apiError (Forbidden 403)     Forbidden     Only admins can access the data
+ *
+ * @apiErrorExample Forbidden-Response
+ *     HTTP/1.1 403 Forbidden
+ *     {
+ *        "error": {
+ *          "status": "403",
+ *          "message": "User does not have permission to access resource."
+ *        }
+ *     }
+ *
+ * @apiErrorExample Unauthorized-Response
+ *     HTTP/1.1 401 Unauthorized
+ *     {
+ *        "error": {
+ *          "status": "401",
+ *          "message": "Only authenticated users have access to the resource."
+ *        }
+ *     }
+ */
+router.post(
+  '/users',
+  validate(UserValidation.createUser),
+  // isAuthorized(ADMIN),
+  isAuthorized,
+  routesUtil.controllerHandler(
+    UserController.getUser,
+    req => [req.params.id],
+  ),
+)
+
+/**
+ * @api {delete} /users/:id Delete User
+ * @apiDescription Delete a user.
+ * @apiVersion 1.0.0
+ * @apiName DeleteUser
+ * @apiGroup User Admin
+ * @apiPermission admin
+ *
+ * @apiHeader {String}  Authorization  User's accessToken needed for identification/authorization
+ * @apiHeaderExample {json} Header-Example
+ *     {
+ *       "Authorization": "Bearer eyJpsdDsdZCI6IjVjMDAzM2NjNWRhNiIsImlhdCI6MTU0"
+ *     }
+ *
+ * @apiParam {String}       id             The user's ID
+ *
+ * @apiSuccess {String}     firstName      User's first name
+ * @apiSuccess {String}     lastName       User's last name
+ * @apiSuccess {String}     email          User's email
+ * @apiSuccess {String}     role           User's role
+ * @apiSuccess {Date}       createdAt      User's creation timestamp
+ * @apiSuccess {Date}       updatedAt      User's last update timestamp
+ *
+ * @apiSuccessExample Success-Response
  *     HTTP/1.1 200 OK
  *     {
- *        "_id": "5c17a88389904839b71c6b3c",
- *        "email": "testing@testing.testing",
- *        "createdAt": "2018-12-17T13:45:39.176Z",
- *        "updatedAt": "2018-12-17T13:45:39.176Z",
- *        "__v": 0
- *     },
+ *        "firstName": "First",
+ *        "lastName": "Last",
+ *        "email": "example@email.com",
+ *        "role": "admin",
+ *        "createdAt": "2018-11-30T19:29:47.971Z",
+ *        "updatedAt": "2018-11-30T19:29:47.971Z"
+ *     }
  *
- * @apiError BadRequest Invalid user ID
- * @apiError NotFound Could not find the user requested
+ * @apiError (Unauthorized 401)  Unauthorized  Only authenticated users can access the data
+ * @apiError (Forbidden 403)     Forbidden     Only admins can access the data
+ * @apiError (Not Found 404)     NotFound      User does not exist
  *
- * @apiErrorExample Error-Response:
- *     HTTP/1.1 400 Bad Request
+ * @apiErrorExample Forbidden-Response
+ *     HTTP/1.1 403 Forbidden
  *     {
- *       "type": "BadRequest",
- *       "error": "Error message"
+ *        "error": {
+ *          "status": "403",
+ *          "message": "User does not have permission to access resource."
+ *        }
+ *     }
+ *
+ * @apiErrorExample Unauthorized-Response
+ *     HTTP/1.1 401 Unauthorized
+ *     {
+ *        "error": {
+ *          "status": "401",
+ *          "message": "Only authenticated users have access to the resource."
+ *        }
+ *     }
+ *
+ * @apiErrorExample NotFound-Response
+ *     HTTP/1.1 404 NotFound
+ *     {
+ *        "error": {
+ *          "status": "404",
+ *          "message": "The user specified does not match any records."
+ *        }
  *     }
  */
 router.delete(
   '/users/:id',
   validate(UserValidation.deleteUser),
-  authenticate,
+  // isAuthorized(ADMIN),
+  isAuthorized,
   routesUtil.controllerHandler(
     UserController.deleteUser,
     req => [req.params.id],
@@ -148,46 +323,179 @@ router.delete(
 )
 
 /**
- * @api {post} /user/:id Updates a user
- * @apiName UpdateUser
- * @apiGroup User
+ * @api {patch} /users/:id Update User
+ * @apiDescription Update some fields of a user document.
+ * @apiVersion 1.0.0
+ * @apiName PatchUpdateUser
+ * @apiGroup User Admin
+ * @apiPermission admin
  *
- * @apiHeader {String} jwt-token The unique access-key token.
- * @apiHeaderExample {json} Header-Example:
+ * @apiHeader {String}  Authorization  User's accessToken needed for identification/authorization
+ * @apiHeaderExample {json} Header-Example
  *     {
  *       "Authorization": "Bearer eyJpsdDsdZCI6IjVjMDAzM2NjNWRhNiIsImlhdCI6MTU0"
  *     }
  *
- * @apiParam {String} id The user's ID
+ * @apiParam {String}             id                The user's ID
+ * @apiParam {String}             [firstName]       User's first name
+ * @apiParam {String}             [lastName]        User's last name
+ * @apiParam {String}             [email]           User's email
+ * @apiParam {String{8..128}}     [password]        User's password
+ * @apiParam {String=user,admin}  [role]            User's role
  *
- * @apiSuccess {Object} The requested user
+ * @apiParamExample {json} Request-Example
+ *     {
+ *       "firstName": "First",
+ *       "lastName": "Last",
+ *       "email": "example@email.com",
+ *       "password": "userpassword123"
+ *     }
  *
- * @apiSuccessExample Success-Response:
+ * @apiSuccess {String}     firstName      User's first name
+ * @apiSuccess {String}     lastName       User's last name
+ * @apiSuccess {String}     email          User's email
+ * @apiSuccess {String}     role           User's role
+ * @apiSuccess {Date}       createdAt      User's creation timestamp
+ * @apiSuccess {Date}       updatedAt      User's last update timestamp
+ *
+ * @apiSuccessExample Success-Response
  *     HTTP/1.1 200 OK
  *     {
- *        "_id": "5c17a88389904839b71c6b3c",
- *        "email": "testing@testing.testing",
- *        "createdAt": "2018-12-17T13:45:39.176Z",
- *        "updatedAt": "2018-12-17T13:45:39.176Z",
- *        "__v": 0
- *     },
+ *        "firstName": "First",
+ *        "lastName": "Last",
+ *        "email": "example@email.com",
+ *        "role": "admin",
+ *        "createdAt": "2018-11-30T19:29:47.971Z",
+ *        "updatedAt": "2018-11-30T19:29:47.971Z"
+ *     }
  *
- * @apiError BadRequest Invalid user ID
- * @apiError NotFound Could not find the user requested
+ * @apiError (Unauthorized 401)  Unauthorized  Only authenticated users can access the data
+ * @apiError (Forbidden 403)     Forbidden     Only admins can access the data
+ * @apiError (Not Found 404)     NotFound      User does not exist
  *
- * @apiErrorExample Error-Response:
- *     HTTP/1.1 400 Bad Request
+ * @apiErrorExample Forbidden-Response
+ *     HTTP/1.1 403 Forbidden
  *     {
- *       "type": "BadRequest",
- *       "error": "Error message"
+ *        "error": {
+ *          "status": "403",
+ *          "message": "User does not have permission to access resource."
+ *        }
+ *     }
+ *
+ * @apiErrorExample Unauthorized-Response
+ *     HTTP/1.1 401 Unauthorized
+ *     {
+ *        "error": {
+ *          "status": "401",
+ *          "message": "Only authenticated users have access to the resource."
+ *        }
+ *     }
+ *
+ * @apiErrorExample NotFound-Response
+ *     HTTP/1.1 404 NotFound
+ *     {
+ *        "error": {
+ *          "status": "404",
+ *          "message": "The user specified does not match any records."
+ *        }
+ *     }
+ */
+router.patch(
+  '/users/:id',
+  validate(UserValidation.updateUser),
+  // isAuthorized(ADMIN),
+  isAuthorized,
+  routesUtil.controllerHandler(
+    UserController.updateUser,
+    req => [req.params.id, req.body],
+  ),
+)
+
+/**
+ * @api {put} /users/:id Replace User
+ * @apiDescription Replace the whole user document with a new one.
+ * @apiVersion 1.0.0
+ * @apiName PutReplaceUser
+ * @apiGroup User Admin
+ * @apiPermission admin
+ *
+ * @apiHeader {String}  Authorization  User's accessToken needed for identification/authorization
+ * @apiHeaderExample {json} Header-Example
+ *     {
+ *       "Authorization": "Bearer eyJpsdDsdZCI6IjVjMDAzM2NjNWRhNiIsImlhdCI6MTU0"
+ *     }
+ *
+ * @apiParam {String}             id              The user's ID
+ * @apiParam {String}             firstName       User's first name
+ * @apiParam {String}             lastName        User's last name
+ * @apiParam {String}             email           User's email
+ * @apiParam {String{8..128}}     password        User's password
+ * @apiParam {String=user,admin}  role            User's role
+ *
+ * @apiParamExample {json} Request-Example
+ *     {
+ *       "firstName": "First",
+ *       "lastName": "Last",
+ *       "email": "example@email.com",
+ *       "password": "userpassword123"
+ *     }
+ *
+ * @apiSuccess {String}     firstName      User's first name
+ * @apiSuccess {String}     lastName       User's last name
+ * @apiSuccess {String}     email          User's email
+ * @apiSuccess {String}     role           User's role
+ * @apiSuccess {Date}       createdAt      User's creation timestamp
+ * @apiSuccess {Date}       updatedAt      User's last update timestamp
+ *
+ * @apiSuccessExample Success-Response
+ *     HTTP/1.1 200 OK
+ *     {
+ *        "firstName": "First",
+ *        "lastName": "Last",
+ *        "email": "example@email.com",
+ *        "role": "admin",
+ *        "createdAt": "2018-11-30T19:29:47.971Z",
+ *        "updatedAt": "2018-11-30T19:29:47.971Z"
+ *     }
+ *
+ * @apiError (Unauthorized 401)  Unauthorized  Only authenticated users can access the data
+ * @apiError (Forbidden 403)     Forbidden     Only admins can access the data
+ * @apiError (Not Found 404)     NotFound      User does not exist
+ *
+ * @apiErrorExample Forbidden-Response
+ *     HTTP/1.1 403 Forbidden
+ *     {
+ *        "error": {
+ *          "status": "403",
+ *          "message": "User does not have permission to access resource."
+ *        }
+ *     }
+ *
+ * @apiErrorExample Unauthorized-Response
+ *     HTTP/1.1 401 Unauthorized
+ *     {
+ *        "error": {
+ *          "status": "401",
+ *          "message": "Only authenticated users have access to the resource."
+ *        }
+ *     }
+ *
+ * @apiErrorExample NotFound-Response
+ *     HTTP/1.1 404 NotFound
+ *     {
+ *        "error": {
+ *          "status": "404",
+ *          "message": "The user specified does not match any records."
+ *        }
  *     }
  */
 router.put(
   '/users/:id',
-  validate(UserValidation.updateUser),
-  authenticate,
+  validate(UserValidation.replaceUser),
+  // isAuthorized(ADMIN),
+  isAuthorized,
   routesUtil.controllerHandler(
-    UserController.updateUser,
+    UserController.replaceUser,
     req => [req.params.id, req.body],
   ),
 )

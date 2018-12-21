@@ -7,7 +7,7 @@ const User = require('./user.model')
  * @param {string} id The user's ID.
  * @returns {Array} All the users in the database.
  */
-async function getAllUsers() {
+async function listUsers() {
   const users = await User.find({}, { password: 0 })
   return users
 }
@@ -23,6 +23,16 @@ async function getUser(id) {
     throw new APIError({ status: HttpStatus.NOT_FOUND, message: 'User not found.' })
   }
   return user
+}
+
+/**
+ * Creates a new user.
+ * @param {Object} userParams The user's parameters.
+ * @returns {Object} The created user.
+ */
+async function createUser(userParams) {
+  // TODO
+  return userParams
 }
 
 /**
@@ -47,4 +57,15 @@ async function updateUser(id, userParams) {
   return user
 }
 
-module.exports = { getAllUsers, getUser, deleteUser, updateUser }
+/**
+ * Replaces a user.
+ * @param {string} id The user's ID.
+ * @param {Object} user The user's object that will replace the current one.
+ * @returns {Object} The updated user.
+ */
+async function replaceUser(id, user) {
+  // TODO
+  return { id, user }
+}
+
+module.exports = { listUsers, getUser, createUser, deleteUser, updateUser, replaceUser }

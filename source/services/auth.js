@@ -10,7 +10,7 @@ const APIError = require('./errors/api.error')
  * @param {function} next The next middleware to be executed.
  * @returns {function} The next middleware to be executed.
  */
-async function authenticate(req, res, next) {
+async function isAuthorized(req, res, next) {
   try {
     const token = req.headers.authorization.split(' ')[1]
     const { userId } = await jwt.verify(token, config.auth.secret)
@@ -36,4 +36,4 @@ async function createToken(userId) {
   return token
 }
 
-module.exports = { authenticate, createToken }
+module.exports = { isAuthorized, createToken }

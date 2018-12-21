@@ -2,7 +2,7 @@ const Joi = require('joi')
 
 module.exports = {
   // GET /users
-  getAllUsers: {
+  listUsers: {
     headers: {
       authorization: Joi.string().required(),
     },
@@ -18,6 +18,14 @@ module.exports = {
     },
   },
 
+  // POST /users
+  createUser: {
+    headers: {
+      authorization: Joi.string().required(),
+    },
+  },
+
+
   // DELETE /users/:id
   deleteUser: {
     param: {
@@ -28,8 +36,18 @@ module.exports = {
     },
   },
 
-  // UPDATE /users/:id
+  // PATCH /users/:id
   updateUser: {
+    param: {
+      id: Joi.string().required(),
+    },
+    headers: {
+      authorization: Joi.string().required(),
+    },
+  },
+
+  // PUT /users/:id
+  replaceUser: {
     param: {
       id: Joi.string().required(),
     },
