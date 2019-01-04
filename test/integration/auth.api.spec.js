@@ -9,29 +9,29 @@ const app = require('../../source/server/index')
 const expect = chai.expect
 chai.use(dirtyChai)
 
-let userReqObj
-let dbUser
+let dbUserInfo
+let userInfo
 
 describe('Integration Tests: Auth API', () => {
   beforeEach(async () => {
-    dbUser = factories.validLoggedUsers()[0]
-    userReqObj = factories.validLoggedUsers()[1]
+    dbUserInfo = factories.validLoggedUsers()[0]
+    userInfo = factories.validLoggedUsers()[1]
 
     await User.remove({})
-    await User.create(dbUser)
+    await User.create(dbUserInfo)
   })
 
   describe('POST /register', () => {
     it.skip('should register a new user when request is valid', () => {
-      delete userReqObj.role
+      delete userInfo.role
       return request(app)
         .post('/register')
-        .send(userReqObj)
+        .send(userInfo)
         .expect(httpStatus.CREATED)
         .then(res => {
           expect(res.body.token).to.have.a.property('accessToken')
           expect(res.body.token).to.have.a.property('expiresIn')
-          expect(res.body.user).to.include(userReqObj)
+          expect(res.body.user).to.include(userInfo)
         })
     })
 
@@ -48,10 +48,10 @@ describe('Integration Tests: Auth API', () => {
       }))
 
     it.skip('should report bad request error when email provided is invalid', () => {
-      userReqObj.email = 'invalid-email'
+      userInfo.email = 'invalid-email'
       return request(app)
         .post('/register')
-        .send(userReqObj)
+        .send(userInfo)
         .expect(httpStatus.BAD_REQUEST)
         .then(res => {
           const { field, location, messages } = res.body.error.errors[0]
@@ -64,7 +64,7 @@ describe('Integration Tests: Auth API', () => {
 
     it.skip('should report conflict error when email already exists', () => request(app)
       .post('/register')
-      .send(dbUser)
+      .send(dbUserInfo)
       .expect(httpStatus.CONFLICT)
       .then(res => {
         const { field, location, messages } = res.body.error.errors[0]
@@ -74,10 +74,10 @@ describe('Integration Tests: Auth API', () => {
       }))
 
     it.skip('should report bad request error when password length is less than 8', () => {
-      userReqObj.password = 'short'
+      userInfo.password = 'short'
       return request(app)
         .post('/register')
-        .send(userReqObj)
+        .send(userInfo)
         .expect(httpStatus.BAD_REQUEST)
         .then(res => {
           const { field, location, messages } = res.body.error.errors[0]
@@ -91,12 +91,12 @@ describe('Integration Tests: Auth API', () => {
   describe('POST /login', () => {
     it.skip('should return an accessToken when email and password match', () => request(app)
       .post('/login')
-      .send(dbUser)
+      .send(dbUserInfo)
       .expect(httpStatus.OK)
       .then(res => {
         expect(res.body.token).to.have.a.property('accessToken')
         expect(res.body.token).to.have.a.property('expiresIn')
-        expect(res.body.user).to.include(dbUser)
+        expect(res.body.user).to.include(dbUserInfo)
       }))
 
     it.skip('should report bad request error when required parameters are not provided', () => request(app)
@@ -104,16 +104,16 @@ describe('Integration Tests: Auth API', () => {
       .send({})
       .expect(httpStatus.BAD_REQUEST)
       .then(res => {
-        expect(res.body.error.errors).to.have.length(4)
+        expect(res.body.error.errors).to.have.length(2)
         expect(res.body.error.errors[0].field).to.be.equal('email')
         expect(res.body.error.errors[1].field).to.be.equal('password')
       }))
 
     it.skip('should report bad request error when email provided is invalid', () => {
-      userReqObj.email = 'invalid-email'
+      userInfo.email = 'invalid-email'
       return request(app)
         .post('/login')
-        .send(dbUser)
+        .send(dbUserInfo)
         .expect(httpStatus.BAD_REQUEST)
         .then(res => {
           const { field, location, messages } = res.body.error.errors[0]
@@ -126,17 +126,17 @@ describe('Integration Tests: Auth API', () => {
 
     it.skip('should report NotFound error when email does not match any records', () => request(app)
       .post('/login')
-      .send(userReqObj)
+      .send(userInfo)
       .expect(httpStatus.NOT_FOUND)
       .then(res => {
         expect(res.body.error.message).to.be.equal('User email does not match records.')
       }))
 
     it.skip('should report unauthorized error when email and password do NOT match', () => {
-      userReqObj.password = 'invalidpassword'
+      userInfo.password = 'invalidpassword'
       return request(app)
         .post('/login')
-        .send(dbUser)
+        .send(dbUserInfo)
         .expect(httpStatus.UNAUTHORIZED)
         .then(res => {
           expect(res.body.error.message).to.be.equal('Incorrect email and password combination.')

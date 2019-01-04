@@ -60,8 +60,8 @@ const isAuthorized = AuthServices.isAuthorized
  * @apiError (Bad Request 400)    ValidationError   Some required parameters are missing
  *                                                    or contain invalid values
  * @apiError (Conflict 409)       Conflict          Email is not unique
- * @apiError (Unauthorized 401)   Unauthorized      Only authenticated users can access the data
- * @apiError (Forbidden 403)      Forbidden         Only admins can access the data
+ * @apiError (Unauthorized 401)   Unauthorized      Only authenticated users can perform this operation
+ * @apiError (Forbidden 403)      Forbidden         Only administrators can perform this operation
  *
  * @apiErrorExample BadRequest-Response
  *     HTTP/1.1 400 Bad Request
@@ -165,8 +165,8 @@ router.post(
  *
  * @apiError (Bad Request 400)   ValidationError   Some required parameters are missing
  *                                                    or contain invalid values
- * @apiError (Unauthorized 401)  Unauthorized      Only authenticated users can access the data
- * @apiError (Forbidden 403)     Forbidden         Only admins can access the data
+ * @apiError (Unauthorized 401)  Unauthorized      Only authenticated users can perform this operation
+ * @apiError (Forbidden 403)     Forbidden         Only administrators can perform this operation
  *
  * @apiErrorExample BadRequest-Response
  *     HTTP/1.1 400 Bad Request
@@ -237,8 +237,8 @@ router.get(
  *        "updatedAt": "2018-11-30T19:29:47.971Z"
  *     }
  *
- * @apiError (Unauthorized 401)  Unauthorized  Only authenticated users can access the data
- * @apiError (Forbidden 403)     Forbidden     Only admins can access the data
+ * @apiError (Unauthorized 401)  Unauthorized  Only authenticated users can perform this operation
+ * @apiError (Forbidden 403)     Forbidden     Only administrators can perform this operation
  * @apiError (Not Found 404)     NotFound      User does not exist
  *
  * @apiErrorExample Forbidden-Response
@@ -326,8 +326,8 @@ router.get(
  *        "updatedAt": "2018-11-30T19:29:47.971Z"
  *     }
  *
- * @apiError (Unauthorized 401)  Unauthorized  Only authenticated users can access the data
- * @apiError (Forbidden 403)     Forbidden     Only admins can access the data
+ * @apiError (Unauthorized 401)  Unauthorized  Only authenticated users can perform this operation
+ * @apiError (Forbidden 403)     Forbidden     Only administrators can perform this operation
  * @apiError (Not Found 404)     NotFound      User does not exist
  *
  * @apiErrorExample Forbidden-Response
@@ -402,8 +402,8 @@ router.patch(
  *        "updatedAt": "2018-11-30T19:29:47.971Z"
  *     }
  *
- * @apiError (Unauthorized 401)  Unauthorized  Only authenticated users can access the data
- * @apiError (Forbidden 403)     Forbidden     Only admins can access the data
+ * @apiError (Unauthorized 401)  Unauthorized  Only authenticated users can perform this operation
+ * @apiError (Forbidden 403)     Forbidden     Only administrators can perform this operation
  * @apiError (Not Found 404)     NotFound      User does not exist
  *
  * @apiErrorExample Forbidden-Response

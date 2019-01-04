@@ -10,17 +10,17 @@ const app = require('../../source/server/index')
 const expect = chai.expect
 chai.use(dirtyChai)
 
-let dbUser
+let dbUserInfo
 let dbUserId
 let dbUserAccessToken
 
 describe('Integration Tests: Account API', () => {
   beforeEach(async () => {
-    dbUser = factories.validLoggedUsers()[0]
+    dbUserInfo = factories.validLoggedUsers()[0]
 
     await User.remove({})
-    await User.create(dbUser)
-    dbUserId = await User.find(dbUser)._id
+    await User.create(dbUserInfo)
+    dbUserId = await User.find(dbUserInfo)._id
     dbUserAccessToken = await AuthService.createToken(dbUserId)
   })
 
@@ -30,7 +30,7 @@ describe('Integration Tests: Account API', () => {
       .set('Authorization', `Bearer ${dbUserAccessToken}`)
       .expect(httpStatus.OK)
       .then(res => {
-        expect(res.body.user).to.include(dbUser)
+        expect(res.body.user).to.include(dbUserInfo)
       }))
 
     it.skip('should report unauthorized error if user is not authenticated', () => request(app)
@@ -49,7 +49,7 @@ describe('Integration Tests: Account API', () => {
       .then(async res => {
         const queriedUser = await User.findById(dbUserId)
         expect(queriedUser).to.be.undefined()
-        expect(res.body.user).to.include(dbUser)
+        expect(res.body.user).to.include(dbUserInfo)
       }))
 
     it.skip('should report unauthorized error if user is not authenticated', () => request(app)
@@ -62,7 +62,7 @@ describe('Integration Tests: Account API', () => {
 
   describe('PATCH /account', () => {
     it.skip('should update the logged user when request is valid', () => {
-      const updatedUser = { ...dbUser }
+      const updatedUser = { ...dbUserInfo }
       updatedUser.firstName = 'new-first'
       return request(app)
         .patch('/account')
@@ -71,10 +71,10 @@ describe('Integration Tests: Account API', () => {
         .expect(httpStatus.OK)
         .then(async res => {
           const queriedUser = await User.findById(dbUserId)
-          expect(queriedUser.firstName).to.not.be.equal(dbUser.firstName)
+          expect(queriedUser.firstName).to.not.be.equal(dbUserInfo.firstName)
           expect(queriedUser).to.include(updatedUser)
           expect(res.body.user).to.include(updatedUser)
-          expect(res.body.user.firstName).to.not.be.equal(dbUser.firstName)
+          expect(res.body.user.firstName).to.not.be.equal(dbUserInfo.firstName)
         })
     })
 
@@ -84,8 +84,23 @@ describe('Integration Tests: Account API', () => {
       .send({})
       .expect(httpStatus.OK)
       .then(res => {
-        expect(res.body.user).to.include(dbUser)
+        expect(res.body.user).to.include(dbUserInfo)
       }))
+
+    it.skip('should report bad request error when role is not a valid role', () => {
+      dbUserInfo.role = 'invalidrole'
+      return request(app)
+        .patch('/account')
+        .set('Authorization', `Bearer ${dbUserAccessToken}`)
+        .send(dbUserInfo)
+        .expect(httpStatus.OK)
+        .then(res => {
+          expect(res.body.error.status).to.be.equal(httpStatus.BAD_REQUEST)
+          expect(res.body.error.errors).to.be.an('array')
+          expect(res.body.error.errors).to.have.length(1)
+          expect(res.body.error.errors).to.include({ field: 'role' })
+        })
+    })
 
     it.skip('should report unauthorized error if user is not authenticated', () => request(app)
       .patch('/account')
