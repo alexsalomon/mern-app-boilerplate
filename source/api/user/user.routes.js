@@ -60,7 +60,8 @@ const isAuthorized = AuthServices.isAuthorized
  * @apiError (Bad Request 400)    ValidationError   Some required parameters are missing
  *                                                    or contain invalid values
  * @apiError (Conflict 409)       Conflict          Email is not unique
- * @apiError (Unauthorized 401)   Unauthorized      Only authenticated users can perform this operation
+ * @apiError (Unauthorized 401)   Unauthorized      Only authenticated users can perform this
+ *                                                    operation
  * @apiError (Forbidden 403)      Forbidden         Only administrators can perform this operation
  *
  * @apiErrorExample BadRequest-Response
@@ -165,7 +166,8 @@ router.post(
  *
  * @apiError (Bad Request 400)   ValidationError   Some required parameters are missing
  *                                                    or contain invalid values
- * @apiError (Unauthorized 401)  Unauthorized      Only authenticated users can perform this operation
+ * @apiError (Unauthorized 401)  Unauthorized      Only authenticated users can perform this
+ *                                                    operation
  * @apiError (Forbidden 403)     Forbidden         Only administrators can perform this operation
  *
  * @apiErrorExample BadRequest-Response
