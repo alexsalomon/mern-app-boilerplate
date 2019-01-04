@@ -3,6 +3,17 @@ const APIError = require('../../services/errors/api.error')
 const User = require('./user.model')
 
 /**
+ * Creates a new user.
+ * @param {Object} email The user's email.
+ * @param {Object} password The user's password.
+ * @returns {Object} The created user.
+ */
+async function createUser(email, password) {
+  const user = await User.create({ email, password })
+  return user
+}
+
+/**
  * Returns all user.
  * @param {string} id The user's ID.
  * @returns {Array} All the users in the database.
@@ -26,26 +37,6 @@ async function getUser(id) {
 }
 
 /**
- * Creates a new user.
- * @param {Object} userParams The user's parameters.
- * @returns {Object} The created user.
- */
-async function createUser(userParams) {
-  // TODO
-  return userParams
-}
-
-/**
- * Deletes a user.
- * @param {string} id The user's ID.
- * @returns {Object} The deleted user.
- */
-async function deleteUser(id) {
-  const user = await User.findByIdAndRemove(id)
-  return user
-}
-
-/**
  * Updates a user.
  * @param {string} id The user's ID.
  * @param {Object} userParams The user's parameters.
@@ -58,14 +49,14 @@ async function updateUser(id, userParams) {
 }
 
 /**
- * Replaces a user.
+ * Deletes a user.
  * @param {string} id The user's ID.
- * @param {Object} user The user's object that will replace the current one.
- * @returns {Object} The updated user.
+ * @returns {Object} The deleted user.
  */
-async function replaceUser(id, user) {
-  // TODO
-  return { id, user }
+async function deleteUser(id) {
+  const user = await User.findByIdAndRemove(id)
+  return user
 }
 
-module.exports = { listUsers, getUser, createUser, deleteUser, updateUser, replaceUser }
+
+module.exports = { createUser, listUsers, getUser, updateUser, deleteUser }

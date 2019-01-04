@@ -9,9 +9,10 @@
   "scripts": {
     "start": "node ./source/server/index.js",
     "dev": "NODE_ENV=dev nodemon ./source/server/index.js",
-    "test": "npm run lint && npm run test-unit",
+    "test": "npm run lint && npm run test-unit && npm run test-int",
     "test-watch": "npm run test-unit -- --watch",
     "test-unit": "NODE_ENV=test mocha test/setup.spec.js source/**/*.spec.js  --exit",
+    "test-int": "NODE_ENV=test mocha test/setup.spec.js test/integration/**/*.spec.js  --exit",
     "lint": "eslint source/** test/** --fix",
     "docs": "apidoc -f '.*\\.js$' -i source/ -o docs/"
   },
@@ -52,6 +53,7 @@
     "mongoose": "^5.3.13",
     "morgan": "^1.9.1",
     "path": "^0.12.7",
+    "supertest": "^3.3.0",
     "winston": "^3.1.0",
     "winston-sentry-raven-transport": "^1.0.2"
   }

@@ -3,20 +3,16 @@
 const fse = require('fs-extra')
 const winston = require('winston')
 const Sentry = require('winston-sentry-raven-transport')
-const config = require('../config')
-
-const errorLogFile = `${config.logger.logsPath}error.log`
-const combinedLogFile = `${config.logger.logsPath}combined.log`
+const config = require('../../config')
 
 module.exports = (() => {
-  createLogFiles()
+  createLogsDirectory()
   const loggerOptions = getLoggerOptions(config.env)
   return winston.createLogger(loggerOptions)
 })()
 
-function createLogFiles() {
-  fse.ensureFileSync(errorLogFile)
-  fse.ensureFileSync(combinedLogFile)
+function createLogsDirectory() {
+  fse.ensureDirSync(config.logger.logsPath)
 }
 
 function getLoggerOptions(env) {
@@ -32,8 +28,10 @@ function getLoggerTransports(env) {
   let transports = []
   switch (env) {
     case 'dev':
-    case 'test':
       transports = getLoggerTransportsDev()
+      break
+    case 'test':
+      transports = getLoggerTransportsTest()
       break
     case 'stag':
       transports = getLoggerTransportsStag()
@@ -58,6 +56,21 @@ function getLoggerTransportsDev() {
   ]
 }
 
+function getLoggerTransportsTest() {
+  return [
+    new winston.transports.File({
+      format: winston.format.combine(
+        winston.format.timestamp(),
+        winston.format.json(),
+      ),
+      level: 'debug',
+      filename: `${config.logger.logsPath}test-combined.log`,
+      maxsize: 5242880, // 5MB
+      maxFiles: 5,
+    }),
+  ]
+}
+
 function getLoggerTransportsStag() {
   return [
     new winston.transports.File({
@@ -65,7 +78,7 @@ function getLoggerTransportsStag() {
         winston.format.timestamp(),
         winston.format.json(),
       ),
-      filename: errorLogFile,
+      filename: `${config.logger.logsPath}error.log`,
       level: 'error',
       maxsize: 5242880, // 5MB
       maxFiles: 5,
@@ -76,7 +89,7 @@ function getLoggerTransportsStag() {
         winston.format.json(),
       ),
       level: 'info',
-      filename: combinedLogFile,
+      filename: `${config.logger.logsPath}combined.log`,
       maxsize: 5242880, // 5MB
       maxFiles: 5,
     }),

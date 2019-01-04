@@ -1,7 +1,8 @@
 {
   "db": {
     "mongo": {
-      "uri": "mongodb://localhost:27017/restful-api-test"
+      "uri": "mongodb://localhost:27017/restful-api-test",
+      "debug": false
     }
   }
 }

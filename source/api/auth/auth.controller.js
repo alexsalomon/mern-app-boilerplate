@@ -1,6 +1,7 @@
 const HttpStatus = require('http-status')
 const APIError = require('../../services/errors/api.error')
 const User = require('../user/user.model')
+const UserController = require('../user/user.controller')
 const services = require('../../services/auth')
 
 /**
@@ -10,7 +11,7 @@ const services = require('../../services/auth')
  * @returns {Object} The response object containing the jwt token.
  */
 async function register(email, password) {
-  const user = await User.create({ email, password })
+  const user = await UserController.createUser(email, password)
   const token = await services.createToken(user._id)
   return { token }
 }

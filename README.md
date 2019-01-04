@@ -8,15 +8,19 @@ Project starter for developing RESTful APIs using Nodejs, Express, MongoDB and D
 - [ESLint](https://eslint.org/) with [STRV's config](https://github.com/strvcom/eslint-config-javascript)
 - [Nodemon](https://github.com/remy/nodemon) to restart the server whenever you make changes
 
+> NOTE: List needs to be updated...
+
 ## Commands
-Command             | Action                   |
---------------------|--------------------------|
-`npm run dev`       | Run in development mode  |
-`npm start`         | Run in default mode      |
-`npm test`          | Run the tests once       |
-`npm test-watch`    | Run and watch the tests  |
-`npm run lint`      | Lint the code            |
-`npm run docs`      | Update API documentation |
+Command             | Action                      |
+--------------------|-----------------------------|
+`npm run dev`       | Run in development mode     |
+`npm start`         | Run in default mode (.env)  |
+`npm test`          | Run lint and all tests once |
+`npm test-unit`     | Run unit tests once         |
+`npm test-int`      | Run integration tests once  |
+`npm test-watch`    | Run and watch the tests     |
+`npm run lint`      | Lint the code               |
+`npm run docs`      | Update API documentation    |
 
 ## Set up
 * Install GIT, NodeJS 10+, NPM, (MongoDB and/or Docker).
@@ -72,6 +76,11 @@ For all subsequent deployments just do a push and heroku will automatically do t
 ```
   git push heroku master
 ```
+
+## Testing
+* All unit tests are to be located inside the `source` directory alongside the code to be tested.
+* All integration tests are to be located inside `test/integration`.
+* You can find pre-defined objects for use during testing inside `test/factories`.
 
 ## Documentation
 * API documentation can be found under `/docs/index.html`

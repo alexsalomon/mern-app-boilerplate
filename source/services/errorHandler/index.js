@@ -1,6 +1,6 @@
 const { ValidationError } = require('express-validation')
-const logger = require('./logger')
-const CustomValidationError = require('./errors/validation.error')
+const logger = require('../logger')
+const CustomValidationError = require('../errors/validation.error')
 
 function handleOperationalError(err, req, res, next) {
   if (err.isOperational) {
@@ -17,6 +17,13 @@ function handleProgrammerError(err) {
   }
 }
 
+/**
+ * Convert library errors into our own custom errors.
+ * This is needed so that we can call custom methods
+ * from ExtendableError (such as getFormattedError).
+ * @param {Object} err the error being handled.
+ * @returns {Object} the converted error.
+ */
 function convertKnownErrors(err) {
   // Converting express-validator middleware error into our own ValidationError
   if (err instanceof ValidationError) {

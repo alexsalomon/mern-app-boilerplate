@@ -4,6 +4,8 @@ const bcrypt = require('bcryptjs')
 const APIError = require('../../services/errors/api.error')
 const config = require('../../config')
 
+const roles = ['user', 'admin']
+
 const UserSchema = new mongoose.Schema({
   email: {
     type: String,
@@ -33,12 +35,15 @@ UserSchema.post('save', (err, doc, next) => {
   return next(err)
 })
 
-
 UserSchema.methods = {
   async isPasswordValid(rawPassword) {
     const isValid = await bcrypt.compare(rawPassword, this.password)
     return isValid
   },
+}
+
+UserSchema.statics = {
+  roles,
 }
 
 mongoose.model('User', UserSchema)

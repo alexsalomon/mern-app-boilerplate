@@ -30,6 +30,7 @@ module.exports = {
     ],
     rules: {
       'no-sync': 'off',
+      'max-len': 'off',
     },
   }],
 }
