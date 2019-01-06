@@ -11,13 +11,13 @@ const config = {
     sentry: {
       dns: {
         format: String,
-        default: '',
+        default: null,
         env: 'SENTRY_DNS',
         sensitive: true,
 
       },
       level: {
-        format: String,
+        format: ['error', 'warn', 'info', 'verbose', 'debug', 'silly'],
         default: 'error',
         args: 'sentryLevel',
         env: 'SENTRY_LEVEL',
