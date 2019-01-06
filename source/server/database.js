@@ -3,15 +3,15 @@ const logger = require('../services/logger')
 const config = require('../config')
 
 module.exports = async () => {
-  mongoose.set('debug', config.db.mongo.debug)
+  mongoose.set('debug', config.mongo.debug)
 
   // Options to fix deprecated warnings
-  await mongoose.connect(config.db.mongo.uri, {
+  await mongoose.connect(config.mongo.uri, {
     useFindAndModify: false,
     useCreateIndex: true,
     useNewUrlParser: true,
   })
 
-  logger.debug(`MongoDB connected to uri: ${config.db.mongo.uri}`)
+  logger.debug(`MongoDB connected to uri: ${config.mongo.uri}`)
   logger.info('MongoDB has been successfully connected.')
 }

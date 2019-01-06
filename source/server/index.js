@@ -34,8 +34,8 @@ async function run(app) {
 
   // Start the server ; We need this first check to make sure we don't run a second instance
   if (!module.parent) {
-    app.listen(config.app.port, () => {
-      logger.info(`Server is listening on ${config.app.port}...`)
+    app.listen(config.server.port, () => {
+      logger.info(`Server is listening on ${config.server.port}...`)
     })
   }
 }

@@ -4,7 +4,8 @@ const bcrypt = require('bcryptjs')
 const APIError = require('../../services/errors/api.error')
 const config = require('../../config')
 
-const roles = ['user', 'admin']
+// Roles in order of importance
+const roles = ['admin', 'user']
 
 const UserSchema = new mongoose.Schema({
   email: {
@@ -20,7 +21,7 @@ const UserSchema = new mongoose.Schema({
 
 UserSchema.pre('save', async function hashPassword(done) {
   if (this.isModified('password')) {
-    const hashedPassword = await bcrypt.hash(this.password, config.auth.saltRounds)
+    const hashedPassword = await bcrypt.hash(this.password, config.jwt.saltRounds)
     this.password = hashedPassword
   }
   return done()
