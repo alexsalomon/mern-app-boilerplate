@@ -6,8 +6,20 @@ const HttpStatus = require('http-status')
  * @extends Error
  */
 class ExtendableError extends Error {
+  /**
+   * Creates an Extendable error.
+   * @param {string} message - Error message.
+   * @param {string} errors - Additional information on individual errors.
+   * @param {string} stack - The error stacktrace.
+   * @param {number} status - HTTP status code of error.
+   * @param {boolean} isPublic - Whether the message should be visible to user or not.
+   */
   constructor({
-    message, errors, status, isPublic, stack,
+    message,
+    errors,
+    stack,
+    status,
+    isPublic,
   }) {
     super(message)
     this.name = this.constructor.name

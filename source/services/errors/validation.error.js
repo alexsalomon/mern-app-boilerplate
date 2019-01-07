@@ -9,6 +9,8 @@ class ValidationError extends ExtendableError {
   /**
    * Creates a Validation error.
    * @param {string} message - Error message.
+   * @param {string} errors - Additional information on individual errors.
+   * @param {string} stack - Error stacktrace.
    * @param {number} status - HTTP status code of error.
    * @param {boolean} isPublic - Whether the message should be visible to user or not.
    */
@@ -20,7 +22,11 @@ class ValidationError extends ExtendableError {
     isPublic = true,
   }) {
     super({
-      message, errors, status, isPublic, stack,
+      message,
+      errors,
+      status,
+      isPublic,
+      stack,
     })
   }
 }
