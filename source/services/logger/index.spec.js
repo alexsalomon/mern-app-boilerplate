@@ -1,8 +1,7 @@
-const chai = require('chai')
-const dirtyChai = require('dirty-chai')
+// const chai = require('chai')
 
 // const expect = chai.expect
-chai.use(dirtyChai)
+
 
 describe('Services: Logger', () => {
   describe('createLogsDirectory()', () => {

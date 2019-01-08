@@ -7,6 +7,7 @@ const methodOverride = require('method-override')
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
 const logger = require('../services/logger')
+const authentication = require('../services/authentication')
 const config = require('../config')
 
 module.exports = app => {
@@ -28,6 +29,9 @@ module.exports = app => {
   // Parse body params and attach them to req.body
   app.use(bodyParser.json())
   app.use(bodyParser.urlencoded({ extended: true }))
+
+  // Authentication middleware
+  app.use(authentication.initialize())
 
   // Logging HTTP request/response messages
   if (config.env === 'dev') {

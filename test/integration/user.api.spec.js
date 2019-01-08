@@ -1,14 +1,12 @@
 const chai = require('chai')
-const dirtyChai = require('dirty-chai')
 const request = require('supertest')
 const httpStatus = require('http-status')
 const factories = require('../factories/user.factory')
 const User = require('../../source/api/user/user.model')
-const AuthService = require('../../source/services/auth')
+const AuthService = require('../../source/services/authentication')
 const app = require('../../source/server/index')
 
 const expect = chai.expect
-chai.use(dirtyChai)
 
 let adminDbUserInfo
 let adminDbUserId

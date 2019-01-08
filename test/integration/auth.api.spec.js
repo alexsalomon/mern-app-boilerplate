@@ -1,5 +1,4 @@
 const chai = require('chai')
-const dirtyChai = require('dirty-chai')
 const request = require('supertest')
 const httpStatus = require('http-status')
 const factories = require('../factories/user.factory')
@@ -7,7 +6,6 @@ const User = require('../../source/api/user/user.model')
 const app = require('../../source/server/index')
 
 const expect = chai.expect
-chai.use(dirtyChai)
 
 let dbUserInfo
 let userInfo

@@ -1,4 +1,14 @@
 const sinon = require('sinon')
+const chai = require('chai')
+const dirtyChai = require('dirty-chai')
+
+/**
+ * Sets up dirty-chai for all tests. This is required to write chai functions
+ * with lint-friendly terminating assertions. Remove this and ESLint will complain.
+ */
+before(() => {
+  chai.use(dirtyChai)
+})
 
 /**
  * Creates a sandbox that is automatically included in every test.
@@ -8,11 +18,10 @@ const sinon = require('sinon')
  * 'this.sandbox.restore' does it all for you automatically.
  * For more information visit: https://sinonjs.org/releases/latest/sandbox/
  */
-
-beforeEach(function() {
+beforeEach(() => {
   this.sandbox = sinon.createSandbox()
 })
 
-afterEach(function() {
+afterEach(() => {
   this.sandbox.restore()
 })

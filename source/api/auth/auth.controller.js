@@ -1,7 +1,7 @@
 const HttpStatus = require('http-status')
 const APIError = require('../../services/errors/api.error')
 const User = require('../user/user.model')
-const AuthServices = require('../../services/auth')
+const AuthServices = require('../../services/authentication')
 const config = require('../../config')
 
 /**
