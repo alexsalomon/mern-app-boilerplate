@@ -18,7 +18,7 @@ describe('Integration Tests: Account API', () => {
   beforeEach(async () => {
     dbUserInfo = factories.validLoggedUsers()[0]
 
-    await User.remove({})
+    await User.deleteMany({})
     await User.create(dbUserInfo)
     dbUserId = await User.find(dbUserInfo)._id
     dbUserAccessToken = await AuthService.createToken(dbUserId)

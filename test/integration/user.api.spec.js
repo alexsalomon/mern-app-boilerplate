@@ -27,7 +27,7 @@ describe('Integration Tests: Users API', () => {
     adminRequestUserInfo = factories.validAdminUsers()[1]
     loggedInRequestUserInfo = factories.validLoggedUsers()[1]
 
-    await User.remove({})
+    await User.deleteMany({})
     await User.insertMany([adminDbUserInfo, loggedInDbUserInfo])
 
     adminDbUserId = await User.find(adminDbUserInfo)._id
@@ -260,7 +260,7 @@ describe('Integration Tests: Users API', () => {
       }))
 
     it.skip('should report NotFound error when user does not exist', async () => {
-      await User.remove(loggedInDbUserId)
+      await User.deleteOne(loggedInDbUserId)
       return request(app)
         .get(`/users/${loggedInDbUserId}`)
         .set('Authorization', `Bearer ${adminDbUserAccessToken}`)
@@ -343,7 +343,7 @@ describe('Integration Tests: Users API', () => {
     })
 
     it.skip('should report NotFound error when user does not exist', async () => {
-      await User.remove(loggedInDbUserId)
+      await User.deleteOne(loggedInDbUserId)
       return request(app)
         .patch(`/users/${loggedInDbUserId}`)
         .set('Authorization', `Bearer ${adminDbUserAccessToken}`)
@@ -355,7 +355,7 @@ describe('Integration Tests: Users API', () => {
     })
 
     it.skip('should report NotFound error when :id is not a valid ObjectID', async () => {
-      await User.remove(loggedInDbUserId)
+      await User.deleteOne(loggedInDbUserId)
       return request(app)
         .patch('/users/invalidID')
         .set('Authorization', `Bearer ${adminDbUserAccessToken}`)
@@ -396,7 +396,7 @@ describe('Integration Tests: Users API', () => {
       }))
 
     it.skip('should report NotFound error when user does not exist', async () => {
-      await User.remove(loggedInDbUserId)
+      await User.deleteOne(loggedInDbUserId)
       return request(app)
         .delete(`/users/${loggedInDbUserId}`)
         .set('Authorization', `Bearer ${adminDbUserAccessToken}`)
