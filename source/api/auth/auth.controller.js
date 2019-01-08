@@ -35,7 +35,10 @@ async function signup(firstName, lastName, email, password) {
 async function login(email, password) {
   const user = await User.findOne({ email })
   if (!user) {
-    throw new APIError({ status: HttpStatus.NOT_FOUND, message: 'User email does not match records.' })
+    throw new APIError({
+      status: HttpStatus.NOT_FOUND,
+      message: 'User email does not match records.',
+    })
   }
 
   const isValidPassword = await user.isValidPassword(password)
