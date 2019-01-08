@@ -4,6 +4,7 @@ const fse = require('fs-extra')
 const winston = require('winston')
 const Sentry = require('winston-sentry-raven-transport')
 const config = require('../../config')
+const stacktrace = require('./stacktrace.formats')
 
 module.exports = (() => {
   createLogsDirectory()
@@ -60,8 +61,10 @@ function getLoggerTransportsTest() {
   return [
     new winston.transports.File({
       format: winston.format.combine(
+        winston.format.colorize(),
         winston.format.timestamp(),
-        winston.format.json(),
+        winston.format.splat(),
+        stacktrace,
       ),
       level: 'debug',
       filename: `${config.logger.logsPath}test-combined.log`,
