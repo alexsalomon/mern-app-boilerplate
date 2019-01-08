@@ -11,7 +11,7 @@ const config = {
     sentry: {
       dns: {
         format: String,
-        default: null,
+        default: '',
         env: 'SENTRY_DNS',
         sensitive: true,
 

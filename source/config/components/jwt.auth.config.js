@@ -2,7 +2,7 @@ const config = {
   jwt: {
     secret: {
       format: String,
-      default: null,
+      default: 'supersecret',
       env: 'JWT_SECRET',
       sensitive: true,
     },
