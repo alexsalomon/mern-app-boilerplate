@@ -1,7 +1,7 @@
 const HttpStatus = require('http-status')
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
-const ValidationError = require('../../services/errors/validation.error')
+const { ValidationError } = require('../../util/errors')
 const config = require('../../config')
 
 // Roles in order of importance

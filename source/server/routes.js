@@ -1,6 +1,6 @@
 const HttpStatus = require('http-status')
 const express = require('express')
-const APIError = require('../services/errors/api.error')
+const { APIError } = require('../util/errors')
 const AuthService = require('../services/authentication')
 const AuthRoutes = require('../api/auth/auth.routes')
 const AccountRoutes = require('../api/account/account.routes')
