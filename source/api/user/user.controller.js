@@ -4,13 +4,15 @@ const User = require('./user.model')
 
 /**
  * Creates a new user.
+ * @param {string} firstName The user's first name.
+ * @param {string} lastName The user's last name.
  * @param {Object} email The user's email.
  * @param {Object} password The user's password.
  * @returns {Object} The created user.
  */
-async function createUser(email, password) {
-  const user = await User.create({ email, password })
-  return user
+async function createUser(firstName, lastName, email, password) {
+  const user = await User.create({ firstName, lastName, email, password })
+  return user.toPublic()
 }
 
 /**
@@ -19,8 +21,8 @@ async function createUser(email, password) {
  * @returns {Array} All the users in the database.
  */
 async function listUsers() {
-  const users = await User.find({}, { password: 0 })
-  return users
+  const users = await User.find({})
+  return users.map(user => user.toPublic())
 }
 
 /**
@@ -33,7 +35,7 @@ async function getUser(id) {
   if (!user) {
     throw new APIError({ status: HttpStatus.NOT_FOUND, message: 'User not found.' })
   }
-  return user
+  return user.toPublic()
 }
 
 /**
@@ -45,7 +47,7 @@ async function getUser(id) {
 async function updateUser(id, userParams) {
   await User.findByIdAndUpdate(id, userParams)
   const user = await User.findById(id, { password: 0 })
-  return user
+  return user.toPublic()
 }
 
 /**
@@ -55,7 +57,7 @@ async function updateUser(id, userParams) {
  */
 async function deleteUser(id) {
   const user = await User.findByIdAndRemove(id)
-  return user
+  return user.toPublic()
 }
 
 

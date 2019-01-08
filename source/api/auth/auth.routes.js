@@ -1,3 +1,4 @@
+const HttpStatus = require('http-status')
 const express = require('express')
 const validate = require('express-validation')
 const routesUtil = require('../../util/routes.util')
@@ -7,10 +8,10 @@ const AuthValidation = require('./auth.validation')
 const router = new express.Router()
 
 /**
- * @api {post} /register Register
+ * @api {post} /signup Sign Up
  * @apiDescription Register a new user.
  * @apiVersion 1.0.0
- * @apiName PostRegister
+ * @apiName PostSignup
  * @apiGroup Authentication
  * @apiPermission public
  *
@@ -78,17 +79,18 @@ const router = new express.Router()
  *     {
  *        "error": {
  *          "status": "409",
- *          "message": "User as already been registered."
+ *          "message": "User has already been registered."
  *        }
  *     }
  *
  */
 router.post(
-  '/register',
-  validate(AuthValidation.register),
+  '/signup',
+  validate(AuthValidation.signup),
   routesUtil.controllerHandler(
-    AuthController.register,
-    req => [req.body.email, req.body.password],
+    AuthController.signup,
+    req => [req.body.firstName, req.body.lastName, req.body.email, req.body.password],
+    HttpStatus.CREATED,
   ),
 )
 

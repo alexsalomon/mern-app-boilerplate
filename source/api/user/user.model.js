@@ -1,7 +1,7 @@
 const HttpStatus = require('http-status')
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
-const APIError = require('../../services/errors/api.error')
+const ValidationError = require('../../services/errors/validation.error')
 const config = require('../../config')
 
 // Roles in order of importance
@@ -17,6 +17,19 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Password is required.'],
   },
+  role: {
+    type: String,
+    enum: roles,
+    default: 'user',
+  },
+  firstName: {
+    type: String,
+    required: [true, 'First name is required.'],
+  },
+  lastName: {
+    type: String,
+    required: [true, 'Last name is required.'],
+  },
 }, { timestamps: true })
 
 UserSchema.pre('save', async function hashPassword(done) {
@@ -28,18 +41,44 @@ UserSchema.pre('save', async function hashPassword(done) {
 })
 
 UserSchema.post('save', (err, doc, next) => {
-  if (err.name === 'MongoError' && err.code === 11000) { // Unique constraint error.
-    return next(new APIError({ status: HttpStatus.BAD_REQUEST, message: 'User already exists.' }))
+  // Unique constraint error.
+  if (err.name === 'MongoError' && err.code === 11000) {
+    return next(new ValidationError({
+      status: HttpStatus.CONFLICT,
+      errors: [{
+        field: ['email'],
+        location: 'body',
+        messages: ['User already exists.'],
+      }],
+    }))
   } else if (err.name === 'ValidationError') {
-    return next(new APIError({ status: HttpStatus.BAD_REQUEST, message: err.message }))
+    return next(new ValidationError({
+      status: HttpStatus.BAD_REQUEST,
+      errors: [{
+        field: ['email'],
+        location: 'body',
+        messages: [err.message],
+      }],
+    }))
   }
   return next(err)
 })
 
 UserSchema.methods = {
-  async isPasswordValid(rawPassword) {
+  async isValidPassword(rawPassword) {
     const isValid = await bcrypt.compare(rawPassword, this.password)
     return isValid
+  },
+
+  toPublic() {
+    const publicUser = {}
+    const fields = ['id', 'firstName', 'lastName', 'email', 'role', 'createdAt', 'updatedAt']
+
+    fields.forEach(field => {
+      publicUser[field] = this[field]
+    })
+
+    return publicUser
   },
 }
 

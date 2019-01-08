@@ -19,6 +19,6 @@ const router = new express.Router()
  *       "message": "OK",
  *     }
  */
-router.get('/status', (req, res) => res.json({ message: 'OK' }))
+router.get('/', (req, res) => res.json({ message: 'OK' }))
 
 module.exports = router

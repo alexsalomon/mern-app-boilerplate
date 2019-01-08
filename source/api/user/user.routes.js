@@ -1,14 +1,10 @@
 const express = require('express')
 const validate = require('express-validation')
 const routesUtil = require('../../util/routes.util')
-const AuthServices = require('../../services/auth')
 const UserController = require('./user.controller')
 const UserValidation = require('./user.validation')
 
 const router = new express.Router()
-
-// Authorization middleware
-const isAuthorized = AuthServices.isAuthorized
 
 /**
  * @api {post} /users Create User
@@ -79,7 +75,7 @@ const isAuthorized = AuthServices.isAuthorized
  *     {
  *        "error": {
  *          "status": "409",
- *          "message": "User as already been registered."
+ *          "message": "User has already been registered."
  *        }
  *     }
  *
@@ -102,10 +98,8 @@ const isAuthorized = AuthServices.isAuthorized
  *     }
  */
 router.post(
-  '/users',
+  '/',
   validate(UserValidation.createUser),
-  // isAuthorized(ADMIN),
-  isAuthorized,
   routesUtil.controllerHandler(
     UserController.getUser,
     req => [req.params.email, req.params.password],
@@ -198,10 +192,8 @@ router.post(
  *     }
  */
 router.get(
-  '/users',
+  '/',
   validate(UserValidation.listUsers),
-  // isAuthorized(ADMIN),
-  isAuthorized,
   routesUtil.controllerHandler(UserController.listUsers),
 )
 
@@ -271,10 +263,8 @@ router.get(
  *     }
  */
 router.get(
-  '/users/:id',
+  '/:id',
   validate(UserValidation.getUser),
-  // isAuthorized(ADMIN),
-  isAuthorized,
   routesUtil.controllerHandler(
     UserController.getUser,
     req => [req.params.id],
@@ -360,10 +350,8 @@ router.get(
  *     }
  */
 router.patch(
-  '/users/:id',
+  '/:id',
   validate(UserValidation.updateUser),
-  // isAuthorized(ADMIN),
-  isAuthorized,
   routesUtil.controllerHandler(
     UserController.updateUser,
     req => [req.params.id, req.body],
@@ -436,10 +424,8 @@ router.patch(
  *     }
  */
 router.delete(
-  '/users/:id',
+  '/:id',
   validate(UserValidation.deleteUser),
-  // isAuthorized(ADMIN),
-  isAuthorized,
   routesUtil.controllerHandler(
     UserController.deleteUser,
     req => [req.params.id],

@@ -1,14 +1,10 @@
 const express = require('express')
 // const validate = require('express-validation')
-// const routesUtil = require('../../util/routes.util')
-// const AuthServices = require('../../services/auth')
+const routesUtil = require('../../util/routes.util')
 // const AccountController = require('./account.controller')
 // const AccountValidation = require('./account.validation')
 
 const router = new express.Router()
-
-// Authorization middleware
-// const isAuthorized = AuthServices.isAuthorized
 
 /**
  * @api {get} /account Get Account
@@ -53,16 +49,10 @@ const router = new express.Router()
  *        }
  *     }
  */
-// router.put(
-//   '/account',
-//   validate(AccountValidation.profile),
-//   // isAuthorized(LOGGED_USER),
-//   isAuthorized,
-//   routesUtil.controllerHandler(
-//     AccountController.profile,
-//     req => [req.params.id],
-//   ),
-// )
+router.get(
+  '/',
+  routesUtil.controllerHandler(() => { 'OK' }),
+)
 
 /**
  * @api {patch} /account Update Account
@@ -143,16 +133,10 @@ const router = new express.Router()
  *        }
  *     }
  */
-// router.patch(
-//   '/account/update',
-//   validate(AccountValidation.update),
-//   // isAuthorized(LOGGED_USER),
-//   isAuthorized,
-//   routesUtil.controllerHandler(
-//     AccountController.update,
-//     req => [req.params.id, req.body],
-//   ),
-// )
+router.patch(
+  '/',
+  routesUtil.controllerHandler(() => { 'OK' }),
+)
 
 /**
  * @api {delete} /account Terminate Account
@@ -197,16 +181,10 @@ const router = new express.Router()
  *        }
  *     }
  */
-// router.delete(
-//   '/account',
-//   validate(AccountValidation.terminate),
-//   // isAuthorized(LOGGED_USER),
-//   isAuthorized,
-//   routesUtil.controllerHandler(
-//     AccountController.terminate,
-//     req => [req.params.id],
-//   ),
-// )
+router.delete(
+  '/',
+  routesUtil.controllerHandler(() => { 'OK' }),
+)
 
 
 module.exports = router
