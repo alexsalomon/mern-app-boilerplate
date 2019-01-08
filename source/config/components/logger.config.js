@@ -4,7 +4,7 @@ const config = {
   logger: {
     logsPath: {
       format: String,
-      default: path.join(__dirname, '../../logs/'),
+      default: path.join(__dirname, '../../../logs/'),
       args: 'logs',
       env: 'LOGS_PATH',
     },
