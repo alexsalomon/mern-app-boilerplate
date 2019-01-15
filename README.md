@@ -89,3 +89,6 @@ For all subsequent deployments just do a push and heroku will automatically do t
 ```sh
   npm run docs
 ```
+
+## Recommended Tools
+* [Postman](https://www.getpostman.com/) - API Development and Testing
