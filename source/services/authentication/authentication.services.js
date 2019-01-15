@@ -43,6 +43,30 @@ function authenticate(strategyName, optionsParam) {
   return passport.authenticate(strategyName, options)
 }
 
+// function authenticate(strategyName, optionsParam) {
+//   const options = { ...defaultOptions, ...optionsParam }
+//   return (req, res, next) => {
+//     passport.authenticate(strategyName, options, (err, user, info) => {
+//       if (err) {
+//         return next(err)
+//         // return next(new APIError({
+//         //   status: HttpStatus.UNAUTHORIZED,
+//         //   message: err.message,
+//         // }))
+//       }
+
+//       if (!user) {
+//         return next(new APIError({
+//           status: HttpStatus.UNAUTHORIZED,
+//           message: info.message || 'Only authenticated users have access to this resource.',
+//         }))
+//       }
+
+//       return next()
+//     })(req, res, next)
+//   }
+// }
+
 /**
  * Creates an authentication token.
  * @param {string} userId The user's id

@@ -12,16 +12,15 @@ Project starter for developing RESTful APIs using Nodejs, Express and MongoDB.
 > NOTE: List needs to be updated...
 
 ## Commands
-Command             | Action                      |
---------------------|-----------------------------|
-`npm run dev`       | Run in development mode     |
-`npm start`         | Run in default mode (.env)  |
-`npm test`          | Run lint and all tests once |
-`npm test-unit`     | Run unit tests once         |
-`npm test-int`      | Run integration tests once  |
-`npm test-watch`    | Run and watch the tests     |
-`npm run lint`      | Lint the code               |
-`npm run docs`      | Update API documentation    |
+Command              | Action                      |
+---------------------|-----------------------------|
+`npm run dev`        | Run in development mode     |
+`npm start`          | Run using mode in .env file |
+`npm test`           | Run lint and all tests once |
+`npm run tests`      | Run all tests once          |
+`npm run test-watch` | Run and watch all tests     |
+`npm run lint`       | Lint the code               |
+`npm run docs`       | Update API documentation    |
 
 ## Set up
 * Install GIT, NodeJS 10+, NPM, (MongoDB and/or Docker).

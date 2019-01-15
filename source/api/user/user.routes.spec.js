@@ -1,10 +1,10 @@
 const request = require('supertest')
 const expect = require('chai').expect
 const httpStatus = require('http-status')
-const factories = require('../factories/user.factory')
-const User = require('../../source/api/user/user.model')
-const AuthService = require('../../source/services/authentication')
-const app = require('../../source/server/index')
+const factories = require('../../../test/factories/user.factory')
+const AuthService = require('../../services/authentication')
+const app = require('../../server/index')
+const User = require('./user.model')
 
 let adminDbUserInfo
 let adminDbUserId

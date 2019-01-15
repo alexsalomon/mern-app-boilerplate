@@ -1,7 +1,7 @@
 const request = require('supertest')
 const expect = require('chai').expect
 const httpStatus = require('http-status')
-const app = require('../../source/server/index')
+const app = require('../../server/index')
 
 
 describe('Integration Tests: Status API', () => {
