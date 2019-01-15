@@ -28,8 +28,8 @@ beforeEach(() => {
 
   // Stubs errorHandler's process.exit() so that our tests don't exit without any
   // warnings in case of reaching a programmer error. See 'errorHandler.services.js'.
-  const exitStub = this.sandbox.stub(process, 'exit').callsFake(() => {
-    expect(exitStub).to.have.not.been.called()
+  this.sandbox.stub(process, 'exit').callsFake(() => {
+    expect(process.exit).to.have.not.been.called()
   })
 })
 
