@@ -1,12 +1,10 @@
-const chai = require('chai')
 const request = require('supertest')
+const expect = require('chai').expect
 const httpStatus = require('http-status')
 const factories = require('../factories/user.factory')
 const User = require('../../source/api/user/user.model')
 const AuthService = require('../../source/services/authentication')
 const app = require('../../source/server/index')
-
-const expect = chai.expect
 
 let adminDbUserInfo
 let adminDbUserId
@@ -28,10 +26,10 @@ describe('Integration Tests: Users API', () => {
     await User.deleteMany({})
     await User.insertMany([adminDbUserInfo, loggedInDbUserInfo])
 
-    adminDbUserId = await User.find(adminDbUserInfo)._id
+    adminDbUserId = (await User.findOne({ email: adminDbUserInfo.email })).id
     adminDbUserAccessToken = await AuthService.createToken(adminDbUserId)
 
-    loggedInDbUserId = await User.find(loggedInDbUserInfo)._id
+    loggedInDbUserId = (await User.findOne({ email: loggedInDbUserInfo.email })).id
     loggedInDbUserAccessToken = await AuthService.createToken(loggedInDbUserId)
   })
 

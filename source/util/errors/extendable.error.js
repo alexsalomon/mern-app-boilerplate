@@ -1,4 +1,5 @@
 const HttpStatus = require('http-status')
+const { formatUtil } = require('..')
 
 /**
  * Class that allows important information to be added to an Error object.
@@ -18,8 +19,8 @@ class ExtendableError extends Error {
     message,
     errors,
     stack,
-    status,
-    isPublic,
+    status = HttpStatus.INTERNAL_SERVER_ERROR,
+    isPublic = false,
   }) {
     super(message)
     this.name = this.constructor.name
@@ -51,14 +52,7 @@ class ExtendableError extends Error {
       }
     }
 
-    // Remove any keys with null, '', 0, NaN and undefined values
-    Object.keys(formattedError).forEach(key => {
-      if (!formattedError[key]) {
-        delete formattedError[key]
-      }
-    })
-
-    return formattedError
+    return formatUtil.removeInvalidKeys(formattedError)
   }
 }
 

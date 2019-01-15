@@ -1,7 +1,7 @@
 const HttpStatus = require('http-status')
 const express = require('express')
 const validate = require('express-validation')
-const routesUtil = require('../../util/routes.util')
+const { routesUtil } = require('../../util')
 const AuthController = require('./auth.controller')
 const AuthValidation = require('./auth.validation')
 
@@ -89,7 +89,12 @@ router.post(
   validate(AuthValidation.signup),
   routesUtil.controllerHandler(
     AuthController.signup,
-    req => [req.body.firstName, req.body.lastName, req.body.email, req.body.password],
+    req => [{
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      password: req.body.password,
+    }],
     HttpStatus.CREATED,
   ),
 )

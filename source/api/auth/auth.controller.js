@@ -6,23 +6,19 @@ const config = require('../../config')
 
 /**
  * Registers a user.
- * @param {string} firstName The user's first name.
- * @param {string} lastName The user's last name.
- * @param {string} email The user's email.
- * @param {string} password The user's password.
+ * @param {string} userParams The user's information.
  * @returns {Object} The response object containing the jwt token.
  */
-async function signup(firstName, lastName, email, password) {
-  const user = await User.create({ firstName, lastName, email, password })
-  const publicUser = user.toPublic()
-  const accessToken = await AuthServices.createToken(user._id)
+async function signup(userParams) {
+  const user = await User.create(userParams)
+  const accessToken = await AuthServices.createToken(user.id)
   return {
     token: {
       tokenType: 'JWT',
       accessToken,
       expiresIn: config.jwt.expiresIn,
     },
-    user: publicUser,
+    user: user.toPublic(),
   }
 }
 
@@ -49,15 +45,14 @@ async function login(email, password) {
     })
   }
 
-  const publicUser = user.toPublic()
-  const accessToken = await AuthServices.createToken(user._id)
+  const accessToken = await AuthServices.createToken(user.id)
   return {
     token: {
       tokenType: 'JWT',
       accessToken,
       expiresIn: config.jwt.expiresIn,
     },
-    user: publicUser,
+    user: user.toPublic(),
   }
 }
 

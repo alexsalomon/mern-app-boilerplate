@@ -1,110 +1,118 @@
-const chai = require('chai')
 const request = require('supertest')
+const expect = require('chai').expect
 const httpStatus = require('http-status')
 const factories = require('../factories/user.factory')
 const User = require('../../source/api/user/user.model')
 const AuthService = require('../../source/services/authentication')
 const app = require('../../source/server/index')
 
-const expect = chai.expect
-
-let dbUserInfo
-let dbUserId
-let dbUserAccessToken
 
 describe('Integration Tests: Account API', () => {
+  let dbUserInfo
+  let dbUserId
+  let dbUserAccessToken
+
   beforeEach(async () => {
     dbUserInfo = factories.validLoggedUsers()[0]
 
     await User.deleteMany({})
     await User.create(dbUserInfo)
-    dbUserId = await User.find(dbUserInfo)._id
+    dbUserId = (await User.findOne({ email: dbUserInfo.email })).id
     dbUserAccessToken = await AuthService.createToken(dbUserId)
   })
 
   describe('GET /account', () => {
-    it.skip('should provide the logged user\'s information when request is valid', () => request(app)
+    it('should provide the logged user\'s account information when request is valid', () => request(app)
       .get('/account')
-      .set('Authorization', `Bearer ${dbUserAccessToken}`)
+      .set('Authorization', `JWT ${dbUserAccessToken}`)
       .expect(httpStatus.OK)
       .then(res => {
+        expect(res.body.user).to.not.have.a.property('password')
+        delete dbUserInfo.password
         expect(res.body.user).to.include(dbUserInfo)
       }))
 
-    it.skip('should report unauthorized error if user is not authenticated', () => request(app)
+    it('should report unauthorized error if user is not authenticated', () => request(app)
       .get('/account')
       .expect(httpStatus.UNAUTHORIZED)
       .then(res => {
-        expect(res.body.error.message).to.be.equal('Only authenticated users have access to this resource.')
+        expect(res.body.error.message).to.be.equal('Unauthorized')
       }))
   })
 
   describe('DELETE /account', () => {
-    it.skip('should delete the logged user when request is valid', () => request(app)
+    it('should delete the logged user when request is valid', () => request(app)
       .delete('/account')
-      .set('Authorization', `Bearer ${dbUserAccessToken}`)
+      .set('Authorization', `JWT ${dbUserAccessToken}`)
       .expect(httpStatus.OK)
       .then(async res => {
         const queriedUser = await User.findById(dbUserId)
-        expect(queriedUser).to.be.undefined()
+        expect(queriedUser).to.be.null()
+
+        expect(res.body.user).to.not.have.a.property('password')
+        delete dbUserInfo.password
         expect(res.body.user).to.include(dbUserInfo)
       }))
 
-    it.skip('should report unauthorized error if user is not authenticated', () => request(app)
+    it('should report unauthorized error if user is not authenticated', () => request(app)
       .delete('/account')
       .expect(httpStatus.UNAUTHORIZED)
       .then(res => {
-        expect(res.body.error.message).to.be.equal('Only authenticated users have access to this resource.')
+        expect(res.body.error.message).to.be.equal('Unauthorized')
       }))
   })
 
   describe('PATCH /account', () => {
-    it.skip('should update the logged user when request is valid', () => {
+    it('should update the logged user when request is valid', () => {
       const updatedUser = { ...dbUserInfo }
       updatedUser.firstName = 'new-first'
       return request(app)
         .patch('/account')
-        .set('Authorization', `Bearer ${dbUserAccessToken}`)
+        .set('Authorization', `JWT ${dbUserAccessToken}`)
         .send(updatedUser)
         .expect(httpStatus.OK)
         .then(async res => {
+          expect(updatedUser.firstName).to.not.be.equal(dbUserInfo.firstName)
+          expect(res.body.user).to.not.have.a.property('password')
+
           const queriedUser = await User.findById(dbUserId)
-          expect(queriedUser.firstName).to.not.be.equal(dbUserInfo.firstName)
+          delete updatedUser.password
           expect(queriedUser).to.include(updatedUser)
           expect(res.body.user).to.include(updatedUser)
-          expect(res.body.user.firstName).to.not.be.equal(dbUserInfo.firstName)
         })
     })
 
-    it.skip('should not update user when no parameters were given', () => request(app)
+    it('should not update user when no parameters were given', () => request(app)
       .patch('/account')
-      .set('Authorization', `Bearer ${dbUserAccessToken}`)
+      .set('Authorization', `JWT ${dbUserAccessToken}`)
       .send({})
       .expect(httpStatus.OK)
       .then(res => {
+        expect(res.body.user).to.not.have.a.property('password')
+        delete dbUserInfo.password
         expect(res.body.user).to.include(dbUserInfo)
       }))
 
-    it.skip('should report bad request error when role is not a valid role', () => {
+    it('should report bad request error when role is not a valid role', () => {
       dbUserInfo.role = 'invalidrole'
       return request(app)
         .patch('/account')
-        .set('Authorization', `Bearer ${dbUserAccessToken}`)
+        .set('Authorization', `JWT ${dbUserAccessToken}`)
         .send(dbUserInfo)
-        .expect(httpStatus.OK)
+        .expect(httpStatus.BAD_REQUEST)
         .then(res => {
           expect(res.body.error.status).to.be.equal(httpStatus.BAD_REQUEST)
           expect(res.body.error.errors).to.be.an('array')
           expect(res.body.error.errors).to.have.length(1)
-          expect(res.body.error.errors).to.include({ field: 'role' })
+          expect(res.body.error.errors[0].field[0]).to.be.equal('role')
         })
     })
 
-    it.skip('should report unauthorized error if user is not authenticated', () => request(app)
+    it('should report unauthorized error if user is not authenticated', () => request(app)
       .patch('/account')
       .expect(httpStatus.UNAUTHORIZED)
       .then(res => {
-        expect(res.body.error.message).to.be.equal('Only authenticated users have access to this resource.')
+        expect(res.body.error.message).to.be.equal('Unauthorized')
       }))
   })
 })

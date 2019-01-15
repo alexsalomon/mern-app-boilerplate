@@ -1,7 +1,17 @@
 const passport = require('passport')
 const jwt = require('jsonwebtoken')
+// const HttpStatus = require('http-status')
+const { APIError } = require('../../util/errors')
 const config = require('../../config')
 const strategies = require('./strategies')
+
+/**
+ * Default authentication options.
+ */
+const defaultOptions = {
+  session: false,
+  failWithError: true,
+}
 
 /**
  * Initialization middleware used to initialize the authentication
@@ -9,6 +19,7 @@ const strategies = require('./strategies')
  * @returns {string} The initialization middleware.
  */
 function initialize() {
+  registerStrategies()
   return passport.initialize()
 }
 
@@ -17,17 +28,18 @@ function initialize() {
  * @param {string} strategy The authentication strategy.
  * @returns {undefined}
  */
-function registerStrategy(strategy) {
-  passport.use(strategy.toString, strategy)
+function registerStrategies() {
+  passport.use('jwt', strategies.JwtStrategy)
 }
 
 /**
  * Authentication middleware used to authenticate users.
  * @param {string} strategyName The authentication strategy name.
- * @param {string} options The authentication strategy options.
+ * @param {string} optionsParam The authentication strategy options.
  * @returns {string} The authentication middleware.
  */
-function authenticate(strategyName, options) {
+function authenticate(strategyName, optionsParam) {
+  const options = { ...defaultOptions, ...optionsParam }
   return passport.authenticate(strategyName, options)
 }
 
@@ -37,6 +49,10 @@ function authenticate(strategyName, options) {
  * @returns {string} The authentication token
  */
 async function createToken(userId) {
+  if (!userId) {
+    throw new APIError({ message: 'JWT createToken(): Invalid userId', isPublic: false })
+  }
+
   const token = await jwt.sign(
     { userId },
     config.jwt.secret,
@@ -45,8 +61,5 @@ async function createToken(userId) {
   return token
 }
 
-// Register all authentication strategies
-registerStrategy(strategies.JwtStrategy)
 
-
-module.exports = { registerStrategy, initialize, authenticate, createToken }
+module.exports = { initialize, registerStrategies, authenticate, createToken }

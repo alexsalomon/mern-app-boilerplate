@@ -8,7 +8,7 @@ const routes = require('./routes')
 
 async function run(app) {
   // Initialize databases
-  await database()
+  await database.connect()
 
   // Use middlewares
   middlewares(app)
@@ -19,12 +19,10 @@ async function run(app) {
   // Override express default error handler
   app.use((err, req, res, next) => errorHandler.handleError(err, req, res, next))
 
-  // Start the server ; We need this first check to make sure we don't run a second instance
-  if (!module.parent) {
-    app.listen(config.server.port, () => {
-      logger.info(`Server is listening on ${config.server.port}...`)
-    })
-  }
+  // Start the server
+  app.listen(config.server.port, () => {
+    logger.info(`Server is listening on ${config.server.port}...`)
+  })
 }
 
 // Start server

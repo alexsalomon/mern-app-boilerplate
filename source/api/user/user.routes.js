@@ -1,6 +1,6 @@
 const express = require('express')
 const validate = require('express-validation')
-const routesUtil = require('../../util/routes.util')
+const { routesUtil } = require('../../util')
 const UserController = require('./user.controller')
 const UserValidation = require('./user.validation')
 
@@ -102,7 +102,12 @@ router.post(
   validate(UserValidation.createUser),
   routesUtil.controllerHandler(
     UserController.getUser,
-    req => [req.params.email, req.params.password],
+    req => [{
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      password: req.body.password,
+    }],
   ),
 )
 
@@ -354,7 +359,13 @@ router.patch(
   validate(UserValidation.updateUser),
   routesUtil.controllerHandler(
     UserController.updateUser,
-    req => [req.params.id, req.body],
+    req => [req.params.id, {
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      password: req.body.password,
+      role: req.body.role,
+    }],
   ),
 )
 

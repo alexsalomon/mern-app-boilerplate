@@ -9,8 +9,8 @@ const HttpStatus = require('http-status')
  * @param {Promise} successStatus The controller handler.
  * @returns {json} The response to the client
  */
-const controllerHandler = (promise, params, successStatus = HttpStatus.OK) =>
-  async (req, res, next) => {
+function controllerHandler(promise, params, successStatus = HttpStatus.OK) {
+  return async (req, res, next) => {
     const boundParams = params ? params(req, res, next) : []
     try {
       const result = await promise(...boundParams)
@@ -19,6 +19,7 @@ const controllerHandler = (promise, params, successStatus = HttpStatus.OK) =>
       return next(err)
     }
   }
+}
 
 
 module.exports = { controllerHandler }

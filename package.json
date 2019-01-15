@@ -29,12 +29,15 @@
   "devDependencies": {
     "@strv/eslint-config-javascript": "^9.1.0",
     "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
     "dirty-chai": "^2.0.1",
     "eslint": "^5.9.0",
     "mocha": "^5.2.0",
+    "node-mocks-http": "^1.7.3",
     "nodemon": "^1.18.6",
     "pretty-error": "^2.1.1",
-    "sinon": "^7.1.1"
+    "sinon": "^7.1.1",
+    "sinon-chai": "^3.3.0"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

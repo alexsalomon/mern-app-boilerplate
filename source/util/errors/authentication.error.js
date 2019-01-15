@@ -2,28 +2,25 @@ const HttpStatus = require('http-status')
 const ExtendableError = require('./extendable.error')
 
 /**
- * Class representing a Validation error.
+ * Class representing an authentication error.
  * @extends ExtendableError
  */
-class ValidationError extends ExtendableError {
+class AuthenticationError extends ExtendableError {
   /**
-   * Creates a Validation error.
+   * Creates an authentication error.
    * @param {string} message - Error message.
-   * @param {Object} errors - Additional information on individual errors.
    * @param {string} stack - Error stacktrace.
    * @param {number} status - HTTP status code of error.
    * @param {boolean} isPublic - Whether the message should be visible to user or not.
    */
   constructor({
     message,
-    errors,
     stack,
-    status = HttpStatus.BAD_REQUEST,
+    status = HttpStatus.UNAUTHORIZED,
     isPublic = true,
   }) {
     super({
       message,
-      errors,
       status,
       isPublic,
       stack,
@@ -31,4 +28,4 @@ class ValidationError extends ExtendableError {
   }
 }
 
-module.exports = ValidationError
+module.exports = AuthenticationError

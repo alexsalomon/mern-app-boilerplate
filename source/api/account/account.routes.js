@@ -1,8 +1,8 @@
 const express = require('express')
-// const validate = require('express-validation')
-const routesUtil = require('../../util/routes.util')
-// const AccountController = require('./account.controller')
-// const AccountValidation = require('./account.validation')
+const validate = require('express-validation')
+const { routesUtil } = require('../../util')
+const UserController = require('../user/user.controller')
+const AccountValidation = require('./account.validation')
 
 const router = new express.Router()
 
@@ -51,7 +51,11 @@ const router = new express.Router()
  */
 router.get(
   '/',
-  routesUtil.controllerHandler(() => { 'OK' }),
+  validate(AccountValidation.getAccount),
+  routesUtil.controllerHandler(
+    UserController.getUser,
+    req => [req.user.id],
+  ),
 )
 
 /**
@@ -135,7 +139,17 @@ router.get(
  */
 router.patch(
   '/',
-  routesUtil.controllerHandler(() => { 'OK' }),
+  validate(AccountValidation.updateAccount),
+  routesUtil.controllerHandler(
+    UserController.updateUser,
+    req => [req.user.id, {
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      password: req.body.password,
+      role: req.body.role,
+    }],
+  ),
 )
 
 /**
@@ -183,7 +197,11 @@ router.patch(
  */
 router.delete(
   '/',
-  routesUtil.controllerHandler(() => { 'OK' }),
+  validate(AccountValidation.deleteAccount),
+  routesUtil.controllerHandler(
+    UserController.deleteUser,
+    req => [req.user.id],
+  ),
 )
 
 

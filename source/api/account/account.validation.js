@@ -1,6 +1,6 @@
 const Joi = require('joi')
 const config = require('../../config')
-const User = require('./user.model')
+const User = require('../user/user.model')
 
 module.exports = {
   // POST /users
@@ -16,22 +16,12 @@ module.exports = {
     },
   },
 
-  // GET /users
-  listUsers: {
+  // GET /account
+  getAccount: {
   },
 
-  // GET /users/:id
-  getUser: {
-    param: {
-      id: Joi.string().required(),
-    },
-  },
-
-  // PATCH /users/:id
-  updateUser: {
-    param: {
-      id: Joi.string().required(),
-    },
+  // PATCH /account
+  updateAccount: {
     body: {
       firstName: Joi.string(),
       lastName: Joi.string(),
@@ -43,10 +33,7 @@ module.exports = {
     },
   },
 
-  // DELETE /users/:id
-  deleteUser: {
-    param: {
-      id: Joi.string().required(),
-    },
+  // DELETE /account
+  deleteAccount: {
   },
 }

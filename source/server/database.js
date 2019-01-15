@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const logger = require('../services/logger')
 const config = require('../config')
 
-module.exports = async () => {
+async function connect() {
   mongoose.set('debug', config.mongo.debug)
 
   // Options to fix deprecated warnings
@@ -15,3 +15,11 @@ module.exports = async () => {
   logger.debug(`MongoDB connected to uri: ${config.mongo.uri}`)
   logger.info('MongoDB has been successfully connected.')
 }
+
+async function disconnect() {
+  await mongoose.disconnect()
+  logger.info('MongoDB has been successfully disconnected.')
+}
+
+
+module.exports = { connect, disconnect }

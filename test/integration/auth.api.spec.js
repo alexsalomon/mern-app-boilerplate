@@ -1,11 +1,9 @@
-const chai = require('chai')
 const request = require('supertest')
+const expect = require('chai').expect
 const httpStatus = require('http-status')
 const factories = require('../factories/user.factory')
 const User = require('../../source/api/user/user.model')
 const app = require('../../source/server/index')
-
-const expect = chai.expect
 
 let dbUserInfo
 let userInfo

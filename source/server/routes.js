@@ -16,8 +16,8 @@ router.get('/', (req, res) => {
 
 // API Custom routes
 router.use('/', AuthRoutes)
-router.use('/account', AuthService.authenticate('jwt', { session: false }), AccountRoutes)
-router.use('/users', AuthService.authenticate('jwt', { session: false }), UserRoutes)
+router.use('/account', AuthService.authenticate('jwt'), AccountRoutes)
+router.use('/users', AuthService.authenticate('jwt'), UserRoutes)
 router.use('/status', StatusRoutes)
 
 // Handles all subsequent routes with a 404 NotFoundError
