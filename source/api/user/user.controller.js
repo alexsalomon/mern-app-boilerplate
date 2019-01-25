@@ -1,6 +1,7 @@
 const HttpStatus = require('http-status')
 const { APIError } = require('../../util/errors')
 const { formatUtil } = require('../../util')
+const config = require('../../config')
 const User = require('./user.model')
 
 /**
@@ -16,13 +17,40 @@ async function createUser(userParams) {
 }
 
 /**
- * Returns all user.
- * @param {string} id The user's ID.
- * @returns {Array} All the users in the database.
+ * Returns all user with the specified filters and pagination settings.
+ * @param {Object} filters The values used for filtering results.
+ * @param {Object} pagination The values used for pagination.
+ * @param {Object} sorting The values used for sorting.
+ * @returns {Array} All the users in the database after filtering, sorting and paging.
  */
-async function listUsers() {
-  const users = await User.find({})
+async function listUsers(filters, pagination, sorting) {
+  filters = formatUtil.removeInvalidKeys(filters)
+
+  const defaultPaginationValues = {
+    page: config.users.pagination.startPage,
+    perPage: config.users.pagination.perPage,
+  }
+  pagination = formatUtil.removeInvalidKeys(pagination)
+  pagination = { ...defaultPaginationValues, ...pagination }
+
+  const defaultSortingValues = {
+    fields: config.users.sorting.fields,
+  }
+  sorting = formatUtil.removeInvalidKeys(sorting)
+  sorting = { ...defaultSortingValues, ...sorting }
+
+  const count = await User.countDocuments(filters)
+
+  const users = await User
+    .find(filters)
+    .sort(sorting.fields)
+    .skip(pagination.perPage * (pagination.page - 1))
+    .limit(pagination.perPage)
+
   return {
+    count,
+    perPage: pagination.perPage,
+    page: pagination.page,
     users: users.map(user => user.toPublic()),
   }
 }
@@ -33,15 +61,16 @@ async function listUsers() {
  * @returns {Object} The user requested.
  */
 async function getUser(id) {
-  const user = await User.findById(id)
-  if (!user) {
+  try {
+    const user = await User.findById(id)
+    return {
+      user: user.toPublic(),
+    }
+  } catch (err) {
     throw new APIError({
       status: HttpStatus.NOT_FOUND,
       message: 'User not found.',
     })
-  }
-  return {
-    user: user.toPublic(),
   }
 }
 
@@ -52,19 +81,18 @@ async function getUser(id) {
  * @returns {Object} The updated user.
  */
 async function updateUser(id, userParams) {
-  const formattedParams = formatUtil.removeInvalidKeys(userParams)
-  await User.findByIdAndUpdate(id, formattedParams)
-
-  const user = await User.findById(id)
-  if (!user) {
+  try {
+    const formattedParams = formatUtil.removeInvalidKeys(userParams)
+    await User.findByIdAndUpdate(id, formattedParams)
+    const user = await User.findById(id)
+    return {
+      user: user.toPublic(),
+    }
+  } catch (err) {
     throw new APIError({
       status: HttpStatus.NOT_FOUND,
       message: 'User not found.',
     })
-  }
-
-  return {
-    user: user.toPublic(),
   }
 }
 
@@ -74,15 +102,16 @@ async function updateUser(id, userParams) {
  * @returns {Object} The deleted user.
  */
 async function deleteUser(id) {
-  const user = await User.findByIdAndRemove(id)
-  if (!user) {
+  try {
+    const user = await User.findByIdAndRemove(id)
+    return {
+      user: user.toPublic(),
+    }
+  } catch (err) {
     throw new APIError({
       status: HttpStatus.NOT_FOUND,
       message: 'User not found.',
     })
-  }
-  return {
-    user: user.toPublic(),
   }
 }
 

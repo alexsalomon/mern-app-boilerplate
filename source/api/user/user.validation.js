@@ -13,11 +13,21 @@ module.exports = {
         .required()
         .min(config.auth.password.minLength)
         .max(config.auth.password.maxLength),
+      role: Joi.any().only(User.roles),
     },
   },
 
   // GET /users
   listUsers: {
+    query: {
+      page: Joi.number().integer().positive(),
+      perPage: Joi.number().integer().positive(),
+      sortOn: Joi.string(),
+      firstName: Joi.string(),
+      lastName: Joi.string(),
+      email: Joi.string().email(),
+      role: Joi.any().only(User.roles),
+    },
   },
 
   // GET /users/:id

@@ -1,25 +1,13 @@
 const path = require('path')
 const dotenv = require('dotenv')
 const convict = require('convict')
-const commonConfig = require('./components/common.config')
-const serverConfig = require('./components/server.config')
-const mongoConfig = require('./components/mongo.config')
-const loggerConfig = require('./components/logger.config')
-const jwtConfig = require('./components/jwt.auth.config')
-const localAuthConfig = require('./components/local.auth.config')
+const configurations = require('./components')
 
 // Load variables from .env
 dotenv.config()
 
 // Merge all component configurations into one object and send it to convict
-const config = convict({
-  ...commonConfig,
-  ...serverConfig,
-  ...mongoConfig,
-  ...loggerConfig,
-  ...jwtConfig,
-  ...localAuthConfig,
-})
+const config = convict(configurations)
 
 // Load options from ${env}.json
 const defaultEnv = config.default('env')

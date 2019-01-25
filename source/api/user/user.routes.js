@@ -1,5 +1,6 @@
 const express = require('express')
 const validate = require('express-validation')
+const HttpStatus = require('http-status')
 const { routesUtil } = require('../../util')
 const UserController = require('./user.controller')
 const UserValidation = require('./user.validation')
@@ -101,13 +102,15 @@ router.post(
   '/',
   validate(UserValidation.createUser),
   routesUtil.controllerHandler(
-    UserController.getUser,
+    UserController.createUser,
     req => [{
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       email: req.body.email,
       password: req.body.password,
+      role: req.body.role,
     }],
+    HttpStatus.CREATED,
   ),
 )
 
@@ -199,7 +202,24 @@ router.post(
 router.get(
   '/',
   validate(UserValidation.listUsers),
-  routesUtil.controllerHandler(UserController.listUsers),
+  routesUtil.controllerHandler(
+    UserController.listUsers,
+    req => [
+      {
+        firstName: req.query.firstName,
+        lastName: req.query.lastName,
+        email: req.query.email,
+        role: req.query.role,
+      },
+      {
+        page: req.query.page,
+        perPage: req.query.perPage,
+      },
+      {
+        fields: req.query.sortOn,
+      },
+    ],
+  ),
 )
 
 /**

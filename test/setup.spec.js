@@ -3,16 +3,27 @@ const chai = require('chai')
 const sinonChai = require('sinon-chai')
 const chaiAsPromised = require('chai-as-promised')
 const dirtyChai = require('dirty-chai')
+const chaiSorted = require('chai-sorted')
 const expect = require('chai').expect
 
 /**
- * Sets up dirty-chai for all tests. This is required to write chai functions
- * with lint-friendly terminating assertions. Remove this and ESLint will complain.
+ * Sets up chai plugins for all tests:
+ *
+ * sinon-chai: assertions for using sinon's spy, stub, and mocking framework
+ * with the Chai assertion library.
+ *
+ * dirty-chai: Required to write chai functions with lint-friendly
+ * terminating assertions. Remove this and ESLint will complain.
+ *
+ * chai-as-promised: assertions for testing promises.
+ *
+ * chai-sorted: assertions for testing if an array has sorted values.
  */
 before(() => {
   chai.use(sinonChai)
-  chai.use(chaiAsPromised)
   chai.use(dirtyChai)
+  chai.use(chaiAsPromised)
+  chai.use(chaiSorted)
 })
 
 /**
