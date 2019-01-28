@@ -6,6 +6,7 @@ const dirtyChai = require('dirty-chai')
 const chaiSorted = require('chai-sorted')
 const expect = require('chai').expect
 
+
 /**
  * Sets up chai plugins for all tests:
  *
@@ -26,14 +27,6 @@ before(() => {
   chai.use(chaiSorted)
 })
 
-/**
- * Creates a sandbox that is automatically included in every test.
- * Sandboxes remove the need to keep track of every fake created. Simply
- * use this.sandbox.mock, this.sandbox.spy or this.sandbox.stub instead of
- * sinon.mock/spy/stub and you won't need to manually call the 'restore'
- * function in your tests, 'this.sandbox.restore' does it all for you automatically.
- * For more information visit: https://sinonjs.org/releases/latest/sandbox/
- */
 beforeEach(() => {
   this.sandbox = sinon.createSandbox()
 
