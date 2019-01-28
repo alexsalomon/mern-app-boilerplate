@@ -40,16 +40,23 @@ function authenticate(strategyName, optionsParam) {
   return (req, res, next) => {
     passport.authenticate(strategyName, options, (err, user) => {
       if (err) {
-        return next(err)
+        next(err)
+        return
       }
 
       const message = 'Only authenticated users have access to this resource.'
       if (!user) {
-        return next(new errors.AuthenticationError({ message }))
+        next(new errors.AuthenticationError({ message }))
+        return
       }
 
-      req.user = user
-      return next()
+      req.logIn(user, options, logInErr => {
+        if (logInErr) {
+          next(logInErr)
+          return
+        }
+        next()
+      })
     })(req, res, next)
   }
 }
