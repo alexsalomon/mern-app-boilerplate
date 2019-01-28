@@ -3,6 +3,7 @@ const ExtractJWT = require('passport-jwt').ExtractJwt
 const config = require('../../../config')
 const User = require('../../../api/user/user.model')
 
+
 /**
  * JWT Passport strategy: Extracts the authentication token from the
  * authorization request header of either 'JWT' or 'Bearer' type and

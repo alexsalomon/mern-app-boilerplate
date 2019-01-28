@@ -3,6 +3,7 @@ const errors = require('../../util/errors')
 const authenticator = require('./authentication.services')
 const roles = require('./roles')
 
+
 /**
  * Default authorization options.
  */

@@ -2,6 +2,7 @@ const passport = require('passport')
 const errors = require('../../util/errors')
 const strategies = require('./strategies')
 
+
 /**
  * Default authentication options.
  */

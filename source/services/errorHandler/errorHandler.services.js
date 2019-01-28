@@ -2,6 +2,7 @@ const validator = require('express-validation')
 const logger = require('../logger')
 const errors = require('../../util/errors')
 
+
 /**
  * Substitutes express' default error handler middleware.
  * @param {object} err The error object.

@@ -6,16 +6,30 @@ const Sentry = require('winston-sentry-raven-transport')
 const config = require('../../config')
 const stacktrace = require('./stacktrace.formats')
 
-module.exports = (() => {
+
+/**
+ * Initializes the logger service.
+ * @returns {object} the logger object.
+ */
+function initialize() {
   createLogsDirectory()
   const loggerOptions = getLoggerOptions(config.env)
   return winston.createLogger(loggerOptions)
-})()
+}
 
+/**
+ * Creates a logs directory if one does not exist yet.
+ * @returns {object} The logger object.
+ */
 function createLogsDirectory() {
   fse.ensureDirSync(config.logger.logsPath)
 }
 
+/**
+ * Returns the logger options for the specified application environment.
+ * @param {string} env The environment name.
+ * @returns {object} The logger options for the given environment.
+ */
 function getLoggerOptions(env) {
   const loggerOptions = {
     // Stop winston from exiting after logging an uncaughtException
@@ -105,3 +119,6 @@ function getLoggerTransportsProd() {
     level: config.logger.sentry.level,
   })]
 }
+
+
+module.exports = initialize()
