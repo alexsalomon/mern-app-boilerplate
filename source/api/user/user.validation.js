@@ -1,6 +1,6 @@
 const Joi = require('joi')
 const config = require('../../config')
-const User = require('./user.model')
+const { roles } = require('../../services/auth')
 
 module.exports = {
   // POST /users
@@ -13,7 +13,7 @@ module.exports = {
         .required()
         .min(config.auth.password.minLength)
         .max(config.auth.password.maxLength),
-      role: Joi.any().only(User.roles),
+      role: Joi.any().only(roles),
     },
   },
 
@@ -26,7 +26,7 @@ module.exports = {
       firstName: Joi.string(),
       lastName: Joi.string(),
       email: Joi.string().email(),
-      role: Joi.any().only(User.roles),
+      role: Joi.any().only(roles),
     },
   },
 
@@ -49,7 +49,7 @@ module.exports = {
       password: Joi.string()
         .min(config.auth.password.minLength)
         .max(config.auth.password.maxLength),
-      role: Joi.any().only(User.roles),
+      role: Joi.any().only(roles),
     },
   },
 

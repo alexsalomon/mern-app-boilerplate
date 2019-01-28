@@ -21,7 +21,7 @@ module.exports = new JWTstrategy({
   secretOrKey: config.jwt.secret,
 }, async (token, done) => {
   try {
-    const user = await User.findById(token.userId)
+    const user = await User.findById(token.id)
     return done(null, user)
   } catch (error) {
     return done(error, false, { message: 'User email does not match records.' })

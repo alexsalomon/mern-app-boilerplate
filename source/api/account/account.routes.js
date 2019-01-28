@@ -1,6 +1,7 @@
 const express = require('express')
 const validate = require('express-validation')
 const { routesUtil } = require('../../util')
+const AuthServices = require('../../services/auth').authorization
 const UserController = require('../user/user.controller')
 const AccountValidation = require('./account.validation')
 
@@ -51,6 +52,7 @@ const router = new express.Router()
  */
 router.get(
   '/',
+  AuthServices.authorize('account:view'),
   validate(AccountValidation.getAccount),
   routesUtil.controllerHandler(
     UserController.getUser,
@@ -139,6 +141,7 @@ router.get(
  */
 router.patch(
   '/',
+  AuthServices.authorize('account:update'),
   validate(AccountValidation.updateAccount),
   routesUtil.controllerHandler(
     UserController.updateUser,
@@ -197,6 +200,7 @@ router.patch(
  */
 router.delete(
   '/',
+  AuthServices.authorize('account:delete'),
   validate(AccountValidation.deleteAccount),
   routesUtil.controllerHandler(
     UserController.deleteUser,

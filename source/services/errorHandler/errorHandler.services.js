@@ -32,8 +32,6 @@ function handleProgrammerError(err) {
 function convertKnownErrors(err) {
   if (err instanceof validator.ValidationError) {
     err = new errors.ValidationError(err)
-  } else if (err.name === 'AuthenticationError') {
-    err = new errors.AuthenticationError(err)
   }
   return err
 }

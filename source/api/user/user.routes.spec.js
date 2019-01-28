@@ -2,7 +2,6 @@ const request = require('supertest')
 const expect = require('chai').expect
 const httpStatus = require('http-status')
 const factories = require('../../../test/factories/user.factory')
-const AuthService = require('../../services/authentication')
 const app = require('../../server/index')
 const User = require('./user.model')
 
@@ -26,11 +25,13 @@ describe('Integration Tests: Users API', () => {
     await User.deleteMany({})
     await User.insertMany([adminDbUserInfo, loggedInDbUserInfo])
 
-    adminDbUserId = (await User.findOne({ email: adminDbUserInfo.email })).id
-    adminDbUserAccessToken = await AuthService.createToken(adminDbUserId)
+    const adminDbUser = await User.findOne({ email: adminDbUserInfo.email })
+    adminDbUserId = adminDbUser.id
+    adminDbUserAccessToken = await adminDbUser.createToken()
 
-    loggedInDbUserId = (await User.findOne({ email: loggedInDbUserInfo.email })).id
-    loggedInDbUserAccessToken = await AuthService.createToken(loggedInDbUserId)
+    const loggedInDbUser = await User.findOne({ email: loggedInDbUserInfo.email })
+    loggedInDbUserId = loggedInDbUser.id
+    loggedInDbUserAccessToken = await loggedInDbUser.createToken()
   })
 
   describe('POST /users', () => {
@@ -125,17 +126,17 @@ describe('Integration Tests: Users API', () => {
       .expect(httpStatus.UNAUTHORIZED)
       .then(res => {
         expect(res.body.error.status).to.be.equal(httpStatus.UNAUTHORIZED)
-        expect(res.body.error.message).to.be.equal('Unauthorized')
+        expect(res.body.error.message).to.be.equal('Only authenticated users have access to this resource.')
       }))
 
-    it.skip('should report forbidden error when authenticated user is not an admin', () => request(app)
+    it('should report forbidden error when authenticated user is not an admin', () => request(app)
       .post('/users')
       .set('Authorization', `Bearer ${loggedInDbUserAccessToken}`)
       .send(loggedInRequestUserInfo)
       .expect(httpStatus.FORBIDDEN)
       .then(res => {
         expect(res.body.error.status).to.be.equal(httpStatus.FORBIDDEN)
-        expect(res.body.error.message).to.be.equal('Only administrators can perform this operation.')
+        expect(res.body.error.message).to.be.equal('You do not have permission to access this resource.')
       }))
   })
 
@@ -144,11 +145,13 @@ describe('Integration Tests: Users API', () => {
       await User.deleteMany({})
       await User.insertMany([...factories.validAdminUsers(), ...factories.validLoggedUsers()])
 
-      adminDbUserId = (await User.findOne({ role: 'admin' })).id
-      adminDbUserAccessToken = await AuthService.createToken(adminDbUserId)
+      const adminDbUser = await User.findOne({ role: 'admin' })
+      adminDbUserId = adminDbUser.id
+      adminDbUserAccessToken = await adminDbUser.createToken()
 
-      loggedInDbUserId = (await User.findOne({ role: 'user' })).id
-      loggedInDbUserAccessToken = await AuthService.createToken(loggedInDbUserId)
+      const loggedInDbUser = await User.findOne({ role: 'user' })
+      loggedInDbUserId = loggedInDbUser.id
+      loggedInDbUserAccessToken = await loggedInDbUser.createToken()
     })
 
     describe('GET /users - pagination', () => {
@@ -370,16 +373,16 @@ describe('Integration Tests: Users API', () => {
         .expect(httpStatus.UNAUTHORIZED)
         .then(res => {
           expect(res.body.error.status).to.be.equal(httpStatus.UNAUTHORIZED)
-          expect(res.body.error.message).to.be.equal('Unauthorized')
+          expect(res.body.error.message).to.be.equal('Only authenticated users have access to this resource.')
         }))
 
-      it.skip('should report forbidden error when authenticated user is not an admin', () => request(app)
+      it('should report forbidden error when authenticated user is not an admin', () => request(app)
         .get('/users')
         .set('Authorization', `Bearer ${loggedInDbUserAccessToken}`)
         .expect(httpStatus.FORBIDDEN)
         .then(res => {
           expect(res.body.error.status).to.be.equal(httpStatus.FORBIDDEN)
-          expect(res.body.error.message).to.be.equal('Only administrators can perform this operation.')
+          expect(res.body.error.message).to.be.equal('You do not have permission to access this resource.')
         }))
     })
   })
@@ -421,16 +424,16 @@ describe('Integration Tests: Users API', () => {
       .expect(httpStatus.UNAUTHORIZED)
       .then(res => {
         expect(res.body.error.status).to.be.equal(httpStatus.UNAUTHORIZED)
-        expect(res.body.error.message).to.be.equal('Unauthorized')
+        expect(res.body.error.message).to.be.equal('Only authenticated users have access to this resource.')
       }))
 
-    it.skip('should report forbidden error when authenticated user is not an admin', () => request(app)
+    it('should report forbidden error when authenticated user is not an admin', () => request(app)
       .get(`/users/${loggedInDbUserId}`)
       .set('Authorization', `Bearer ${loggedInDbUserAccessToken}`)
       .expect(httpStatus.FORBIDDEN)
       .then(res => {
         expect(res.body.error.status).to.be.equal(httpStatus.FORBIDDEN)
-        expect(res.body.error.message).to.be.equal('Only administrators can perform this operation.')
+        expect(res.body.error.message).to.be.equal('You do not have permission to access this resource.')
       }))
   })
 
@@ -511,16 +514,16 @@ describe('Integration Tests: Users API', () => {
       .expect(httpStatus.UNAUTHORIZED)
       .then(res => {
         expect(res.body.error.status).to.be.equal(httpStatus.UNAUTHORIZED)
-        expect(res.body.error.message).to.be.equal('Unauthorized')
+        expect(res.body.error.message).to.be.equal('Only authenticated users have access to this resource.')
       }))
 
-    it.skip('should report forbidden error when authenticated user is not an admin', () => request(app)
+    it('should report forbidden error when authenticated user is not an admin', () => request(app)
       .patch(`/users/${loggedInDbUserId}`)
-      .set('Authorization', `Bearer ${adminDbUserAccessToken}`)
+      .set('Authorization', `Bearer ${loggedInDbUserAccessToken}`)
       .expect(httpStatus.FORBIDDEN)
       .then(res => {
         expect(res.body.error.status).to.be.equal(httpStatus.FORBIDDEN)
-        expect(res.body.error.message).to.be.equal('Only administrators can perform this operation.')
+        expect(res.body.error.message).to.be.equal('You do not have permission to access this resource.')
       }))
   })
 
@@ -559,21 +562,30 @@ describe('Integration Tests: Users API', () => {
         expect(res.body.error.message).to.be.equal('User not found.')
       }))
 
+    it.skip('should report conflict error when trying to delete the same user who is sending the request', () => request(app)
+      .delete(`/users/${adminDbUserId}`)
+      .set('Authorization', `Bearer ${adminDbUserAccessToken}`)
+      .expect(httpStatus.CONFLICT)
+      .then(res => {
+        expect(res.body.error.status).to.be.equal(httpStatus.CONFLICT)
+        expect(res.body.error.message).to.be.equal('In order to delete your own account, use /account/terminate.')
+      }))
+
     it('should report unauthorized error when user is not authenticated', () => request(app)
       .delete(`/users/${loggedInDbUserId}`)
       .expect(httpStatus.UNAUTHORIZED)
       .then(res => {
         expect(res.body.error.status).to.be.equal(httpStatus.UNAUTHORIZED)
-        expect(res.body.error.message).to.be.equal('Unauthorized')
+        expect(res.body.error.message).to.be.equal('Only authenticated users have access to this resource.')
       }))
 
-    it.skip('should report forbidden error when authenticated user is not an admin', () => request(app)
+    it('should report forbidden error when authenticated user is not an admin', () => request(app)
       .delete(`/users/${loggedInDbUserId}`)
-      .set('Authorization', `Bearer ${adminDbUserAccessToken}`)
+      .set('Authorization', `Bearer ${loggedInDbUserAccessToken}`)
       .expect(httpStatus.FORBIDDEN)
       .then(res => {
         expect(res.body.error.status).to.be.equal(httpStatus.FORBIDDEN)
-        expect(res.body.error.message).to.be.equal('Only administrators can perform this operation.')
+        expect(res.body.error.message).to.be.equal('You do not have permission to access this resource.')
       }))
   })
 })

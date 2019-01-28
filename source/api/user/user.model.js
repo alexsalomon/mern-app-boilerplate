@@ -1,11 +1,10 @@
 const HttpStatus = require('http-status')
 const mongoose = require('mongoose')
+const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const { ValidationError } = require('../../util/errors')
 const config = require('../../config')
-
-// Roles in order of importance
-const roles = ['admin', 'user']
+const { roles } = require('../../services/auth')
 
 const UserSchema = new mongoose.Schema({
   email: {
@@ -65,14 +64,36 @@ UserSchema.post('save', (err, doc, next) => {
 })
 
 UserSchema.methods = {
+  /**
+   * Creates a JWT authentication token.
+   * @returns {string} The authentication token
+   */
+  async createToken() {
+    const token = await jwt.sign(
+      this.toPublic(),
+      config.jwt.secret,
+      { expiresIn: config.jwt.expiresIn },
+    )
+    return token
+  },
+
+  /**
+   * Checks whether the provided password is valid.
+   * @param {string} rawPassword The raw password
+   * @returns {Boolean} whether the password is valid.
+   */
   async isValidPassword(rawPassword) {
     const isValid = await bcrypt.compare(rawPassword, this.password)
     return isValid
   },
 
+  /**
+   * Returns a user object containing only publicly viewable properties.
+   * @returns {Object} The new user object
+   */
   toPublic() {
     const publicUser = {}
-    const fields = ['id', 'firstName', 'lastName', 'email', 'role', 'createdAt', 'updatedAt']
+    const fields = ['id', 'email', 'role', 'firstName', 'lastName', 'createdAt', 'updatedAt']
 
     fields.forEach(field => {
       publicUser[field] = this[field]
@@ -82,10 +103,7 @@ UserSchema.methods = {
   },
 }
 
-UserSchema.statics = {
-  roles,
-}
-
 mongoose.model('User', UserSchema)
+
 
 module.exports = mongoose.model('User')

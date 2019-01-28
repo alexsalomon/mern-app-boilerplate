@@ -2,6 +2,7 @@ const express = require('express')
 const validate = require('express-validation')
 const HttpStatus = require('http-status')
 const { routesUtil } = require('../../util')
+const AuthServices = require('../../services/auth').authorization
 const UserController = require('./user.controller')
 const UserValidation = require('./user.validation')
 
@@ -100,6 +101,7 @@ const router = new express.Router()
  */
 router.post(
   '/',
+  AuthServices.authorize('user:create'),
   validate(UserValidation.createUser),
   routesUtil.controllerHandler(
     UserController.createUser,
@@ -201,6 +203,7 @@ router.post(
  */
 router.get(
   '/',
+  AuthServices.authorize('user:view:list'),
   validate(UserValidation.listUsers),
   routesUtil.controllerHandler(
     UserController.listUsers,
@@ -289,6 +292,7 @@ router.get(
  */
 router.get(
   '/:id',
+  AuthServices.authorize('user:view:id'),
   validate(UserValidation.getUser),
   routesUtil.controllerHandler(
     UserController.getUser,
@@ -376,6 +380,7 @@ router.get(
  */
 router.patch(
   '/:id',
+  AuthServices.authorize('user:update'),
   validate(UserValidation.updateUser),
   routesUtil.controllerHandler(
     UserController.updateUser,
@@ -456,6 +461,7 @@ router.patch(
  */
 router.delete(
   '/:id',
+  AuthServices.authorize('user:delete'),
   validate(UserValidation.deleteUser),
   routesUtil.controllerHandler(
     UserController.deleteUser,

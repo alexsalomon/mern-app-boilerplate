@@ -1,7 +1,6 @@
 const HttpStatus = require('http-status')
 const { APIError } = require('../../util/errors')
 const User = require('../user/user.model')
-const AuthServices = require('../../services/authentication')
 const config = require('../../config')
 
 /**
@@ -11,7 +10,7 @@ const config = require('../../config')
  */
 async function signup(userParams) {
   const user = await User.create(userParams)
-  const accessToken = await AuthServices.createToken(user.id)
+  const accessToken = await user.createToken()
   return {
     token: {
       tokenType: 'JWT',
@@ -45,7 +44,7 @@ async function login(email, password) {
     })
   }
 
-  const accessToken = await AuthServices.createToken(user.id)
+  const accessToken = await user.createToken()
   return {
     token: {
       tokenType: 'JWT',

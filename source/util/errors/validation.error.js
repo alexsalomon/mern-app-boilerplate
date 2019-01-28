@@ -15,9 +15,9 @@ class ValidationError extends ExtendableError {
    * @param {boolean} isPublic - Whether the message should be visible to user or not.
    */
   constructor({
-    message,
     errors,
     stack,
+    message = 'Validation error.',
     status = HttpStatus.BAD_REQUEST,
     isPublic = true,
   }) {

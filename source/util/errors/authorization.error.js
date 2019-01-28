@@ -2,12 +2,12 @@ const HttpStatus = require('http-status')
 const ExtendableError = require('./extendable.error')
 
 /**
- * Class representing an authentication error.
+ * Class representing an authorization error.
  * @extends ExtendableError
  */
-class AuthenticationError extends ExtendableError {
+class AuthorizationError extends ExtendableError {
   /**
-   * Creates an authentication error.
+   * Creates an authorization error.
    * @param {string} message - Error message.
    * @param {string} stack - Error stacktrace.
    * @param {number} status - HTTP status code of error.
@@ -15,8 +15,8 @@ class AuthenticationError extends ExtendableError {
    */
   constructor({
     stack,
-    message = 'Only authenticated users have access to this resource.',
-    status = HttpStatus.UNAUTHORIZED,
+    message = 'You do not have permission to access this resource.',
+    status = HttpStatus.FORBIDDEN,
     isPublic = true,
   }) {
     super({
@@ -28,4 +28,4 @@ class AuthenticationError extends ExtendableError {
   }
 }
 
-module.exports = AuthenticationError
+module.exports = AuthorizationError

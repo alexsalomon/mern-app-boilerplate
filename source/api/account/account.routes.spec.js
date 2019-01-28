@@ -3,7 +3,6 @@ const expect = require('chai').expect
 const httpStatus = require('http-status')
 const factories = require('../../../test/factories/user.factory')
 const User = require('../user/user.model')
-const AuthService = require('../../services/authentication')
 const app = require('../../server/index')
 
 
@@ -17,8 +16,9 @@ describe('Integration Tests: Account API', () => {
 
     await User.deleteMany({})
     await User.create(dbUserInfo)
-    dbUserId = (await User.findOne({ email: dbUserInfo.email })).id
-    dbUserAccessToken = await AuthService.createToken(dbUserId)
+    const dbUser = await User.findOne({ email: dbUserInfo.email })
+    dbUserId = dbUser.id
+    dbUserAccessToken = await dbUser.createToken()
   })
 
   describe('GET /account', () => {
@@ -36,7 +36,8 @@ describe('Integration Tests: Account API', () => {
       .get('/account')
       .expect(httpStatus.UNAUTHORIZED)
       .then(res => {
-        expect(res.body.error.message).to.be.equal('Unauthorized')
+        expect(res.body.error.status).to.be.equal(httpStatus.UNAUTHORIZED)
+        expect(res.body.error.message).to.be.equal('Only authenticated users have access to this resource.')
       }))
   })
 
@@ -58,7 +59,8 @@ describe('Integration Tests: Account API', () => {
       .delete('/account')
       .expect(httpStatus.UNAUTHORIZED)
       .then(res => {
-        expect(res.body.error.message).to.be.equal('Unauthorized')
+        expect(res.body.error.status).to.be.equal(httpStatus.UNAUTHORIZED)
+        expect(res.body.error.message).to.be.equal('Only authenticated users have access to this resource.')
       }))
   })
 
@@ -112,7 +114,8 @@ describe('Integration Tests: Account API', () => {
       .patch('/account')
       .expect(httpStatus.UNAUTHORIZED)
       .then(res => {
-        expect(res.body.error.message).to.be.equal('Unauthorized')
+        expect(res.body.error.status).to.be.equal(httpStatus.UNAUTHORIZED)
+        expect(res.body.error.message).to.be.equal('Only authenticated users have access to this resource.')
       }))
   })
 })
