@@ -6,12 +6,10 @@ const User = require('../../../api/user/user.model')
 /**
  * JWT Passport strategy: Extracts the authentication token from the
  * authorization request header of either 'JWT' or 'Bearer' type and
- * passes along the authenticated user's information through the req
- * object to the next middleware if authentication was successful, or
- * throws a 401 - Unauthorized error otherwise.
- * @param {Object} req The request object.
- * @param {Object} res The response object.
- * @param {function} next The next middleware to be executed.
+ * passes along the authenticated user's information to passportjs.
+ * @param {object} req Express' request object.
+ * @param {object} res Express' response object.
+ * @param {function} next Express' next middleware in the execution chain.
  */
 module.exports = new JWTstrategy({
   jwtFromRequest: ExtractJWT.fromExtractors([

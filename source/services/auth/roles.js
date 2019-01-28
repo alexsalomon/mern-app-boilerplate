@@ -1,5 +1,5 @@
 /**
- * An extensive list of all roles used in the application and their resource permissions.
+ * A list of all roles used in the application and their resource permissions.
  * Roles can extend permissions from other roles, inheriting all their permissions.
  */
 const roles = {
@@ -17,9 +17,10 @@ const roles = {
 }
 
 /**
- * Removes the role hierarchy by adding child permissions to every extendable role.
- * @param {Object} hierarchicalRoles The hierarchical roles object.
- * @returns {Object} The flattened role object (without hierarchy).
+ * Removes the role hierarchy implementation by recursively concatenating all the child
+ * permissions from each role.
+ * @param {object} hierarchicalRoles The hierarchical roles object.
+ * @returns {object} The flattened role object (without hierarchy).
  */
 function getFlattenedRoles(hierarchicalRoles) {
   const flattenedRoles = {}
