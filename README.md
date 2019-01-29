@@ -68,6 +68,9 @@ $ docker-compose up                 # Builds, (re)creates, starts, and attaches 
   # Set up the mLab add-on and configure the MONGODB_URI environment variable:
   heroku addons:create mongolab
 
+  # Set up required environment variables (Check .env.example for a comprehensive list):
+  heroku config:set NODE_ENV=prod JWT_SECRET=supersecret SENTRY_DNS=supersecret
+
   # Push the code to heroku:
   git push heroku master
 ```
