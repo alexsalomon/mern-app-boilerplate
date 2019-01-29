@@ -7,8 +7,7 @@ cache:
     - "node_modules"
 sudo: false
 env:
-  - JWT_SECRET=supersecret
-  - SENTRY_DNS=supersecret
+  - JWT_SECRET=supersecret SENTRY_DNS=supersecret
 install:
   - npm install
 script:
