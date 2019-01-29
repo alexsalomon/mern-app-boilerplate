@@ -1,8 +1,9 @@
 const HttpStatus = require('http-status')
 const ExtendableError = require('./extendable.error')
 
+
 /**
- * Class representing a Validation error.
+ * Class representing a validation error.
  * @extends ExtendableError
  */
 class ValidationError extends ExtendableError {
@@ -30,5 +31,6 @@ class ValidationError extends ExtendableError {
     })
   }
 }
+
 
 module.exports = ValidationError

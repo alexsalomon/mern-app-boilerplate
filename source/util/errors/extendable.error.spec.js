@@ -2,7 +2,7 @@
 
 
 describe('Services: Errors', () => {
-  describe('getFormattedError()', () => {
+  describe('format()', () => {
     it.skip('should return default error format for non-public errors', () => {
 
     })

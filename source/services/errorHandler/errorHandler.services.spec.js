@@ -32,7 +32,7 @@ describe('Services: Error Handler', () => {
 
   describe('handleOperationalError()', () => {
     it('should log the error', () => {
-      const err = { isOperational: true, message: 'test message', status: 999, getFormattedError: () => {} }
+      const err = { isOperational: true, message: 'test message', status: 999, format: () => {} }
       errorHandler.handleError(err, req, res, next)
       expect(logger.warn).to.have.been.calledOnce()
     })
@@ -41,7 +41,7 @@ describe('Services: Error Handler', () => {
       this.sandbox.spy(res, 'status')
       this.sandbox.spy(res, 'json')
 
-      const err = { isOperational: true, message: 'test message', status: 999, getFormattedError: () => {} }
+      const err = { isOperational: true, message: 'test message', status: 999, format: () => {} }
       errorHandler.handleError(err, req, res, next)
       expect(res.status).to.have.been.calledOnceWith(err.status)
       expect(res.json).to.have.been.calledOnce()

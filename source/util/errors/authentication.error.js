@@ -1,6 +1,7 @@
 const HttpStatus = require('http-status')
 const ExtendableError = require('./extendable.error')
 
+
 /**
  * Class representing an authentication error.
  * @extends ExtendableError
@@ -27,5 +28,6 @@ class AuthenticationError extends ExtendableError {
     })
   }
 }
+
 
 module.exports = AuthenticationError

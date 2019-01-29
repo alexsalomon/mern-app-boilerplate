@@ -136,7 +136,7 @@ describe('Integration Tests: Users API', () => {
       .expect(httpStatus.FORBIDDEN)
       .then(res => {
         expect(res.body.error.status).to.be.equal(httpStatus.FORBIDDEN)
-        expect(res.body.error.message).to.be.equal('You do not have permission to access this resource.')
+        expect(res.body.error.message).to.be.equal('Insufficient permissions to access resource.')
       }))
   })
 
@@ -382,7 +382,7 @@ describe('Integration Tests: Users API', () => {
         .expect(httpStatus.FORBIDDEN)
         .then(res => {
           expect(res.body.error.status).to.be.equal(httpStatus.FORBIDDEN)
-          expect(res.body.error.message).to.be.equal('You do not have permission to access this resource.')
+          expect(res.body.error.message).to.be.equal('Insufficient permissions to access resource.')
         }))
     })
   })
@@ -433,7 +433,7 @@ describe('Integration Tests: Users API', () => {
       .expect(httpStatus.FORBIDDEN)
       .then(res => {
         expect(res.body.error.status).to.be.equal(httpStatus.FORBIDDEN)
-        expect(res.body.error.message).to.be.equal('You do not have permission to access this resource.')
+        expect(res.body.error.message).to.be.equal('Insufficient permissions to access resource.')
       }))
   })
 
@@ -523,7 +523,7 @@ describe('Integration Tests: Users API', () => {
       .expect(httpStatus.FORBIDDEN)
       .then(res => {
         expect(res.body.error.status).to.be.equal(httpStatus.FORBIDDEN)
-        expect(res.body.error.message).to.be.equal('You do not have permission to access this resource.')
+        expect(res.body.error.message).to.be.equal('Insufficient permissions to access resource.')
       }))
   })
 
@@ -585,7 +585,7 @@ describe('Integration Tests: Users API', () => {
       .expect(httpStatus.FORBIDDEN)
       .then(res => {
         expect(res.body.error.status).to.be.equal(httpStatus.FORBIDDEN)
-        expect(res.body.error.message).to.be.equal('You do not have permission to access this resource.')
+        expect(res.body.error.message).to.be.equal('Insufficient permissions to access resource.')
       }))
   })
 })

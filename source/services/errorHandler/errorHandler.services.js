@@ -28,7 +28,7 @@ function handleError(err, req, res, next) {
 function handleOperationalError(err, req, res, next) {
   if (err.isOperational) {
     logger.warn(err.message, err)
-    res.status(err.status).json(err.getFormattedError())
+    res.status(err.status).json(err.format())
   }
 }
 
@@ -50,7 +50,7 @@ function handleProgrammerError(err) {
 
 /**
  * Convert third-party library errors into our own custom errors. This is needed so
- * that we can call custom methods from ExtendableError (such as getFormattedError).
+ * that we can call custom methods from ExtendableError (such as format()).
  * @param {object} err the error being handled.
  * @returns {object} the converted error.
  */

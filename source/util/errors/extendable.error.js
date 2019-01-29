@@ -1,9 +1,11 @@
 const HttpStatus = require('http-status')
 const { formatUtil } = require('..')
 
+
 /**
  * Class that allows important information to be added to an Error object.
  * Every custom error in this API should extend this class.
+ * Extendable errors are operational (recoverable) and foreseeable errors.
  * @extends Error
  */
 class ExtendableError extends Error {
@@ -11,7 +13,7 @@ class ExtendableError extends Error {
    * Creates an Extendable error.
    * @param {string} message - Error message.
    * @param {string} errors - Additional information on individual errors.
-   * @param {string} stack - The error stacktrace.
+   * @param {string} stack - The error stack trace.
    * @param {number} status - HTTP status code of error.
    * @param {boolean} isPublic - Whether the message should be visible to user or not.
    */
@@ -32,7 +34,12 @@ class ExtendableError extends Error {
     this.stack = stack || Error.captureStackTrace(this, this.constructor.name)
   }
 
-  getFormattedError() {
+  /**
+   * Formats the error for public viewing by removing sensitive information.
+   * Also, essencial for providing a standardized format for all child errors.
+   * @returns {object} The formatted error.
+   */
+  format() {
     // Default error format
     let formattedError = {
       error: {
@@ -55,5 +62,6 @@ class ExtendableError extends Error {
     return formatUtil.removeInvalidKeys(formattedError)
   }
 }
+
 
 module.exports = ExtendableError
