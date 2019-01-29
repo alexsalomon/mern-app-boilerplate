@@ -33,7 +33,7 @@ const UserSchema = new mongoose.Schema({
 
 UserSchema.pre('save', async function hashPassword(done) {
   if (this.isModified('password')) {
-    const hashedPassword = await bcrypt.hash(this.password, config.jwt.saltRounds)
+    const hashedPassword = await bcrypt.hash(this.password, config.auth.jwt.saltRounds)
     this.password = hashedPassword
   }
   return done()
@@ -71,8 +71,8 @@ UserSchema.methods = {
   async createToken() {
     const token = await jwt.sign(
       this.toPublic(),
-      config.jwt.secret,
-      { expiresIn: config.jwt.expiresIn },
+      config.auth.jwt.secret,
+      { expiresIn: config.auth.jwt.expiresIn },
     )
     return token
   },

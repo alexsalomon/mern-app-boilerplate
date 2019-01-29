@@ -1,17 +1,14 @@
 const commonConfig = require('./common.config')
-const serverConfig = require('./server.config')
-const mongoConfig = require('./mongo.config')
+const databasesConfig = require('./databases.config')
 const loggerConfig = require('./logger.config')
-const jwtConfig = require('./jwt.auth.config')
-const localAuthConfig = require('./local.auth.config')
-const usersConfig = require('./users.config')
+const authConfig = require('./auth.config')
+const APIConfig = require('./api.config')
+
 
 module.exports = {
   ...commonConfig,
-  ...serverConfig,
-  ...mongoConfig,
+  ...databasesConfig,
   ...loggerConfig,
-  ...jwtConfig,
-  ...localAuthConfig,
-  ...usersConfig,
+  ...authConfig,
+  ...APIConfig,
 }

@@ -1,6 +1,8 @@
 {
-  "mongo": {
-    "uri": "mongodb://localhost:27017/restful-api-test",
-    "debug": false
+  "databases":{
+    "mongo": {
+      "uri": "mongodb://localhost:27017/restful-api-test",
+      "debug": false
+    }
   }
 }

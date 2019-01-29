@@ -27,14 +27,14 @@ async function listUsers(filters, pagination, sorting) {
   filters = formatUtil.removeInvalidKeys(filters)
 
   const defaultPaginationValues = {
-    page: config.users.pagination.startPage,
-    perPage: config.users.pagination.perPage,
+    page: config.api.users.pagination.startPage,
+    perPage: config.api.users.pagination.perPage,
   }
   pagination = formatUtil.removeInvalidKeys(pagination)
   pagination = { ...defaultPaginationValues, ...pagination }
 
   const defaultSortingValues = {
-    fields: config.users.sorting.fields,
+    fields: config.api.users.sorting.fields,
   }
   sorting = formatUtil.removeInvalidKeys(sorting)
   sorting = { ...defaultSortingValues, ...sorting }

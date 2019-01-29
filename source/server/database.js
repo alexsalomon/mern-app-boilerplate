@@ -4,16 +4,16 @@ const config = require('../config')
 
 
 async function connect() {
-  mongoose.set('debug', config.mongo.debug)
+  mongoose.set('debug', config.databases.mongo.debug)
 
-  await mongoose.connect(config.mongo.uri, {
+  await mongoose.connect(config.databases.mongo.uri, {
     // Options to fix deprecated warnings
     useFindAndModify: false,
     useCreateIndex: true,
     useNewUrlParser: true,
   })
 
-  logger.debug(`MongoDB connected to uri: ${config.mongo.uri}`)
+  logger.debug(`MongoDB connected to uri: ${config.databases.mongo.uri}`)
   logger.info('MongoDB has been successfully connected.')
 }
 

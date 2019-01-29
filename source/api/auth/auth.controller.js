@@ -15,7 +15,7 @@ async function signup(userParams) {
     token: {
       tokenType: 'JWT',
       accessToken,
-      expiresIn: config.jwt.expiresIn,
+      expiresIn: config.auth.jwt.expiresIn,
     },
     user: user.toPublic(),
   }
@@ -49,7 +49,7 @@ async function login(email, password) {
     token: {
       tokenType: 'JWT',
       accessToken,
-      expiresIn: config.jwt.expiresIn,
+      expiresIn: config.auth.jwt.expiresIn,
     },
     user: user.toPublic(),
   }

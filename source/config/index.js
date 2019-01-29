@@ -19,5 +19,5 @@ if (env !== defaultEnv) {
 // Throws an error if config does not conform to schema
 config.validate({ allowed: 'strict' })
 
-// Export config as a normal object
+// Export config as a normal object (not convict)
 module.exports = config.getProperties()

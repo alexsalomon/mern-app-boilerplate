@@ -17,7 +17,7 @@ module.exports = new JWTstrategy({
     ExtractJWT.fromAuthHeaderAsBearerToken(),
     ExtractJWT.fromAuthHeaderWithScheme('jwt'),
   ]),
-  secretOrKey: config.jwt.secret,
+  secretOrKey: config.auth.jwt.secret,
 }, async (token, done) => {
   try {
     const user = await User.findById(token.id)
