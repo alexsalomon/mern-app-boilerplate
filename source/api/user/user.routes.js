@@ -34,7 +34,7 @@ router.post(
  */
 router.get(
   '/',
-  AuthServices.authorize('user:view:list'),
+  AuthServices.authorize('user:read:list'),
   validate(UserValidation.listUsers),
   routesUtil.controllerHandler(
     UserController.listUsers,
@@ -61,7 +61,7 @@ router.get(
  */
 router.get(
   '/:id',
-  AuthServices.authorize('user:view:id'),
+  AuthServices.authorize('user:read:id'),
   validate(UserValidation.getUser),
   routesUtil.controllerHandler(
     UserController.getUser,

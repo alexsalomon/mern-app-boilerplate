@@ -1,8 +1,11 @@
 const Joi = require('joi')
 const config = require('../../config')
 
+
 module.exports = {
-  // POST /signup
+  /**
+  * {POST} /signup
+  */
   signup: {
     body: {
       firstName: Joi.string().required(),
@@ -15,7 +18,9 @@ module.exports = {
     },
   },
 
-  // POST /login
+  /**
+  * {POST} /login
+  */
   login: {
     body: {
       email: Joi.string().email().required(),

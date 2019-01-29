@@ -13,7 +13,7 @@ const router = new express.Router()
  */
 router.get(
   '/',
-  AuthServices.authorize('account:view'),
+  AuthServices.authorize('account:read'),
   validate(AccountValidation.getAccount),
   routesUtil.controllerHandler(
     UserController.getUser,

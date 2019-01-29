@@ -2,25 +2,17 @@ const Joi = require('joi')
 const config = require('../../config')
 const { roles } = require('../../services/auth')
 
-module.exports = {
-  // POST /users
-  createUser: {
-    body: {
-      firstName: Joi.string().required(),
-      lastName: Joi.string().required(),
-      email: Joi.string().email().required(),
-      password: Joi.string()
-        .required()
-        .min(config.auth.local.password.minLength)
-        .max(config.auth.local.password.maxLength),
-    },
-  },
 
-  // GET /account
+module.exports = {
+  /**
+  * {GET} /account
+  */
   getAccount: {
   },
 
-  // PATCH /account
+  /**
+  * {PATCH} /account
+  */
   updateAccount: {
     body: {
       firstName: Joi.string(),
@@ -33,7 +25,9 @@ module.exports = {
     },
   },
 
-  // DELETE /account
+  /**
+  * {DELETE} /account
+  */
   deleteAccount: {
   },
 }

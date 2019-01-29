@@ -2,8 +2,11 @@ const Joi = require('joi')
 const config = require('../../config')
 const { roles } = require('../../services/auth')
 
+
 module.exports = {
-  // POST /users
+  /**
+  * {POST} /users
+  */
   createUser: {
     body: {
       firstName: Joi.string().required(),
@@ -17,7 +20,9 @@ module.exports = {
     },
   },
 
-  // GET /users
+  /**
+  * {GET} /users
+  */
   listUsers: {
     query: {
       page: Joi.number().integer().positive(),
@@ -30,14 +35,18 @@ module.exports = {
     },
   },
 
-  // GET /users/:id
+  /**
+  * {GET} /users/:id
+  */
   getUser: {
     param: {
       id: Joi.string().required(),
     },
   },
 
-  // PATCH /users/:id
+  /**
+  * {PATCH} /users/:id
+  */
   updateUser: {
     param: {
       id: Joi.string().required(),
@@ -53,7 +62,9 @@ module.exports = {
     },
   },
 
-  // DELETE /users/:id
+  /**
+  * {DELETE} /users/:id
+  */
   deleteUser: {
     param: {
       id: Joi.string().required(),
