@@ -1,3 +1,7 @@
+/**
+ * TESTING: Default user information to facilitate user creation during tests.
+ */
+
 module.exports = {
   validLoggedUsers() {
     return [
