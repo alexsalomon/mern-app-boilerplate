@@ -114,7 +114,7 @@ function getLoggerTransportsStag() {
 }
 
 function getLoggerTransportsProd() {
-  return [...getLoggerTransportsStag, new Sentry({
+  return [...getLoggerTransportsStag(), new Sentry({
     dsn: config.logger.sentry.dns,
     level: config.logger.sentry.level,
   })]
