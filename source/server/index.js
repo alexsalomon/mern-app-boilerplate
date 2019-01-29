@@ -6,11 +6,12 @@ const database = require('./database')
 const middlewares = require('./middlewares')
 const routes = require('./routes')
 
+
 async function run(app) {
   // Initialize databases
   await database.connect()
 
-  // Use middlewares
+  // Apply middlewares to express routes
   middlewares(app)
 
   // Add the API routes stack to the server
@@ -28,5 +29,6 @@ async function run(app) {
 // Start server
 const app = express()
 run(app).catch(err => errorHandler.handleError(err))
+
 
 module.exports = app

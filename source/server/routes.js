@@ -6,6 +6,7 @@ const AccountRoutes = require('../api/account/account.routes')
 const UserRoutes = require('../api/user/user.routes')
 const StatusRoutes = require('../api/status/status.routes')
 
+
 const router = new express.Router()
 
 // Render API documentation
@@ -24,5 +25,6 @@ router.all('*', (req, res, next) => next(new APIError({
   status: HttpStatus.NOT_FOUND,
   message: 'Resource not found.',
 })))
+
 
 module.exports = router

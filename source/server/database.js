@@ -2,11 +2,12 @@ const mongoose = require('mongoose')
 const logger = require('../services/logger')
 const config = require('../config')
 
+
 async function connect() {
   mongoose.set('debug', config.mongo.debug)
 
-  // Options to fix deprecated warnings
   await mongoose.connect(config.mongo.uri, {
+    // Options to fix deprecated warnings
     useFindAndModify: false,
     useCreateIndex: true,
     useNewUrlParser: true,

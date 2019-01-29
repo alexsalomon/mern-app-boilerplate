@@ -10,6 +10,7 @@ const logger = require('../services/logger')
 const AuthServices = require('../services/auth')
 const config = require('../config')
 
+
 module.exports = app => {
   // Set static files to the 'docs' folder in order to render API documentation
   app.use(express.static(path.join(__dirname, '../../docs')))
