@@ -19,7 +19,7 @@ function initialize() {
 
 /**
  * Creates a logs directory if one does not exist yet.
- * @returns {object} The logger object.
+ * @returns {void}
  */
 function createLogsDirectory() {
   fse.ensureDirSync(config.logger.logsPath)
