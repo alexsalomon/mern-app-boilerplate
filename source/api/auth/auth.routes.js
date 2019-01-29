@@ -16,12 +16,14 @@ router.post(
   validate(AuthValidation.signup),
   routesUtil.controllerHandler(
     AuthController.signup,
-    req => [{
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      email: req.body.email,
-      password: req.body.password,
-    }],
+    req => [
+      {
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        password: req.body.password,
+      },
+    ],
     HttpStatus.CREATED,
   ),
 )

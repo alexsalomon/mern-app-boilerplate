@@ -18,13 +18,15 @@ router.post(
   validate(UserValidation.createUser),
   routesUtil.controllerHandler(
     UserController.createUser,
-    req => [{
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      email: req.body.email,
-      password: req.body.password,
-      role: req.body.role,
-    }],
+    req => [
+      {
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        password: req.body.password,
+        role: req.body.role,
+      },
+    ],
     HttpStatus.CREATED,
   ),
 )
@@ -78,13 +80,16 @@ router.patch(
   validate(UserValidation.updateUser),
   routesUtil.controllerHandler(
     UserController.updateUser,
-    req => [req.params.id, {
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      email: req.body.email,
-      password: req.body.password,
-      role: req.body.role,
-    }],
+    req => [
+      req.params.id,
+      {
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        password: req.body.password,
+        role: req.body.role,
+      },
+    ],
   ),
 )
 

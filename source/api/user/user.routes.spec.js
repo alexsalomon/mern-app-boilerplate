@@ -568,7 +568,7 @@ describe('Integration Tests: Users API', () => {
       .expect(httpStatus.CONFLICT)
       .then(res => {
         expect(res.body.error.status).to.be.equal(httpStatus.CONFLICT)
-        expect(res.body.error.message).to.be.equal('In order to delete your own account, use /account/terminate.')
+        expect(res.body.error.message).to.be.equal('In order to delete your own user account use \'DELETE /account\'.')
       }))
 
     it('should report unauthorized error when user is not authenticated', () => request(app)

@@ -30,13 +30,16 @@ router.patch(
   validate(AccountValidation.updateAccount),
   routesUtil.controllerHandler(
     UserController.updateUser,
-    req => [req.user.id, {
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      email: req.body.email,
-      password: req.body.password,
-      role: req.body.role,
-    }],
+    req => [
+      req.user.id,
+      {
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        password: req.body.password,
+        role: req.body.role,
+      },
+    ],
   ),
 )
 
