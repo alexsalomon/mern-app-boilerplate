@@ -1,5 +1,5 @@
 const path = require('path')
-const dotenv = require('dotenv')
+const dotenv = require('dotenv-safe')
 const convict = require('convict')
 const configurations = require('./components')
 
