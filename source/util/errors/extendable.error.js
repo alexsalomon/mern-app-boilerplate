@@ -44,7 +44,7 @@ class ExtendableError extends Error {
     let formattedError = {
       error: {
         status: HttpStatus.INTERNAL_SERVER_ERROR,
-        message: 'Internal Server Error',
+        message: 'Internal Server Error.',
       },
     }
 
