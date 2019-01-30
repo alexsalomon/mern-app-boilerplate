@@ -1,5 +1,5 @@
 const authorizer = require('express-authorize')
-const errors = require('../../util/errors')
+const errors = require('../../services/errorHandler/errors')
 const authenticator = require('./authentication.services')
 const roles = require('./roles')
 

@@ -1,6 +1,6 @@
 const validator = require('express-validation')
 const logger = require('../logger')
-const errors = require('../../util/errors')
+const errors = require('./errors')
 
 
 /**

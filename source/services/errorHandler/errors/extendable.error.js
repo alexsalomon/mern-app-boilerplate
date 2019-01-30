@@ -1,5 +1,5 @@
 const HttpStatus = require('http-status')
-const { formatUtil } = require('..')
+const { formatUtil } = require('../../../util')
 
 
 /**

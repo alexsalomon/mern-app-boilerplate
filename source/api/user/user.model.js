@@ -2,7 +2,7 @@ const HttpStatus = require('http-status')
 const mongoose = require('mongoose')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
-const { ValidationError } = require('../../util/errors')
+const { ValidationError } = require('../../services/errorHandler/errors')
 const config = require('../../config')
 const { roles } = require('../../services/auth')
 

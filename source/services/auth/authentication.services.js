@@ -1,5 +1,5 @@
 const passport = require('passport')
-const errors = require('../../util/errors')
+const errors = require('../../services/errorHandler/errors')
 const strategies = require('./strategies')
 
 
