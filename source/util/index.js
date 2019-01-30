@@ -1,8 +1,8 @@
 const routesUtil = require('./routes.util')
-const formatUtil = require('./format.util')
+const objectUtil = require('./object.util')
 
 
 module.exports = {
   routesUtil,
-  formatUtil,
+  objectUtil,
 }

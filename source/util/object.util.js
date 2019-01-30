@@ -3,10 +3,10 @@
  * Note that this function will NOT modify the object passed as a parameter.
  * Any primitive values, arrays and functions passed as parameters will be returned
  * without modification.
- * @param {Object} obj Target object
- * @returns {Object} The modified object
+ * @param {object} obj Target object
+ * @returns {object} The modified object
  */
-function removeInvalidKeys(obj) {
+function removeInvalidProperties(obj) {
   let result = obj
 
   if (obj === Object(obj) && !(obj instanceof Array) && !(obj instanceof Function)) {
@@ -21,5 +21,13 @@ function removeInvalidKeys(obj) {
   return result
 }
 
+/**
+ * Checks whether an object has any properties.
+ * @param {object} obj Target object
+ * @returns {boolean} whether the object is empty (no properties).
+ */
+function isObjectEmpty(obj) {
+  return Object.entries(obj).length === 0 && obj.constructor === Object
+}
 
-module.exports = { removeInvalidKeys }
+module.exports = { removeInvalidProperties, isObjectEmpty }

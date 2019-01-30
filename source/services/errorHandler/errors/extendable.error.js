@@ -1,5 +1,5 @@
 const HttpStatus = require('http-status')
-const { formatUtil } = require('../../../util')
+const { objectUtil } = require('../../../util')
 
 
 /**
@@ -59,7 +59,7 @@ class ExtendableError extends Error {
       }
     }
 
-    return formatUtil.removeInvalidKeys(formattedError)
+    return objectUtil.removeInvalidProperties(formattedError)
   }
 }
 

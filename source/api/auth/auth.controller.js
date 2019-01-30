@@ -6,7 +6,7 @@ const config = require('../../config')
 /**
  * Registers a user.
  * @param {string} userParams The user's information.
- * @returns {Object} The response object containing the jwt token.
+ * @returns {object} The response object containing the jwt token.
  */
 async function signup(userParams) {
   const user = await User.create(userParams)
@@ -25,7 +25,7 @@ async function signup(userParams) {
  * Logs a user in.
  * @param {string} email The user's email.
  * @param {string} password The user's password.
- * @returns {Object} The response object containing the jwt token.
+ * @returns {object} The response object containing the jwt token.
  */
 async function login(email, password) {
   const user = await User.findOne({ email })

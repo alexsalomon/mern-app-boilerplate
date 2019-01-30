@@ -1,6 +1,6 @@
 const HttpStatus = require('http-status')
 const { APIError } = require('../../services/errorHandler/errors')
-const { formatUtil } = require('../../util')
+const { objectUtil } = require('../../util')
 const config = require('../../config')
 const User = require('./user.model')
 
@@ -24,19 +24,19 @@ async function createUser(userParams) {
  * @returns {Array} All the users in the database after filtering, sorting and paging.
  */
 async function listUsers(filters, pagination, sorting) {
-  filters = formatUtil.removeInvalidKeys(filters)
+  filters = objectUtil.removeInvalidProperties(filters)
 
   const defaultPaginationValues = {
     page: config.api.users.pagination.startPage,
     perPage: config.api.users.pagination.perPage,
   }
-  pagination = formatUtil.removeInvalidKeys(pagination)
+  pagination = objectUtil.removeInvalidProperties(pagination)
   pagination = { ...defaultPaginationValues, ...pagination }
 
   const defaultSortingValues = {
     fields: config.api.users.sorting.fields,
   }
-  sorting = formatUtil.removeInvalidKeys(sorting)
+  sorting = objectUtil.removeInvalidProperties(sorting)
   sorting = { ...defaultSortingValues, ...sorting }
 
   const count = await User.countDocuments(filters)
@@ -82,7 +82,7 @@ async function getUser(id) {
  */
 async function updateUser(id, userParams) {
   try {
-    const formattedParams = formatUtil.removeInvalidKeys(userParams)
+    const formattedParams = objectUtil.removeInvalidProperties(userParams)
     await User.findByIdAndUpdate(id, formattedParams)
     const user = await User.findById(id)
     return {
