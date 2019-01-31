@@ -13,15 +13,16 @@ API Documentation: https://as-node-exp-api-boilerplate.herokuapp.com/
 > NOTE: List needs to be updated...
 
 ## Commands
-Command              | Action                      |
----------------------|-----------------------------|
-`npm run dev`        | Run in development mode     |
-`npm start`          | Run using mode in .env file |
-`npm test`           | Run lint and all tests once |
-`npm run tests`      | Run all tests once          |
-`npm run test-watch` | Run and watch all tests     |
-`npm run lint`       | Lint the code               |
-`npm run docs`       | Update API documentation    |
+Command              | Action                       |
+---------------------|------------------------------|
+`npm run dev`        | Run in development mode      |
+`npm start`          | Run in production mode       |
+`npm run docker`     | Run project in docker        |
+`npm run lint`       | Lint the code                |
+`npm run lint:fix`   | Lint the code with auto fix  |
+`npm test`           | Run lint, tests and coverage |
+`npm test:coverage`  | Open test coverage report    |
+`npm run docs`       | Update API documentation     |
 
 ## Set up
 * Install GIT, NodeJS 10+, NPM, (MongoDB and/or Docker).

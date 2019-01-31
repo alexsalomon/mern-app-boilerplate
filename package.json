@@ -17,13 +17,15 @@
   },
   "main": "index.js",
   "scripts": {
-    "start": "node ./index.js",
-    "dev": "NODE_ENV=dev nodemon --require pretty-error/start ./index.js",
-    "test": "npm run lint && npm run tests",
-    "test-watch": "npm run tests -- --watch",
-    "tests": "NODE_ENV=test nyc mocha --recursive test/setup.spec.js source/ --exit",
-    "lint": "eslint source/** test/** --fix",
-    "docs": "apidoc -f '.*\\.js$' -i source/ -o docs/"
+    "precommit": "nps test",
+    "start": "nps",
+    "dev": "nps dev",
+    "docker": "nps docker",
+    "lint": "nps lint",
+    "lint:fix": "nps lint.fix",
+    "test": "nps test",
+    "test:coverage": "nps test.coverage",
+    "docs": "nps docs"
   },
   "nyc": {
     "exclude": [
@@ -43,6 +45,8 @@
     "mocha": "^5.2.0",
     "node-mocks-http": "^1.7.3",
     "nodemon": "^1.18.6",
+    "nps": "^5.9.3",
+    "nps-utils": "^1.7.0",
     "nyc": "^13.1.0",
     "pretty-error": "^2.1.1",
     "sinon": "^7.1.1",
