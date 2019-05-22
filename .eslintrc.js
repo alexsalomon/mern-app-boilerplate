@@ -10,7 +10,7 @@ module.exports = {
   rules: {
     "no-inline-comments": 0,
 
-    // No warnings for express error handler function
+    // Remove warning for custom express error handler function
     "no-unused-vars": ["error", { "argsIgnorePattern": "next" }]
   },
   overrides: [{

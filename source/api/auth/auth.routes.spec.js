@@ -3,7 +3,7 @@ const expect = require('chai').expect
 const httpStatus = require('http-status')
 const factories = require('../../../test/factories/user.factory')
 const User = require('../user/user.model')
-const app = require('../../server/index')
+const app = require('../../server')
 
 let dbUserInfo
 let userInfo

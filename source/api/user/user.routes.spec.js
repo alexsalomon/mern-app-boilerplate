@@ -2,7 +2,7 @@ const request = require('supertest')
 const expect = require('chai').expect
 const httpStatus = require('http-status')
 const factories = require('../../../test/factories/user.factory')
-const app = require('../../server/index')
+const app = require('../../server')
 const User = require('./user.model')
 
 let adminDbUserInfo

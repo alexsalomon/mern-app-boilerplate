@@ -1,5 +1,5 @@
 const HttpStatus = require('http-status')
-const { objectUtil } = require('../../../util')
+const { objectUtil } = require('../../../utilities')
 
 
 /**

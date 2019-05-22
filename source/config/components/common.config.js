@@ -1,7 +1,7 @@
 const config = {
   env: {
-    format: ['dev', 'test', 'prod', 'staging'],
-    default: 'prod',
+    format: ['development', 'test', 'production', 'staging'],
+    default: 'production',
     arg: 'env',
     env: 'NODE_ENV',
   },

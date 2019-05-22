@@ -1,6 +1,6 @@
 const express = require('express')
 const validate = require('express-validation')
-const { routesUtil } = require('../../util')
+const { routesUtil } = require('../../utilities')
 const AuthServices = require('../../services/auth').authorization
 const UserController = require('../user/user.controller')
 const AccountValidation = require('./account.validation')

@@ -1,7 +1,8 @@
 const HttpStatus = require('http-status')
 const { APIError } = require('../../services/errorHandler/errors')
-const User = require('../user/user.model')
 const config = require('../../config')
+const mailer = require('../../services/mailer')
+const User = require('../user/user.model')
 
 /**
  * Registers a user.
@@ -11,6 +12,18 @@ const config = require('../../config')
 async function signup(userParams) {
   const user = await User.create(userParams)
   const accessToken = await user.createToken()
+
+  await mailer.send({
+    template: 'welcome',
+    locals: { user },
+    message: {
+      to: {
+        address: user.email,
+        name: `${user.firstName} ${user.lastName}`,
+      },
+    },
+  })
+
   return {
     token: {
       tokenType: 'JWT',

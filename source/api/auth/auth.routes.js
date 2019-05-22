@@ -1,7 +1,7 @@
 const HttpStatus = require('http-status')
 const express = require('express')
 const validate = require('express-validation')
-const { routesUtil } = require('../../util')
+const { routesUtil } = require('../../utilities')
 const AuthController = require('./auth.controller')
 const AuthValidation = require('./auth.validation')
 

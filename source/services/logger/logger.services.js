@@ -31,27 +31,26 @@ function createLogsDirectory() {
  * @returns {object} The logger options for the given environment.
  */
 function getLoggerOptions(env) {
-  const loggerOptions = {
+  return {
     // Stop winston from exiting after logging an uncaughtException
     exitOnError: false,
+    transports: getLoggerTransports(env),
   }
-  loggerOptions.transports = getLoggerTransports(env)
-  return loggerOptions
 }
 
 function getLoggerTransports(env) {
   let transports = []
   switch (env) {
-    case 'dev':
+    case 'development':
       transports = getLoggerTransportsDev()
       break
     case 'test':
       transports = getLoggerTransportsTest()
       break
-    case 'stag':
+    case 'staging':
       transports = getLoggerTransportsStag()
       break
-    case 'prod':
+    case 'production':
     default:
       transports = getLoggerTransportsProd()
       break

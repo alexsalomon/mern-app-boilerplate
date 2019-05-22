@@ -1,6 +1,6 @@
 const HttpStatus = require('http-status')
 const { APIError } = require('../../services/errorHandler/errors')
-const { objectUtil } = require('../../util')
+const { objectUtil } = require('../../utilities')
 const config = require('../../config')
 const User = require('./user.model')
 

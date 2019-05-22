@@ -35,9 +35,22 @@ module.exports = app => {
   app.use(AuthServices.initialize())
 
   // Logging HTTP request/response messages
-  if (config.env === 'dev') {
+  if (config.env === 'development') {
     app.use(morgan('dev'))
-  } else if (config.env === 'prod' || config.env === 'stag') {
+  } else if (config.env === 'production' || config.env === 'staging') {
+    // Log 4xx response codes as warnings
+    app.use(morgan('combined', {
+      skip(req, res) {
+        return res.statusCode < 400 || res.statusCode >= 500
+      },
+      stream: {
+        write: message => {
+          logger.warn(message.trim())
+        },
+      },
+    }))
+
+    // Log 5xx response codes as errors
     app.use(morgan('combined', {
       skip(req, res) {
         return res.statusCode < 500

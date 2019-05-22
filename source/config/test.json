@@ -4,5 +4,8 @@
       "uri": "mongodb://localhost:27017/restful-api-test",
       "debug": false
     }
+  },
+  "mailer": {
+    "send": false
   }
 }

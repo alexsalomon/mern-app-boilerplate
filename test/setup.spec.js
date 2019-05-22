@@ -4,7 +4,8 @@ const sinonChai = require('sinon-chai')
 const chaiAsPromised = require('chai-as-promised')
 const dirtyChai = require('dirty-chai')
 const chaiSorted = require('chai-sorted')
-const expect = require('chai').expect
+
+const expect = chai.expect
 
 
 /**

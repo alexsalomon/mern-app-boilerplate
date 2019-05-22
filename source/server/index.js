@@ -26,7 +26,7 @@ async function run(app) {
   })
 }
 
-// Start server
+// Run application
 const app = express()
 run(app).catch(err => errorHandler.handleError(err))
 
