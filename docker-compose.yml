@@ -1,18 +1,42 @@
 version: '3'
 services:
-  api:
-    build: .
+  #######################
+  # MongoDB
+  #######################
+  mongo:
+    image: mongo:4.0
     ports:
-     - "8080:8080"
+      - ${MONGODB_PORT}:${MONGODB_PORT}
+  #######################
+  # Server
+  #######################
+  server:
+    build: ./server
+    expose:
+     - ${APP_SERVER_PORT}
+    ports:
+     - ${APP_SERVER_PORT}:${APP_SERVER_PORT}
+    volumes:
+     - ./server:/usr/src/app/server
+     - /usr/src/app/server/node_modules
     env_file: .env
     links:
-     - db 
-    depends_on: 
-     - db 
+     - mongo
+    depends_on:
+     - mongo
+  #######################
+  # Client
+  #######################
+  client:
+    build: ./client
+    expose:
+      - ${REACT_APP_PORT}
+    ports:
+     - ${REACT_APP_PORT}:${REACT_APP_PORT}
     volumes:
-     - .:/usr/src/app
-     - /usr/src/app/node_modules
-  db:
-    image: mongo:4.0
-    ports: 
-      - "27017:27017"
+     - ./client:/usr/src/app/client
+     - /usr/src/app/client/node_modules
+    env_file: .env
+    links:
+     - server
+

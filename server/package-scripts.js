@@ -7,12 +7,12 @@ module.exports = {
   scripts: {
     default: {
       description: 'Runs when executing npm start or nps: starts project on production mode.',
-      script: `${util.crossEnv('NODE_ENV=prod')} node ./index.js`,
+      script: `${util.crossEnv('NODE_ENV=production')} node ./index.js`,
     },
     dev: {
       default: {
         description: 'starts the project on development mode.',
-        script: `${util.crossEnv('NODE_ENV=dev')} nodemon --require pretty-error/start ./index.js`,
+        script: `${util.crossEnv('NODE_ENV=development')} nodemon --require pretty-error/start ./index.js`,
       },
     },
     docker: {
