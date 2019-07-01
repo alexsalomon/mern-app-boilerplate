@@ -8,4 +8,4 @@ build:
     client: client/Dockerfile
 run:
   server: npm start
-  client: npm start
+  client: npm run build
