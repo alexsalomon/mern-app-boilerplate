@@ -2,7 +2,44 @@
 
 Project starter for developing MERN (MongoDB, Express, React and Node) applications.
 
-> More information coming soon. In the meanwhile, check out the README inside the server directory.
+## What's included
+
+- [Node.js](https://nodejs.org/en/)
+- [Express](https://expressjs.com/)
+- [MongoDB](https://www.mongodb.com/)
+- [React](https://reactjs.org/)
+- [ESLint](https://eslint.org/) with [STRV's config](https://github.com/strvcom/eslint-config-javascript)
+- [Nodemon](https://github.com/remy/nodemon) to restart the server whenever you make changes
+
+> NOTE: List needs to be updated...
+
+## Set up
+* Install GIT, NodeJS 10+, NPM, and Docker.
+```sh
+# Clone the repo and change directory
+$ git clone https://github.com/alexsalomon/mern-app-boilerplate.git [PROJECT_NAME] && cd [PROJECT_NAME]
+
+# Set up the Remotes
+$ git remote set-url origin [MY_REPOSITORY_URL]
+$ git remote add upstream https://github.com/alexsalomon/node-exp-api-boilerplate.git
+$ git remote -v
+
+# Push changes to your remote repository:
+$ git push origin master
+
+# Recommended: install the following packages globally:
+$ sudo npm install -g nodemon nps
+
+# Build and run all containers
+$ docker-compose up
+```
+
+> NOTE: If you change a service's `Dockerfile` or the contents of its build directory, run the following to rebuild it:
+
+```sh
+$ docker-compose build --force-rm   # Build the services and remove intermediate containers
+$ docker-compose up                 # Builds, (re)creates, starts, and attaches to containers for a service.
+```
 
 ## Deploy
 * Download and install the [Heroku Toolbelt](https://devcenter.heroku.com/articles/heroku-cli)
