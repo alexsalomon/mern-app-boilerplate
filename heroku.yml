@@ -1,0 +1,11 @@
+setup:
+  addons:
+    - plan: mongolab
+      as: DATABASE
+build:
+  docker:
+    server: server/Dockerfile
+    client: client/Dockerfile
+run:
+  server: npm start
+  client: npm start
