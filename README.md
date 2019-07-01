@@ -46,41 +46,46 @@ $ docker-compose up                 # Builds, (re)creates, starts, and attaches 
 * In terminal, run the following (One time setup):
 ```sh
   # Login with your Heroku credentials:
-  heroku login
+  $ heroku login
 
   # Navigate to the app directory and create a heroku app:
-  cd PROJECT_NAME
-  heroku create PROJECT_NAME
+  $ cd [PROJECT_NAME]
+  $ heroku create [HEROKU_APP_NAME]
 
   # Set the stack of your app to container:
-  heroku stack:set container
+  $ heroku stack:set container
 
   # Set up required environment variables (Check .env.example for the complete list):
-  heroku config:set JWT_SECRET=__secret__ SENTRY_DNS=__secret__
+  $ heroku config:set JWT_SECRET=yoursecrethere SENTRY_DNS=yoursecrethere
 
   # Push the code to heroku:
-  git push heroku master
+  $ git push heroku master
 
   # Open the application in your browser
-  heroku open
+  $ heroku open
+```
+
+If you have already created your Heroku app previously, you can easily add a remote to your local repository with the following command:
+```
+  $ heroku git:remote -a [HEROKU_APP_NAME]
 ```
 
 For all subsequent deployments just do a push and heroku will automatically do the rest for you:
 ```
-  git push heroku master
+  $ git push heroku master
 ```
 
 ### Troubleshooting:
 Check out heroku's logs by typing the following command:
 ```
-  heroku logs --tail
+  $ heroku logs --tail
 ```
 
 #### Error code=H14 desc="No web processes running":
 Add dynos to your heroku containers:
 ```
-  heroku ps:scale server=1
-  heroku ps:scale client=1
+  $ heroku ps:scale server=1
+  $ heroku ps:scale client=1
 ```
 
 ## [Sentry](https://sentry.io/)
