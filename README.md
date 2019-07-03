@@ -30,8 +30,17 @@ $ git push origin master
 # Recommended: install the following packages globally:
 $ sudo npm install -g nodemon nps
 
+# Create a .env file from .env.example and modify it as needed:
+$ cp .env.example .env
+
+# Create a server/.env file from server/.env.example and modify it as needed:
+$ cp server/.env.example server/.env
+
+# Install server dependencies (necessary for testing. This may change in the future)
+$ cd server && npm install && cd -
+
 # Build and run all containers
-$ docker-compose up
+$ docker-compose up --build
 ```
 
 > NOTE: If you change a service's `Dockerfile` or the contents of its build directory, run the following to rebuild it:
