@@ -2,8 +2,6 @@
 
 A boilerplate for a RESTful API using Nodejs, Express and MongoDB.
 
-API Documentation: https://as-mern-app-boilerplate.herokuapp.com/api/documentation
-
 ## Commands
 Command              | Action                       |
 ---------------------|------------------------------|
