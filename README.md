@@ -1,4 +1,4 @@
-# mern-app-boilerpate [![Build Status](https://travis-ci.com/alexsalomon/node-exp-api-boilerplate.svg?token=LHLxJdxYMwqFf4gT1Rm9&branch=master)](https://travis-ci.com/alexsalomon/node-exp-api-boilerplate)
+# mern-app-boilerpate [![Build Status](https://travis-ci.com/alexsalomon/mern-app-boilerplate.svg?branch=master)](https://travis-ci.com/alexsalomon/mern-app-boilerplate)
 
 Project starter for developing MERN (MongoDB, Express, React and Node) applications.
 
